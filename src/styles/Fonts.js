@@ -2,20 +2,20 @@
 
 import { css } from "styled-components";
 
-import Baloo2Bold from "../fonts/Baloo2-Bold.woff";
-import Baloo2ExtraBold from "../fonts/Baloo2-ExtraBold.woff";
-import Baloo2Medium from "../fonts/Baloo2-Medium.woff";
-import Baloo2Regular from "../fonts/Baloo2-Regular.woff";
-import Baloo2SemiBold from "../fonts/Baloo2-SemiBold.woff";
-import PretendardBlack from "../fonts/Pretendard-Black.woff";
-import PretendardBold from "../fonts/Pretendard-Bold.woff";
-import PretendardExtraBold from "../fonts/Pretendard-ExtraBold.woff";
-import PretendardExtraLight from "../fonts/Pretendard-ExtraLight.woff";
-import PretendardLight from "../fonts/Pretendard-Light.woff";
-import PretendardMedium from "../fonts/Pretendard-Medium.woff";
-import PretendardRegular from "../fonts/Pretendard-Regular.woff";
-import PretendardSemiBold from "../fonts/Pretendard-SemiBold.woff";
-import PretendardThin from "../fonts/Pretendard-Thin.woff";
+import Baloo2Bold from "../assets/fonts/Baloo2-Bold.woff";
+import Baloo2ExtraBold from "../assets/fonts/Baloo2-ExtraBold.woff";
+import Baloo2Medium from "../assets/fonts/Baloo2-Medium.woff";
+import Baloo2Regular from "../assets/fonts/Baloo2-Regular.woff";
+import Baloo2SemiBold from "../assets/fonts/Baloo2-SemiBold.woff";
+import PretendardBlack from "../assets/fonts/Pretendard-Black.woff";
+import PretendardBold from "../assets/fonts/Pretendard-Bold.woff";
+import PretendardExtraBold from "../assets/fonts/Pretendard-ExtraBold.woff";
+import PretendardExtraLight from "../assets/fonts/Pretendard-ExtraLight.woff";
+import PretendardLight from "../assets/fonts/Pretendard-Light.woff";
+import PretendardMedium from "../assets/fonts/Pretendard-Medium.woff";
+import PretendardRegular from "../assets/fonts/Pretendard-Regular.woff";
+import PretendardSemiBold from "../assets/fonts/Pretendard-SemiBold.woff";
+import PretendardThin from "../assets/fonts/Pretendard-Thin.woff";
 
 export const Fonts = css`
   @font-face {

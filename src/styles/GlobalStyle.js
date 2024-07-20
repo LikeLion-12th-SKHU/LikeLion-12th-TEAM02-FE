@@ -30,6 +30,12 @@ const GlobalStyle = createGlobalStyle`
       padding: 0;
       cursor: pointer;
     }
+
+    body {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #f2f2f2;
+    }
 `;
 
 export default GlobalStyle;
