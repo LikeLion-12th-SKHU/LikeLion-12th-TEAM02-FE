@@ -32,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body {
-      max-width: 400px;
+      max-width: 430px;
       margin: 0 auto;
       background-color: #f2f2f2;
     }

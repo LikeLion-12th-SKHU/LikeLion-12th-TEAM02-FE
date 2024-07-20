@@ -1,7 +1,12 @@
 // Main.jsx
 
 import React from "react";
+import Menubar from "../components/common/Menubar";
 
 export function Main() {
-  return <h1>Hello World!</h1>;
+  return (
+    <>
+      <Menubar />
+    </>
+  );
 }
