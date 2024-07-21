@@ -42,6 +42,10 @@ export default function Menubar() {
     height: 28px;
   `;
 
+  const NavLink = styled(Link)`
+    height: 50%;
+  `;
+
   const locationNow = useLocation();
 
   if (
@@ -53,7 +57,7 @@ export default function Menubar() {
   ) {
     return (
       <NavContainer>
-        <Link to="/">
+        <NavLink to="/">
           <NavWrap>
             {locationNow.pathname === "/" ? (
               <NavIconImg src={HomeSolid} />
@@ -61,8 +65,8 @@ export default function Menubar() {
               <NavIconImg src={Home} />
             )}
           </NavWrap>
-        </Link>
-        <Link to="/chat">
+        </NavLink>
+        <NavLink to="/chat">
           <NavWrap>
             {locationNow.pathname === "/chat" ? (
               <NavIconImg src={ChatSolid} />
@@ -70,8 +74,8 @@ export default function Menubar() {
               <NavIconImg src={Chat} />
             )}
           </NavWrap>
-        </Link>
-        <Link to="/tracker">
+        </NavLink>
+        <NavLink to="/tracker">
           <NavWrap>
             <NavWrap>
               {locationNow.pathname === "/tracker" ? (
@@ -81,8 +85,8 @@ export default function Menubar() {
               )}
             </NavWrap>
           </NavWrap>
-        </Link>
-        <Link to="/friends">
+        </NavLink>
+        <NavLink to="/friends">
           <NavWrap>
             <NavWrap>
               {locationNow.pathname === "/friends" ? (
@@ -92,8 +96,8 @@ export default function Menubar() {
               )}
             </NavWrap>
           </NavWrap>
-        </Link>
-        <Link to="/settings">
+        </NavLink>
+        <NavLink to="/settings">
           <NavWrap>
             <NavWrap>
               {locationNow.pathname === "/settings" ? (
@@ -103,7 +107,7 @@ export default function Menubar() {
               )}
             </NavWrap>
           </NavWrap>
-        </Link>
+        </NavLink>
       </NavContainer>
     );
   } else {
