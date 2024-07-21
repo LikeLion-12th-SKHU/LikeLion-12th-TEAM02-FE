@@ -3,7 +3,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
 import { Main } from "./pages/Main";
-import Chat from "./pages/chat/\bChat";
+import Chat from "./pages/chat/Chat";
 import Friends from "./pages/friends/Friends";
 import Settings from "./pages/settings/Settings";
 import Tracker from "./pages/tracker/Tracker";
