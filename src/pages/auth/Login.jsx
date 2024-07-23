@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import KakaoIcon from "../../assets/icons/Kakao.svg";
 import GoogleIcon from "../../assets/icons/Google.svg";
-import GoogleLogin from "@react-oauth/google";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -69,6 +68,7 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            autoComplete="email"
           />
         </FormGroup>
         <FormGroup>
@@ -78,6 +78,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            autoComplete="current-password"
           />
           {errorMessage && <Error>{errorMessage}</Error>}
         </FormGroup>
@@ -292,4 +293,29 @@ const Error = styled.div`
   margin: 5px 15px;
   font-family: "Pretendard", sans-serif;
   font-weight: 500;
+`;
+
+const Circular = styled.button`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: ${(props) => props.theme.color.primaryColor};
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Pretendard";
+  font-weight: 500;
+  font-size: 16pt;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => props.theme.color.primaryDarkColor};
+  }
+
+  &:active {
+    background-color: ${(props) => props.theme.color.primaryDarkColor};
+    transform: scale(0.98);
+  }
 `;

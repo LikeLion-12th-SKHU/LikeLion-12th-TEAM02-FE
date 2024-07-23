@@ -19,7 +19,7 @@ const KakaoLogin = () => {
           navigate("/"); // 메인 화면으로 전환
         })
         .catch((error) => {
-          console.error("카카오 로그인 실패:", error); // 디버깅 로그
+          console.error("카카오 로그인 실패:", error);
           alert("로그인 중 오류가 발생했습니다.");
         });
     }
