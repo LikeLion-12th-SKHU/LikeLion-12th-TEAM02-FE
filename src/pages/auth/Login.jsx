@@ -87,7 +87,7 @@ const Login = () => {
         </ButtonContainer>
         <List>
           <ListItem>
-            <StyledLink to="/auth/signup">회원가입</StyledLink>
+            <StyledLink to="/auth/signUp">회원가입</StyledLink>
           </ListItem>
         </List>
         <Div>

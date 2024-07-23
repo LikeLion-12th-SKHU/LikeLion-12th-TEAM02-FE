@@ -1,5 +1,3 @@
-// // ./src/pages/auth/Signup.jsx
-
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
@@ -7,40 +5,94 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import LockIcon from "../../assets/icons/Lock.svg";
 
+// Signup 컴포넌트 정의
 const Signup = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // 비밀번호 표시 상태
-  const [showPasswordCheck, setShowPasswordCheck] = useState(false); // 비밀번호 확인 표시 상태
+  const navigate = useNavigate(); // 페이지 이동을 위한 navigate 훅
+  const [email, setEmail] = useState(""); // 이메일 상태
+  const [password, setPassword] = useState(""); // 비밀번호 상태
+  const [confirmPassword, setConfirmPassword] = useState(""); // 비밀번호 확인 상태
+  const [errorMessage, setErrorMessage] = useState(""); // 오류 메시지 상태
+  const [showPassword, setShowPassword] = useState(false); // 비밀번호 표시 여부 상태
+  const [showPasswordCheck, setShowPasswordCheck] = useState(false); // 비밀번호 확인 표시 여부 상태
 
+  // 이메일 유효성 검사 함수
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  // 비밀번호 유효성 검사 함수
+  const validatePassword = (password) => {
+    const re =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{10,16}$/;
+    return re.test(password);
+  };
+
+  // 폼 제출 핸들러
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setErrorMessage("");
+    e.preventDefault(); // 기본 폼 제출 동작 방지
+    setErrorMessage(""); // 오류 메시지 초기화
 
+    // 이메일 유효성 검사
+    if (!validateEmail(email)) {
+      setErrorMessage("유효한 이메일 주소를 입력하세요.");
+      return;
+    }
+
+    // 비밀번호 유효성 검사
+    if (!validatePassword(password)) {
+      setErrorMessage(
+        "비밀번호는 10자 이상 16자 이하, 영문자, 숫자 및 특수문자를 포함해야 합니다."
+      );
+      return;
+    }
+
+    // 비밀번호 확인 유효성 검사
     if (password !== confirmPassword) {
       setErrorMessage("비밀번호가 일치하지 않습니다.");
       return;
     }
 
     try {
-      await axios.post("/api/v1/auth/signup", {
-        email,
-        password
-      });
-      alert("회원가입 되었습니다.");
-      navigate("/login");
+      // 서버에 회원가입 요청
+      const response = await axios.post(
+        "https://moodfriend.site/api/v1/auth/signUp",
+        { email, password, confirmPassword }
+      );
+      const { accessToken, refreshToken } = response.data;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      if (response.status === 201) {
+        alert("회원가입 되었습니다.");
+        navigate("/"); // 홈 페이지로 이동
+      }
     } catch (error) {
-      setErrorMessage("이메일 또는 비밀번호가 잘못 되었습니다.");
+      // 서버 응답에 따른 오류 메시지 설정
+      if (error.response) {
+        const { status, data } = error.response;
+        if (status === 409) {
+          setErrorMessage("이미 존재하는 이메일입니다.");
+        } else if (status === 400) {
+          setErrorMessage(data.message || "잘못된 요청입니다.");
+        } else if (status === 403) {
+          setErrorMessage("접근이 거부되었습니다. 관리자에게 문의하세요.");
+        } else if (status === 500) {
+          setErrorMessage("서버 오류. 관리자에게 문의하세요.");
+        } else {
+          setErrorMessage("알 수 없는 오류가 발생했습니다.");
+        }
+      } else {
+        setErrorMessage("네트워크 오류가 발생했습니다.");
+      }
     }
   };
 
+  // 비밀번호 표시 토글 함수
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
 
+  // 비밀번호 확인 표시 토글 함수
   const toggleShowPasswordCheck = () => {
     setShowPasswordCheck((prev) => !prev);
   };
@@ -108,6 +160,7 @@ const Signup = () => {
 
 export default Signup;
 
+// 스타일드 컴포넌트
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -149,6 +202,7 @@ const InputGroup = styled.div`
   position: relative;
   width: 100%;
 `;
+
 const Input = styled.input`
   width: 100%;
   padding: 15px 25px;
