@@ -1,22 +1,32 @@
+// ./src/pages/auth/Login.jsx
+
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import KakaoIcon from "../../assets/icons/Kakao.svg";
 import GoogleIcon from "../../assets/icons/Google.svg";
+import GoogleLogin from "@react-oauth/google";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
+  // 카카오 로그인 URL을 정의
   const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
-  const K_REDIRECT_URI = `http://localhost:3000/auth/callback/kakao`;
+  const K_REDIRECT_URI = `https://moodfriend.site/api/v1/auth/callback/kakao`;
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${K_REDIRECT_URI}&response_type=code`;
+
+  // 구글 로그인 URL을 정의
+  const G_CLIENT_ID = process.env.REACT_APP_G_CLIENT_ID;
+  const G_REDIRECT_URI = `https://moodfriend.site/api/v1/auth/callback/google`;
+  const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${G_CLIENT_ID}&redirect_uri=${G_REDIRECT_URI}&response_type=code&scope=email%20profile`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Clear error message before checking
+    setErrorMessage("");
 
     if (!email || !password) {
       setErrorMessage("이메일과 비밀번호를 입력해주세요.");
@@ -24,15 +34,18 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("/api/v1/auth/login", {
-        email,
-        password
-      });
+      const response = await axios.post(
+        "https://moodfriend.site/api/v1/auth/login",
+        { email, password }
+      );
       const { accessToken, refreshToken } = response.data;
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       alert("로그인 되었습니다.");
+      console.log("로그인 성공! 메인 화면으로 이동합니다."); // 디버깅 로그
+      navigate("/"); // 메인 화면으로 전환
     } catch (error) {
+      console.error("로그인 실패:", error); // 디버깅 로그
       setErrorMessage("이메일 또는 비밀번호가 잘못 되었습니다.");
     }
   };
@@ -41,7 +54,9 @@ const Login = () => {
     window.location.href = kakaoURL;
   };
 
-  const handleGoogleLogin = () => {};
+  const handleGoogleLogin = () => {
+    window.location.href = googleURL;
+  };
 
   return (
     <Container>
@@ -104,6 +119,8 @@ const Login = () => {
 
 export default Login;
 
+// 스타일링 코드 생략
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -129,7 +146,7 @@ const Label = styled.h1`
 `;
 
 const FormGroup = styled.div`
-  margin-bottom: 20px; /* Adjusted margin-bottom */
+  margin-bottom: 20px;
 `;
 
 const InputEmail = styled.input`
@@ -155,7 +172,7 @@ const InputPassword = styled.input`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 20px; /* Added container for button spacing */
+  margin-top: 20px;
 `;
 
 const Button = styled.button`
