@@ -6,6 +6,7 @@ import AngryHoyaIcon from "../assets/icons/AngryHoya.svg";
 import ObjIcon from "../assets/icons/Obj.svg";
 import WindowIcon from "../assets/icons/Window.svg";
 import DialogIcon from "../assets/icons/Dialog.svg";
+import HeartObjIcon from "../assets/icons/HeartObj.svg";
 
 export function Main() {
   const [mileage, setMileage] = useState(null);
@@ -54,7 +55,10 @@ export function Main() {
         <Chat>
           <Dialog src={DialogIcon} alt="Dialog Icon" />
         </Chat>
-        <CircularButton></CircularButton>
+        <CircularButton />
+        <FloorInterior>
+          <RightFloorObj src={HeartObjIcon} alt="HeartObj Icon" />
+        </FloorInterior>
         <Character src={AngryHoyaIcon} alt="AngryHoya Icon" />
         <Floor></Floor>
       </Background>
@@ -97,13 +101,22 @@ const Interior = styled.div`
   align-items: center;
 `;
 
+const FloorInterior = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const LeftObj = styled.img`
-  width: 25px;
-  height: 25px;
   width: 80px;
   height: 80px;
   margin-top: -550px;
   margin-right: 150px;
+`;
+
+const RightFloorObj = styled.img`
+  width: 50px;
+  height: 50px;
+  margin-left: 100px;
+  position: absolute;
 `;
 
 const RightObj = styled.img`
