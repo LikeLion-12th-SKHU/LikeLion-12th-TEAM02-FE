@@ -7,6 +7,7 @@ import Chat from "./pages/chat/Chat";
 import Friends from "./pages/friends/Friends";
 import Settings from "./pages/settings/Settings";
 import Tracker from "./pages/tracker/Tracker";
+import CreateDiary from "./pages/tracker/CreateDiary";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/friends" element={<Friends />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/tracker" element={<Tracker />} />
+        <Route path="/diary/new" element={<CreateDiary />} />
       </Routes>
     </Router>
   );
