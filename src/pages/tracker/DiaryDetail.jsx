@@ -21,6 +21,10 @@ const DiaryDetail = () => {
     }
   });
 
+  const handleEdit = () => {
+    navigate(`/diary/edit/${id}`);
+  };
+
   const handleDelete = () => {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       navigate("/tracker");
@@ -37,7 +41,7 @@ const DiaryDetail = () => {
       <p>{data.content}</p>
       <p>{data.weatherType}</p>
       <p>{data.createdAt}</p>
-
+      <button onClick={handleEdit}>수정</button>
       <button onClick={handleDelete}>삭제</button>
     </div>
   );

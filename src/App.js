@@ -9,6 +9,7 @@ import Settings from "./pages/settings/Settings";
 import Tracker from "./pages/tracker/Tracker";
 import CreateDiary from "./pages/tracker/CreateDiary";
 import DiaryDetail from "./pages/tracker/DiaryDetail";
+import EditDiary from "./pages/tracker/EditDiary";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/tracker" element={<Tracker />} />
         <Route path="/diary/new" element={<CreateDiary />} />
         <Route path="/diary/:id" element={<DiaryDetail />} />
+        <Route path="/diary/edit/:id" element={<EditDiary />} />
       </Routes>
     </Router>
   );

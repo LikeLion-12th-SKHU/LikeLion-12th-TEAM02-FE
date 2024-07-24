@@ -3,22 +3,11 @@
 import instance from "./instance";
 const memberId = 1;
 export const createDiary = async (diary) => {
-  try {
-    const res = await instance.post(
-      `/api/v1/diary/create?memberId=${memberId}`,
-      diary
-    );
-    return res.data;
-  } catch (error) {
-    if (error.response) {
-      console.error(error.response.data);
-    } else if (error.request) {
-      console.error("Error request:", error.request);
-    } else {
-      console.error("Error message:", error.message);
-    }
-    throw error;
-  }
+  const res = await instance.post(
+    `/api/v1/diary/create?memberId=${memberId}`,
+    diary
+  );
+  return res.data;
 };
 
 // 모든 일기 조회
@@ -35,9 +24,18 @@ export const fetchDiary = async (diaryId) => {
   return res.data.data;
 };
 
-// export const updateDiary = async (id, diary) => {
-//   const res = await instance.put(`/api/v1/diary/update?memberId=${memberId}`);
-// };
+export const updateDiary = async (diaryId, diary) => {
+  try {
+    const res = await instance.patch(
+      `/api/v1/diary/update/${diaryId}?memberId=${memberId}`,
+      diary
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 export const deleteDiary = async (diaryId) => {
   const res = await instance.delete(
