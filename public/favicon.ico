@@ -1,0 +1,19 @@
+server {
+    listen 80;
+    server_name moodfriend.site;
+
+    location / {
+        root /path/to/your/site;
+        index index.html index.htm;
+    }
+
+    location = /favicon.ico {
+        root /path/to/your/site/public;
+    }
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+    # 다른 설정들...
+}

@@ -6,6 +6,7 @@ import { Fonts } from "./Fonts";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
+  ${Fonts}
 
   a{
         text-decoration: none;

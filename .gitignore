@@ -70,3 +70,7 @@ sketch
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/react,macos,visualstudiocode
+
+
+# 환경 변수 파일
+.env
