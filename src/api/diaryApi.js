@@ -8,7 +8,6 @@ export const createDiary = async (diary) => {
       `/api/v1/diary/create?memberId=${memberId}`,
       diary
     );
-    console.log(res.data);
     return res.data;
   } catch (error) {
     if (error.response) {
@@ -25,7 +24,6 @@ export const createDiary = async (diary) => {
 // 모든 일기 조회
 export const fetchDiaries = async () => {
   const res = await instance.get(`/api/v1/diary/display?memberId=${memberId}`);
-  console.log(res.data);
   return res.data.data;
 };
 
@@ -34,10 +32,16 @@ export const fetchDiary = async (diaryId) => {
   const res = await instance.get(
     `/api/v1/diary/display/${diaryId}?memberId=${memberId}`
   );
-  console.log(res.data.data);
   return res.data.data;
 };
 
 // export const updateDiary = async (id, diary) => {
-//   const res = await instance.put(`/api/v1/diary/update`)
-// }
+//   const res = await instance.put(`/api/v1/diary/update?memberId=${memberId}`);
+// };
+
+export const deleteDiary = async (diaryId) => {
+  const res = await instance.delete(
+    `/api/v1/diary/delete/${diaryId}?memberId=${memberId}`
+  );
+  return res.data;
+};

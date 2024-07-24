@@ -5,15 +5,12 @@ import { fetchDiaries } from "../../api/diaryApi";
 import { Link } from "react-router-dom";
 
 export default function Tracker() {
-  const {
-    data = [],
-    error,
-    isLoading
-  } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["diaries"],
     queryFn: fetchDiaries
   });
 
+  console.log(data);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
@@ -21,10 +18,10 @@ export default function Tracker() {
     <div>
       <h1>Diary List</h1>
       <ul>
-        {data.map((diary, index) => (
-          <li key={index}>
+        {data.map((diary) => (
+          <li key={diary.diaryId}>
             <h2>
-              <Link to={`/diary/${index}`}>{diary.title}</Link>
+              <Link to={`/diary/${diary.diaryId}`}>{diary.title}</Link>
             </h2>
             <p>{diary.content}</p>
             <p>{diary.createdAt}</p>

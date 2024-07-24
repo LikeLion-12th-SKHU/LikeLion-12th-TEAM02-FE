@@ -1,8 +1,8 @@
 // src/pages/DiaryDetail.jsx
 
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import { fetchDiary } from "../../api/diaryApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteDiary, fetchDiary } from "../../api/diaryApi";
 
 const DiaryDetail = () => {
   const { id } = useParams();
@@ -11,6 +11,23 @@ const DiaryDetail = () => {
     queryFn: () => fetchDiary(id)
   });
 
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: deleteDiary,
+    onSuccess: () => {},
+    onError: (error) => {
+      console.error(error);
+    }
+  });
+
+  const handleDelete = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      navigate("/tracker");
+      mutation.mutate(id);
+    }
+  };
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
@@ -18,9 +35,10 @@ const DiaryDetail = () => {
     <div>
       <h1>{data.title}</h1>
       <p>{data.content}</p>
-      <p>{data.content}</p>
       <p>{data.weatherType}</p>
       <p>{data.createdAt}</p>
+
+      <button onClick={handleDelete}>삭제</button>
     </div>
   );
 };
