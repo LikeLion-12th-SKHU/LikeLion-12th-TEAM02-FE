@@ -18,3 +18,16 @@ export const createDiary = async (diary) => {
     throw error;
   }
 };
+
+// 모든 일기 조회
+export const fetchDiaries = async () => {
+  const res = await instance.get("/api/v1/diary/display");
+  console.log(res.data);
+  return res.data;
+};
+
+// 특정 일기 조회
+export const fetchDiary = async (diaryId) => {
+  const res = await instance.get(`/api/v1/diary/${diaryId}`);
+  return res.data;
+};
