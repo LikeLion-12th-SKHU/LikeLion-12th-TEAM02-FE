@@ -8,7 +8,7 @@ import styled from "styled-components";
 const HeaderLayout = styled.header`
   max-width: 430px;
   min-width: 360px;
-  height: 10vw;
+  height: 40px;
 
   display: flex;
   align-items: center;

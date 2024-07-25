@@ -1,0 +1,7 @@
+.react-datepicker-wrapper {
+  width: 120px;
+}
+
+input[type="radio"] {
+  display: none;
+}

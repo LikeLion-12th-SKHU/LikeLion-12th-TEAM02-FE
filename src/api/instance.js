@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: process.env.REACT_APP_REDIRECT_URL,
   headers: {
     "Content-Type": "application/json"
   }

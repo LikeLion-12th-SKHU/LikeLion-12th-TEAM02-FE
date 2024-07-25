@@ -5,14 +5,19 @@ import { updateDiary, fetchDiary } from "../../api/diaryApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { EmotionTypes, WeatherTypes } from "../../constants/diaryEnums";
+import * as T from "../../styles/tracker";
+import DiaryForm from "../../components/tracker/DiaryForm";
+import Header from "../../components/common/Header";
 
 const EditDiary = () => {
   const { id } = useParams();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [emotionType, setEmotionType] = useState(EmotionTypes.JOY);
-  const [weatherType, setWeatherType] = useState(WeatherTypes.SUNNY);
-  const [createdAt, setCreatedAt] = useState("");
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    emotionType: EmotionTypes.JOY,
+    weatherType: WeatherTypes.SUNNY,
+    createdAt: ""
+  });
 
   const navigate = useNavigate();
 
@@ -23,11 +28,13 @@ const EditDiary = () => {
 
   useEffect(() => {
     if (data) {
-      setTitle(data.title);
-      setContent(data.content);
-      setEmotionType(data.emotionType);
-      setWeatherType(data.weatherType);
-      setCreatedAt(data.createdAt);
+      setFormData({
+        title: data.title,
+        content: data.content,
+        emotionType: data.emotionType,
+        weatherType: data.weatherType,
+        createdAt: data.createdAt
+      });
     }
   }, [data]);
 
@@ -38,15 +45,17 @@ const EditDiary = () => {
     }
   });
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    diaryMutation.mutate({
-      emotionType,
-      weatherType,
-      title,
-      content,
-      createdAt
-    });
+    diaryMutation.mutate(formData);
   };
 
   if (isLoading) {
@@ -58,72 +67,16 @@ const EditDiary = () => {
   }
 
   return (
-    <div>
-      <h1>일기 수정</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>제목:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            maxLength={30}
-            required
-          />
-        </div>
-        <div>
-          <label>내용:</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            maxLength={1024}
-            required
-          />
-        </div>
-        <div>
-          <label>감정:</label>
-          <select
-            value={emotionType}
-            onChange={(e) => setEmotionType(e.target.value)}
-            required
-          >
-            {Object.values(EmotionTypes).map((emotion) => (
-              <option key={emotion} value={emotion}>
-                {emotion}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>날씨:</label>
-          <select
-            value={weatherType}
-            onChange={(e) => setWeatherType(e.target.value)}
-            required
-          >
-            {Object.values(WeatherTypes).map((weather) => (
-              <option key={weather} value={weather}>
-                {weather}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>작성일자:</label>
-          <input
-            type="date"
-            value={createdAt}
-            onChange={(e) => setCreatedAt(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">수정</button>
-      </form>
-      {diaryMutation.isLoading && <p>일기 수정 중...</p>}
-      {diaryMutation.isError && (
-        <p>일기 수정 중 오류가 발생했습니다. 다시 시도해 주세요.</p>
-      )}
-    </div>
+    <T.DiaryLayout>
+      <Header backLink="/tracker" title="일기 수정" />
+      <DiaryForm
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        isLoading={diaryMutation.isLoading}
+        isError={diaryMutation.isError}
+      />
+    </T.DiaryLayout>
   );
 };
 
