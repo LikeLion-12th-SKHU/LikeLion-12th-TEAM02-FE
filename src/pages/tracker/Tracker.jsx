@@ -10,7 +10,6 @@ export default function Tracker() {
     queryFn: fetchDiaries
   });
 
-  console.log(data);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 

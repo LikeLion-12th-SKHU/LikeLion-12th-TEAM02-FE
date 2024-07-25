@@ -43,3 +43,19 @@ export const deleteDiary = async (diaryId) => {
   );
   return res.data;
 };
+
+// 사용자 위치 정보
+export const fetchHospitals = async (longitude, latitude, radius = 20000) => {
+  try {
+    const res = await instance.get("/api/v1/hospital/display", {
+      params: {
+        x: longitude,
+        y: latitude,
+        radius
+      }
+    });
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
