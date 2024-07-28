@@ -167,22 +167,32 @@ const Container = styled.div`
   align-items: center;
   height: 100vh;
   flex-direction: column;
+  max-width: 430px; // 최대 너비를 430px로 설정
+  min-width: 360px; // 최소 너비를 360px로 설정
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  padding: auto;
-  margin: auto;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
 `;
 
 const Label = styled.h1`
-  margin-bottom: 60px;
-  font-size: 46pt;
+  margin-bottom: 70px;
+  font-size: 36pt;
   text-align: center;
   font-family: "Baloo 2", sans-serif;
   font-weight: 800;
   color: ${(props) => props.theme.color.primaryColor};
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 5px;
 `;
 
 const InputLabel = styled.h1`
@@ -194,10 +204,6 @@ const InputLabel = styled.h1`
   color: ${(props) => props.theme.color.inputBoldColor};
 `;
 
-const FormGroup = styled.div`
-  margin-bottom: 20px;
-`;
-
 const InputGroup = styled.div`
   position: relative;
   width: 100%;
@@ -205,24 +211,23 @@ const InputGroup = styled.div`
 
 const Input = styled.input`
   width: 100%;
-  padding: 15px 25px;
-  margin: 5px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   font-family: "Pretendard";
   font-weight: 600;
-  font-size: 18pt;
+  font-size: 14pt;
 `;
 
 const InputPassword = styled.input`
   width: 100%;
-  padding: 15px 25px;
-  margin: 5px;
+  padding: 10px 20px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   font-family: "Pretendard";
   font-weight: 600;
-  font-size: 18pt;
+  font-size: 14pt;
 `;
 
 const Icon = styled.img`
@@ -230,8 +235,8 @@ const Icon = styled.img`
   right: 15px;
   top: 50%;
   transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
+  width: 18x;
+  height: 18px;
   opacity: ${(props) => props.opacity};
   cursor: pointer;
 `;
@@ -243,13 +248,15 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   width: 100%;
   border-radius: 8px;
-  padding: 20px 100px;
+  padding: 15px 0;
+  margin: 15px 0;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: #ffffff;
   cursor: pointer;
   font-family: "Pretendard";
   font-weight: 500;
-  font-size: 20pt;
+  font-size: 14pt;
+  border: none;
 
   &:active {
     background-color: ${(props) => props.theme.color.primaryColor};
@@ -272,7 +279,7 @@ const StyledLink = styled(Link)`
   color: ${(props) => props.theme.color.inputColor};
   font-family: "Pretendard", sans-serif;
   font-weight: 500;
-  font-size: 16pt;
+  font-size: 12pt;
 
   &:hover {
     text-decoration: underline;
@@ -282,7 +289,7 @@ const StyledLink = styled(Link)`
 const Error = styled.div`
   color: red;
   font-size: 14pt;
-  margin: 5px 15px;
+  margin: 5px 0;
   font-family: "Pretendard", sans-serif;
   font-weight: 500;
 `;

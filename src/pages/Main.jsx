@@ -12,32 +12,35 @@ export function Main() {
   const [mileage, setMileage] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetch("/api/v1/member/attendance", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+  const fetchMileage = async () => {
+    try {
+      const response = await fetch("/api/v1/member/attendance", {
+        method: "POST", // 올바른 메소드
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}` // 유효한 토큰 확인
         }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.success) {
-          setMileage(data.data.mileage);
-        } else {
-          console.error("API 호출 실패:", data.message);
-          setError(data.message);
-        }
-      })
-      .catch((error) => {
-        console.error("API 호출 중 오류 발생:", error);
-        setError(error.message);
       });
-  }, []); // 컴포넌트 마운트 시 호출
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setMileage(data.data.mileage);
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      console.error("API 호출 중 오류 발생:", error);
+      setError(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchMileage();
+  }, []);
 
   return (
     <Container>
@@ -105,6 +108,7 @@ const FloorInterior = styled.div`
   display: flex;
   align-items: center;
 `;
+
 const LeftObj = styled.img`
   width: 80px;
   height: 80px;
