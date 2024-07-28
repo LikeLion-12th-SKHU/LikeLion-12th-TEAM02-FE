@@ -183,7 +183,7 @@ const Form = styled.form`
 `;
 
 const Label = styled.h1`
-  margin-bottom: 70px;
+  margin-bottom: 40px;
   font-size: 36pt;
   text-align: center;
   font-family: "Baloo 2", sans-serif;

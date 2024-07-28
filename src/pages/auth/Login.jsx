@@ -134,7 +134,7 @@ const Container = styled.div`
   min-width: 360px; // 최소 너비를 360px로 설정
   width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 auto;
 `;
 
 const Form = styled.form`
@@ -187,7 +187,7 @@ const Button = styled.button`
   width: 100%;
   border-radius: 8px;
   padding: 15px 0;
-  margin: 15px 0;
+  margin: 10px 0;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: #ffffff;
   cursor: pointer;
