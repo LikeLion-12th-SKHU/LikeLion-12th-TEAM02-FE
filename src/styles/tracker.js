@@ -88,3 +88,53 @@ export const SubmitIcon = styled(FontAwesomeIcon)`
   font-size: 28px;
   display: block;
 `;
+
+export const DiaryDetailLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 30px 0;
+  align-items: center;
+`;
+
+export const DiaryOptionBtn = styled.button`
+  width: 14px;
+  height: 14px;
+  float: right;
+  margin-left: auto;
+  position: relative;
+`;
+
+export const DiaryDetailHeadline1 = styled.h1`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-weight: 400;
+  margin-left: 85px;
+`;
+
+export const DiaryDetailTitleLayout = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const DiaryDetailMenu = styled.div`
+  border-radius: 5px;
+  background: #d4d4d4;
+  position: absolute;
+  width: 70px;
+  top: 20px;
+  right: 2px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+`;
+
+export const DiaryDetailMenuBtn = styled.button`
+  font-size: 14px;
+  font-family: Pretendard;
+  font-weight: 400;
+  text-align: left;
+  color: #fff;
+`;

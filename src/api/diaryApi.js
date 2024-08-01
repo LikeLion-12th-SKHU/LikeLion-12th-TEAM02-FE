@@ -1,7 +1,9 @@
 // src/api/diaryApi.js
 
 import instance from "./instance";
-const memberId = 1;
+const memberId = 3;
+
+// 일기 생성
 export const createDiary = async (diary) => {
   const res = await instance.post(
     `/api/v1/diary/create?memberId=${memberId}`,

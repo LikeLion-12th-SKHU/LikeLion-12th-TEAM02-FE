@@ -50,7 +50,7 @@ const DiaryForm = ({
     handleChange({
       target: {
         name: "createdAt",
-        value: format(date, "yyyy/MM/dd/")
+        value: format(date, "yyyy-MM-dd")
       }
     });
   };
@@ -61,7 +61,7 @@ const DiaryForm = ({
         <StyledDatePicker
           selected={selectedDate}
           onChange={handleDateChange}
-          dateFormat="yyyy/MM/dd"
+          dateFormat="yyyy-MM-dd"
           required
         />
       </T.DateLayout>
