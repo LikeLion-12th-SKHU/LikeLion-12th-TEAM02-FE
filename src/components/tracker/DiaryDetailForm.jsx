@@ -99,14 +99,6 @@ const DiaryDetailForm = ({ data, onEdit, onDelete }) => {
         </div>
       </T.DiaryFormLayout>
     </T.DiaryDetailLayout>
-    // <div>
-    //   <h1>{data.title}</h1>
-    //   <p>{data.content}</p>
-    //   <p>{data.weatherType}</p>
-    //   <p>{data.createdAt}</p>
-    //   <button onClick={onEdit}>수정</button>
-    //   <button onClick={onDelete}>삭제</button>
-    // </div>
   );
 };
 

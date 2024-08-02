@@ -2,7 +2,8 @@
 import { useQuery } from "@tanstack/react-query";
 import Menubar from "../../components/common/Menubar";
 import { fetchDiaries } from "../../api/diaryApi";
-import { Link } from "react-router-dom";
+import Header from "../../components/common/Header";
+import DiaryCalendar from "../../components/tracker/DiaryCalendar";
 
 export default function Tracker() {
   const { data, error, isLoading } = useQuery({
@@ -15,18 +16,8 @@ export default function Tracker() {
 
   return (
     <div>
-      <h1>Diary List</h1>
-      <ul>
-        {data.map((diary) => (
-          <li key={diary.diaryId}>
-            <h2>
-              <Link to={`/diary/${diary.diaryId}`}>{diary.title}</Link>
-            </h2>
-            <p>{diary.content}</p>
-            <p>{diary.createdAt}</p>
-          </li>
-        ))}
-      </ul>
+      <Header title="감정 통계" />
+      <DiaryCalendar diaries={data} />
       <Menubar />
     </div>
   );

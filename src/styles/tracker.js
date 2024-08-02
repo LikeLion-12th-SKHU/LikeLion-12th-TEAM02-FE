@@ -25,8 +25,7 @@ export const RadioImg = styled.img`
 
 export const RadioIcon = styled(FontAwesomeIcon)`
   font-size: 28px;
-  color: ${(props) =>
-    props.selected ? "#756AB6" : "gray"}; // 선택된 경우 색상 변경
+  color: ${(props) => (props.selected ? "#756AB6" : "gray")};
   cursor: pointer;
   transition: color 0.3s;
 
@@ -82,6 +81,7 @@ export const SubmitBtn = styled.button`
   justify-content: center;
   border-radius: 50%;
   background: #e0aed0;
+  margin: ${(props) => props.mg || "0"};
 `;
 
 export const SubmitIcon = styled(FontAwesomeIcon)`
@@ -108,9 +108,10 @@ export const DiaryOptionBtn = styled.button`
 export const DiaryDetailHeadline1 = styled.h1`
   text-align: center;
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 400;
-  margin-left: 85px;
+  text-align: center;
+  width: 100%;
 `;
 
 export const DiaryDetailTitleLayout = styled.div`
@@ -137,4 +138,11 @@ export const DiaryDetailMenuBtn = styled.button`
   font-weight: 400;
   text-align: left;
   color: #fff;
+`;
+
+export const CalendarLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  gap: 10px;
 `;
