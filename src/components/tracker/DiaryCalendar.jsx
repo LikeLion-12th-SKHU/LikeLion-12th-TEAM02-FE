@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import * as T from "../../styles/tracker";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import SoSoIcon from "../../assets/icons/Hoya-SoSoIcon-Solid.svg";
+import JoySolidIcon from "../../assets/icons/Hoya-JoyIcon-Solid.svg";
+import SoSoSolidIcon from "../../assets/icons/Hoya-SoSoIcon-Solid.svg";
+import DispleasureSolidIcon from "../../assets/icons/Hoya-DispleasureIcon-Solid.svg";
+import SadnessSolidIcon from "../../assets/icons/Hoya-SadnessIcon-Solid.svg";
+import AngerSolidIcon from "../../assets/icons/Hoya-AngerIcon-Solid.svg";
 
 const DiaryCalendar = ({ diaries }) => {
   const navigate = useNavigate();
@@ -29,6 +33,14 @@ const DiaryCalendar = ({ diaries }) => {
     navigate("/hospital");
   };
 
+  const emotionIcons = {
+    JOY: JoySolidIcon,
+    SO_SO: SoSoSolidIcon,
+    SADNESS: SadnessSolidIcon,
+    DISPLEASURE: DispleasureSolidIcon,
+    ANGER: AngerSolidIcon
+  };
+
   const tileContent = ({ date, view }) => {
     if (view === "month") {
       const dateString = date.toDateString();
@@ -37,10 +49,11 @@ const DiaryCalendar = ({ diaries }) => {
       );
 
       if (diary) {
+        const emotionIcon = emotionIcons[diary.emotionType];
         return (
           <div style={{ position: "relative", height: "100%" }}>
             <T.RadioImg
-              src={SoSoIcon}
+              src={emotionIcon}
               style={{ position: "absolute", top: "-25px", right: "0" }}
             />
           </div>

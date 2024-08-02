@@ -1,13 +1,16 @@
 // src/components/tracker/DiaryDetailForm.jsx
 import React, { useState } from "react";
 import * as T from "../../styles/tracker";
-import SoSoSolidIcon from "../../assets/icons/Hoya-SoSoIcon-Solid.svg";
-import SoSoIcon from "../../assets/icons/Hoya-SoSoIcon.svg";
 import { EmotionTypes, WeatherTypes } from "../../constants/diaryEnums";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import JoySolidIcon from "../../assets/icons/Hoya-JoyIcon-Solid.svg";
+import SoSoSolidIcon from "../../assets/icons/Hoya-SoSoIcon-Solid.svg";
+import DispleasureSolidIcon from "../../assets/icons/Hoya-DispleasureIcon-Solid.svg";
+import SadnessSolidIcon from "../../assets/icons/Hoya-SadnessIcon-Solid.svg";
+import AngerSolidIcon from "../../assets/icons/Hoya-AngerIcon-Solid.svg";
 import {
   faSun,
   faSnowflake,
@@ -48,15 +51,20 @@ const DiaryDetailForm = ({ data, onEdit, onDelete }) => {
     WIND: faWind
   };
 
+  const emotionIcons = {
+    JOY: JoySolidIcon,
+    SO_SO: SoSoSolidIcon,
+    SADNESS: SadnessSolidIcon,
+    DISPLEASURE: DispleasureSolidIcon,
+    ANGER: AngerSolidIcon
+  };
+
+  const emotionIcon = emotionIcons[data.emotionType];
+
   return (
     <T.DiaryDetailLayout>
       <T.IconLayout>
-        {emotion && (
-          <T.RadioImg
-            src={data.emotionType === emotion ? SoSoSolidIcon : SoSoIcon}
-            alt={emotion}
-          />
-        )}
+        {emotion && <T.RadioImg src={emotionIcon} alt={emotion} />}
       </T.IconLayout>
       <StyledDatePicker
         selected={data.createdAt}

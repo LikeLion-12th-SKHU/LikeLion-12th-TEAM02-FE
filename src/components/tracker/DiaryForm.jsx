@@ -7,8 +7,17 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import styled from "styled-components";
 import "./style.css";
+import JoyIcon from "../../assets/icons/Hoya-JoyIcon.svg";
+import JoySolidIcon from "../../assets/icons/Hoya-JoyIcon-Solid.svg";
 import SoSoIcon from "../../assets/icons/Hoya-SoSoIcon.svg";
 import SoSoSolidIcon from "../../assets/icons/Hoya-SoSoIcon-Solid.svg";
+import DispleasureIcon from "../../assets/icons/Hoya-DispleasureIcon.svg";
+import DispleasureSolidIcon from "../../assets/icons/Hoya-DispleasureIcon-Solid.svg";
+import SadnessIcon from "../../assets/icons/Hoya-SadnessIcon.svg";
+import SadnessSolidIcon from "../../assets/icons/Hoya-SadnessIcon-Solid.svg";
+import AngerIcon from "../../assets/icons/Hoya-AngerIcon.svg";
+import AngerSolidIcon from "../../assets/icons/Hoya-AngerIcon-Solid.svg";
+
 import {
   faSun,
   faSnowflake,
@@ -35,6 +44,23 @@ const weatherIcons = {
   CLOUD: faCloud,
   RAIN: faCloudRain,
   WIND: faWind
+};
+
+const emotionIcons = {
+  JOY: JoyIcon,
+  SO_SO: SoSoIcon,
+  SADNESS: SadnessIcon,
+  DISPLEASURE: DispleasureIcon,
+  ANGER: AngerIcon
+};
+
+// 감정 타입에 대한 선택된 아이콘 매핑
+const emotionSolidIcons = {
+  JOY: JoySolidIcon,
+  SO_SO: SoSoSolidIcon,
+  SADNESS: SadnessSolidIcon,
+  DISPLEASURE: DispleasureSolidIcon,
+  ANGER: AngerSolidIcon
 };
 
 const DiaryForm = ({
@@ -80,7 +106,9 @@ const DiaryForm = ({
               />
               <T.RadioImg
                 src={
-                  formData.emotionType === emotion ? SoSoSolidIcon : SoSoIcon
+                  formData.emotionType === emotion
+                    ? emotionSolidIcons[emotion]
+                    : emotionIcons[emotion]
                 }
                 alt={emotion}
               />
