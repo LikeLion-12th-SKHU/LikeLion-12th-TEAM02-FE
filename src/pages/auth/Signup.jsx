@@ -55,16 +55,26 @@ const Signup = () => {
 
     try {
       // 서버에 회원가입 요청
-      const response = await axios.post(
+      const signupResponse = await axios.post(
         "https://moodfriend.site/api/v1/auth/signUp",
         { email, password, confirmPassword }
       );
-      const { accessToken, refreshToken } = response.data;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      if (response.status === 201) {
-        alert("회원가입 되었습니다.");
-        navigate("/"); // 홈 페이지로 이동
+
+      if (signupResponse.status === 201) {
+        // 로그인 요청
+        const loginResponse = await axios.post(
+          "https://moodfriend.site/api/v1/auth/login",
+          { email, password }
+        );
+
+        const { accessToken, refreshToken } = loginResponse.data.data;
+
+        // 토큰 저장
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+
+        alert("회원가입 완료!");
+        navigate("/auth/login"); // 홈 페이지로 이동
       }
     } catch (error) {
       // 서버 응답에 따른 오류 메시지 설정
@@ -108,6 +118,7 @@ const Signup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            autoComplete="your_email"
           />
         </FormGroup>
         <FormGroup>
@@ -116,8 +127,9 @@ const Signup = () => {
             <InputPassword
               type={showPassword ? "text" : "password"}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete="your_password"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Icon
               src={LockIcon}
@@ -134,7 +146,7 @@ const Signup = () => {
               type={showPasswordCheck ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              required
+              autoComplete="your_confirmPasswo"
             />
             <Icon
               src={LockIcon}
@@ -235,7 +247,7 @@ const Icon = styled.img`
   right: 15px;
   top: 50%;
   transform: translateY(-50%);
-  width: 18x;
+  width: 18px;
   height: 18px;
   opacity: ${(props) => props.opacity};
   cursor: pointer;

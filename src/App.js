@@ -10,6 +10,9 @@ import { Main } from "./pages/Main";
 import Chat from "./pages/chat/Chat";
 import Friends from "./pages/friends/Friends";
 import Settings from "./pages/settings/Settings";
+import EditSettings from "./pages/settings/EditSettings";
+import InformationSettings from "./pages/settings/InformationSettings";
+import WithdrawalSettings from "./pages/settings/WithdrawalSettings";
 import Tracker from "./pages/tracker/Tracker";
 
 function App() {
@@ -24,6 +27,9 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/friends" element={<Friends />} />
+        <Route path="/edit-setting" element={<EditSettings />} />
+        <Route path="/information-setting" element={<InformationSettings />} />
+        <Route path="/withdrawal-setting" element={<WithdrawalSettings />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/tracker" element={<Tracker />} />
       </Routes>

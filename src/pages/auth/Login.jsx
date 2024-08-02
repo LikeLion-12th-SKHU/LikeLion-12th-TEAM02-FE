@@ -36,12 +36,13 @@ const Login = () => {
         { email, password }
       );
 
-      const { accessToken, refreshToken } = response.data;
+      const { accessToken, refreshToken } = response.data.data;
 
       if (accessToken) {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-        alert("로그인 되었습니다.");
+
+        alert("로그인 성공!");
         navigate("/"); // 메인 화면으로 이동
       } else {
         setErrorMessage("로그인 실패");
@@ -134,7 +135,7 @@ const Container = styled.div`
   min-width: 360px; // 최소 너비를 360px로 설정
   width: 100%;
   margin: 0 auto;
-  padding: 0 auto;
+  padding: 0 20px;
 `;
 
 const Form = styled.form`
@@ -187,7 +188,7 @@ const Button = styled.button`
   width: 100%;
   border-radius: 8px;
   padding: 15px 0;
-  margin: 10px 0;
+  margin: 15px 0;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: #ffffff;
   cursor: pointer;
