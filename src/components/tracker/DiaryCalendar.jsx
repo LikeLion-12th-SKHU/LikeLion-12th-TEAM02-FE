@@ -25,6 +25,10 @@ const DiaryCalendar = ({ diaries }) => {
     navigate("/diary/new");
   };
 
+  const handleHospital = () => {
+    navigate("/hospital");
+  };
+
   const tileContent = ({ date, view }) => {
     if (view === "month") {
       const dateString = date.toDateString();
@@ -47,6 +51,9 @@ const DiaryCalendar = ({ diaries }) => {
 
   return (
     <T.CalendarLayout>
+      <T.SubmitBtn type="button" onClick={handleCreate} mg="0 20px 0 auto">
+        <T.SubmitIcon icon={faPenToSquare} style={{ color: "#fff" }} />
+      </T.SubmitBtn>
       <Calendar
         locale="en"
         onClickDay={onDateClick}
@@ -54,9 +61,12 @@ const DiaryCalendar = ({ diaries }) => {
         prev2Label={null}
         tileContent={tileContent}
       />
-      <T.SubmitBtn type="button" onClick={handleCreate} mg="0 20px 0 auto">
-        <T.SubmitIcon icon={faPenToSquare} style={{ color: "#fff" }} />
-      </T.SubmitBtn>
+      <T.RecommendLayout>
+        <T.HospitalCaption>전문가의 상담이 필요하신가요?</T.HospitalCaption>
+        <T.RecommendBtn type="button" onClick={handleHospital}>
+          주변 의료기관 추천받기
+        </T.RecommendBtn>
+      </T.RecommendLayout>
     </T.CalendarLayout>
   );
 };

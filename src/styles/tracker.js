@@ -143,6 +143,75 @@ export const DiaryDetailMenuBtn = styled.button`
 export const CalendarLayout = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
-  gap: 10px;
+  margin-top: 20px;
+  gap: 20px;
+`;
+
+export const RecommendBtn = styled.button`
+  width: 350px;
+  margin: 0 auto 30px auto;
+  border-radius: 8px;
+  background: #756ab6;
+  padding: 16px;
+  color: #fff;
+  font-family: Pretendard;
+  font-weight: 500;
+  font-size: 16px;
+`;
+
+export const HospitalCaption = styled.label`
+  font-size: 12px;
+  font-family: Pretendard;
+  font-weight: 500;
+`;
+
+export const RecommendLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+  gap: 5px;
+`;
+
+// InstitutionCard
+export const InstitutionCardBox = styled.div`
+  display: flex;
+  width: 350px;
+  height: 80px;
+  margin: 10px auto;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  justify-content: space-between;
+`;
+
+export const FlexColumnLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: space-between;
+`;
+
+export const CardHeadline1 = styled.h1`
+  font-family: Pretendard;
+  font-weight: 600;
+  font-size: 16px;
+`;
+
+export const CardLabel = styled.label`
+  font-family: Pretendard;
+  font-weight: 400;
+  font-size: 14px;
+  color: #909090;
+`;
+
+export const CardSpan = styled.span`
+  font-family: Pretendard;
+  font-weight: 400;
+  font-size: 12px;
+`;
+
+export const CardImg = styled.img`
+  width: 32px;
+  height: 32px;
 `;

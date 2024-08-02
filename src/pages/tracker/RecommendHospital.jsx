@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchHospitals } from "../../api/diaryApi";
+import Header from "../../components/common/Header";
+import InstitutionCard from "../../components/tracker/InstitutionCard";
+import * as T from "../../styles/tracker";
 
 const RecommendHospital = () => {
   const [latitude, setLatitude] = useState(null);
@@ -50,16 +53,20 @@ const RecommendHospital = () => {
 
   return (
     <div>
-      <h1>의료기관</h1>
+      <Header title="병원 추천" backLink="/tracker" />
+      <T.HospitalCaption style={{ margin: "20px 0 0 16px" }}>
+        주변 반경 20km 내 의료기관입니다.
+      </T.HospitalCaption>
       {institutions.length > 0 ? (
         <ul>
           {institutions.map((institution, index) => (
             <li key={index}>
-              <h2>
-                <a href={institution.placeUrl}>{institution.categoryName}</a>
-              </h2>
-              <p>{institution.distance}</p>
-              <p>{institution.placeName}</p>
+              <InstitutionCard
+                placeUrl={institution.placeUrl}
+                categoryName={institution.categoryName}
+                distance={institution.distance}
+                placeName={institution.placeName}
+              />
             </li>
           ))}
         </ul>

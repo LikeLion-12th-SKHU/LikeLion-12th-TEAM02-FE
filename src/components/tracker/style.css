@@ -10,7 +10,7 @@ input[type="radio"] {
 
 .react-calendar {
   width: 350px;
-  min-height: 440px;
+  min-height: 420px;
   max-width: 100%;
   background: white;
   border-radius: 40px;
