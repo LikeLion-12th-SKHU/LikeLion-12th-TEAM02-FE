@@ -49,7 +49,7 @@ export const deleteDiary = async (diaryId) => {
 // 사용자 위치 정보
 export const fetchHospitals = async (longitude, latitude, radius = 20000) => {
   try {
-    const res = await instance.get("/api/v1/hospital/display", {
+    const res = await instance.get("/api/v1/member/hospital/display", {
       params: {
         x: longitude,
         y: latitude,
