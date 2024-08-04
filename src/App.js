@@ -14,6 +14,10 @@ import EditSettings from "./pages/settings/EditSettings";
 import InformationSettings from "./pages/settings/InformationSettings";
 import WithdrawalSettings from "./pages/settings/WithdrawalSettings";
 import Tracker from "./pages/tracker/Tracker";
+import CreateDiary from "./pages/tracker/CreateDiary";
+import DiaryDetail from "./pages/tracker/DiaryDetail";
+import EditDiary from "./pages/tracker/EditDiary";
+import RecommendHospital from "./pages/tracker/RecommendHospital";
 
 function App() {
   return (
@@ -32,6 +36,10 @@ function App() {
         <Route path="/withdrawal-setting" element={<WithdrawalSettings />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/tracker" element={<Tracker />} />
+        <Route path="/diary/new" element={<CreateDiary />} />
+        <Route path="/diary/:id" element={<DiaryDetail />} />
+        <Route path="/diary/edit/:id" element={<EditDiary />} />
+        <Route path="/hospital" element={<RecommendHospital />} />
       </Routes>
     </Router>
   );
