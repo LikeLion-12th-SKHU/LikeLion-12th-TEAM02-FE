@@ -12,6 +12,7 @@ import Header from "../../components/common/Header";
 const EditDiary = () => {
   const { id } = useParams();
   const [formData, setFormData] = useState({
+    diaryId: id,
     title: "",
     content: "",
     emotionType: EmotionTypes.JOY,
@@ -29,6 +30,7 @@ const EditDiary = () => {
   useEffect(() => {
     if (data) {
       setFormData({
+        diaryId: data.diaryId,
         title: data.title,
         content: data.content,
         emotionType: data.emotionType,
@@ -39,7 +41,7 @@ const EditDiary = () => {
   }, [data]);
 
   const diaryMutation = useMutation({
-    mutationFn: (updatedDiary) => updateDiary(id, updatedDiary),
+    mutationFn: (updatedDiary) => updateDiary(updatedDiary),
     onSuccess: () => {
       navigate(`/diary/${id}`);
     }
