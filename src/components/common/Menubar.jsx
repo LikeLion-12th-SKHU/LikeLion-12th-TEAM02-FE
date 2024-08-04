@@ -53,7 +53,10 @@ export default function Menubar() {
     locationNow.pathname === "/chat" ||
     locationNow.pathname === "/tracker" ||
     locationNow.pathname === "/friends" ||
-    locationNow.pathname === "/settings"
+    locationNow.pathname === "/settings" ||
+    locationNow.pathname === "/information-setting" ||
+    locationNow.pathname === "/Withdrawal-setting" ||
+    locationNow.pathname === "/edit-setting"
   ) {
     return (
       <NavContainer>

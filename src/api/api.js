@@ -1,3 +1,5 @@
+// src/api/api.js
+
 const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
 const K_REDIRECT_URL = process.env.REACT_APP_REDIRECT_URL;
 

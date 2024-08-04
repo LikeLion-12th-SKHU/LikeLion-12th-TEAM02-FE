@@ -1,5 +1,3 @@
-// ./src/pages/auth/Login.jsx
-
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
@@ -37,14 +35,20 @@ const Login = () => {
         "https://moodfriend.site/api/v1/auth/login",
         { email, password }
       );
-      const { accessToken, refreshToken } = response.data;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      alert("로그인 되었습니다.");
-      console.log("로그인 성공! 메인 화면으로 이동합니다."); // 디버깅 로그
-      navigate("/"); // 메인 화면으로 전환
+
+      const { accessToken, refreshToken } = response.data.data;
+
+      if (accessToken) {
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+
+        alert("로그인 성공!");
+        navigate("/"); // 메인 화면으로 이동
+      } else {
+        setErrorMessage("로그인 실패");
+      }
     } catch (error) {
-      console.error("로그인 실패:", error); // 디버깅 로그
+      console.error("로그인 실패:", error);
       setErrorMessage("이메일 또는 비밀번호가 잘못 되었습니다.");
     }
   };
@@ -87,7 +91,7 @@ const Login = () => {
         </ButtonContainer>
         <List>
           <ListItem>
-            <StyledLink to="/auth/signUp">회원가입</StyledLink>
+            <StyledLink to="/auth/signUp">회원가입을 하시겠습니까?</StyledLink>
           </ListItem>
         </List>
         <Div>
@@ -120,26 +124,31 @@ const Login = () => {
 
 export default Login;
 
-// 스타일링 코드 생략
-
+// 최상위 부모 요소의 width와 height를 고정
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   flex-direction: column;
+  max-width: 430px; // 최대 너비를 430px로 설정
+  min-width: 360px; // 최소 너비를 360px로 설정
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  padding: auto;
-  margin: auto;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
 `;
 
 const Label = styled.h1`
   margin-bottom: 60px;
-  font-size: 46pt;
+  font-size: 36pt;
   text-align: center;
   font-family: "Baloo 2", sans-serif;
   font-weight: 800;
@@ -147,46 +156,46 @@ const Label = styled.h1`
 `;
 
 const FormGroup = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 `;
 
 const InputEmail = styled.input`
   width: 100%;
-  padding: 15px 25px;
-  margin: 5px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   font-family: "Pretendard";
   font-weight: 600;
-  font-size: 18pt;
+  font-size: 14pt;
 `;
 
 const InputPassword = styled.input`
   width: 100%;
-  padding: 15px 25px;
-  margin: 5px;
+  padding: 10px 20px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   font-family: "Pretendard";
   font-weight: 600;
-  font-size: 18pt;
+  font-size: 14pt;
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const Button = styled.button`
   width: 100%;
   border-radius: 8px;
-  padding: 20px 100px;
-  margin: 5px;
+  padding: 15px 0;
+  margin: 15px 0;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: #ffffff;
   cursor: pointer;
   font-family: "Pretendard";
   font-weight: 500;
-  font-size: 20pt;
+  font-size: 14pt;
+  border: none;
 
   &:active {
     background-color: ${(props) => props.theme.color.primaryColor};
@@ -200,12 +209,7 @@ const KakaoButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px;
-  margin-top: 20px;
-  cursor: pointer;
-  font-family: "Pretendard";
-  font-weight: 500;
-  font-size: 16pt;
+  font-size: 14pt;
 
   &:hover {
     background-color: #f9e300;
@@ -220,17 +224,13 @@ const GoogleButton = styled(Button)`
   background-color: #ffffff;
   border: 1px solid #c5c5c5;
   color: #000000;
-  padding: 15px;
-  cursor: pointer;
-  font-family: "Pretendard";
-  font-weight: 500;
-  font-size: 16pt;
+  font-size: 14pt;
 
   &:hover {
-    background-color: #ffffff;
+    background-color: #f1f1f1;
   }
   &:active {
-    background-color: #ffffff;
+    background-color: #f1f1f1;
     transform: scale(0.98);
   }
 `;
@@ -242,7 +242,7 @@ const Icon = styled.img`
 `;
 
 const List = styled.ul`
-  margin: 35px;
+  margin: 20px 0;
   display: flex;
   justify-content: center;
 `;
@@ -256,7 +256,7 @@ const StyledLink = styled(Link)`
   color: ${(props) => props.theme.color.inputColor};
   font-family: "Pretendard", sans-serif;
   font-weight: 500;
-  font-size: 16pt;
+  font-size: 12pt;
 
   &:hover {
     text-decoration: underline;
@@ -267,22 +267,23 @@ const Div = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 40px 0;
 `;
 
 const DivItem = styled.div`
   display: flex;
   align-items: center;
-  margin: 30px 10px;
+  margin: 0 5px;
 `;
 
 const HorizontalLine = styled.div`
-  width: 110px;
+  width: 60px;
   height: 1px;
   background-color: ${(props) => props.theme.color.inputBoldColor};
 `;
 
 const Text = styled.div`
-  font-size: 16pt;
+  font-size: 14pt;
   font-family: "Pretendard", sans-serif;
   font-weight: 500;
 `;
@@ -290,32 +291,7 @@ const Text = styled.div`
 const Error = styled.div`
   color: red;
   font-size: 14pt;
-  margin: 5px 15px;
+  margin: 5px 0;
   font-family: "Pretendard", sans-serif;
   font-weight: 500;
-`;
-
-const Circular = styled.button`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.color.primaryColor};
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Pretendard";
-  font-weight: 500;
-  font-size: 16pt;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${(props) => props.theme.color.primaryDarkColor};
-  }
-
-  &:active {
-    background-color: ${(props) => props.theme.color.primaryDarkColor};
-    transform: scale(0.98);
-  }
 `;
