@@ -34,8 +34,16 @@ const FriendCard = ({ friend, isRequest, onAccept, onDelete }) => {
         <F.FriendParagraph>{friend.email}</F.FriendParagraph>
       </F.CommonFlexLayout>
 
-      {isRequest && <button onClick={onAccept}>수락</button>}
-      {!isRequest && <button onClick={onDelete}>삭제</button>}
+      {isRequest && (
+        <F.AcceptBtn onClick={onAccept} backColor="#1CC260">
+          수락
+        </F.AcceptBtn>
+      )}
+      {!isRequest && (
+        <F.AcceptBtn onClick={onDelete} backColor="#F3314C">
+          삭제
+        </F.AcceptBtn>
+      )}
     </F.FriendCardLayout>
   );
 };

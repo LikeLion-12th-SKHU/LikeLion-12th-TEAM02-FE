@@ -72,3 +72,15 @@ export const FriendAnchor = styled(Link)`
   width: 100px;
   display: block;
 `;
+
+export const AcceptBtn = styled.button`
+  width: 60px;
+  height: 30px;
+  background: ${(props) => props.backColor || "#fff"};
+  border-radius: 5px;
+  color: #fff;
+  font-family: Pretendard;
+  font-weight: 600;
+  font-size: 14px;
+  margin-left: auto;
+`;
