@@ -97,14 +97,12 @@ const DiaryDetailForm = ({ data, onEdit, onDelete }) => {
           )}
           <T.DiaryDetailHeadline1>{data.title}</T.DiaryDetailHeadline1>
         </T.DiaryDetailTitleLayout>
-        <div>
-          <T.TextArea
-            name="content"
-            value={data.content}
-            maxLength={1024}
-            readOnly
-          />
-        </div>
+        <T.TextArea
+          name="content"
+          value={data.content}
+          maxLength={1024}
+          readOnly
+        />
       </T.DiaryFormLayout>
     </T.DiaryDetailLayout>
   );

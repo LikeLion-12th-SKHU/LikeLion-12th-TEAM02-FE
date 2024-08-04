@@ -42,14 +42,6 @@ const DiaryDetail = () => {
     <T.DiaryLayout>
       <Header backLink="/tracker" title="일기 조회" />
       <DiaryDetailForm data={data} onEdit={onEdit} onDelete={onDelete} />
-      {/* <div>
-        <h1>{data.title}</h1>
-        <p>{data.content}</p>
-        <p>{data.weatherType}</p>
-        <p>{data.createdAt}</p>
-        <button onClick={handleEdit}>수정</button>
-        <button onClick={handleDelete}>삭제</button>
-      </div> */}
     </T.DiaryLayout>
   );
 };
