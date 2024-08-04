@@ -8,7 +8,7 @@ import {
   faMagnifyingGlass,
   faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
-import { requestFriend } from "../../api/friendApi";
+import { deleteFriend, requestFriend } from "../../api/friendApi";
 import { fetchFriends } from "../../api/friendApi";
 import FriendCard from "../../components/friends/FriendCard";
 
@@ -34,6 +34,17 @@ function Friends() {
 
     getFriends();
   }, []);
+
+  const handleDelete = async (friendEmail) => {
+    try {
+      const response = await deleteFriend(friendEmail);
+      alert("삭제 완료");
+      // 상태 관리를 위함.
+      setFriends(friends.filter((friend) => friend.email !== friendEmail));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div>
@@ -66,6 +77,7 @@ function Friends() {
                 key={friend.memberId}
                 friend={friend}
                 isRequest={false}
+                onDelete={() => handleDelete(friend.email)}
               />
             ))}
           </ul>

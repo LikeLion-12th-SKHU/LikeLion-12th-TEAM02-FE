@@ -6,7 +6,7 @@ import SadnessIcon from "../../assets/icons/Hoya-SadnessIcon-Solid.svg";
 import DispleasureIcon from "../../assets/icons/Hoya-DispleasureIcon-Solid.svg";
 import AngerIcon from "../../assets/icons/Hoya-AngerIcon-Solid.svg";
 
-const FriendCard = ({ friend, isRequest, onAccept }) => {
+const FriendCard = ({ friend, isRequest, onAccept, onDelete }) => {
   const emotionImageMap = {
     JOY: JoyIcon,
     SO_SO: SoSoIcon,
@@ -35,6 +35,7 @@ const FriendCard = ({ friend, isRequest, onAccept }) => {
       </F.CommonFlexLayout>
 
       {isRequest && <button onClick={onAccept}>수락</button>}
+      {!isRequest && <button onClick={onDelete}>삭제</button>}
     </F.FriendCardLayout>
   );
 };

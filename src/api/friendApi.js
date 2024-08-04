@@ -71,3 +71,21 @@ export const acceptFriendRequest = async (friendEmail) => {
     console.error(err);
   }
 };
+
+// 친구 삭제
+export const deleteFriend = async (friendEmail) => {
+  const accessToken = localStorage.getItem("accessToken");
+  try {
+    const res = await instance.delete(
+      `api/v1/friend/delete?friendEmail=${friendEmail}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    );
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
