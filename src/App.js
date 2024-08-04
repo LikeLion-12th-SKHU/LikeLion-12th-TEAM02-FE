@@ -18,6 +18,7 @@ import CreateDiary from "./pages/tracker/CreateDiary";
 import DiaryDetail from "./pages/tracker/DiaryDetail";
 import EditDiary from "./pages/tracker/EditDiary";
 import RecommendHospital from "./pages/tracker/RecommendHospital";
+import RequestList from "./pages/friends/RequestList";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/friends" element={<Friends />} />
+        <Route path="/friends/request" element={<RequestList />} />
         <Route path="/edit-setting" element={<EditSettings />} />
         <Route path="/information-setting" element={<InformationSettings />} />
         <Route path="/withdrawal-setting" element={<WithdrawalSettings />} />

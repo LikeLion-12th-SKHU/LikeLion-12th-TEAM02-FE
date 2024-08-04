@@ -23,6 +23,7 @@ export const requestFriend = async (receiverEmail) => {
   }
 };
 
+// 친구 목록 리스트 불러오기
 export const fetchFriends = async () => {
   const accessToken = localStorage.getItem("accessToken");
   try {
@@ -32,6 +33,40 @@ export const fetchFriends = async () => {
       }
     });
     return res.data.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// 친구 요청 받은 내역 불러오기
+export const fetchRequestFriends = async () => {
+  const accessToken = localStorage.getItem("accessToken");
+  try {
+    const res = await instance.get(`api/v1/friend/received/display`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// 친구 요청 수락
+export const acceptFriendRequest = async (friendEmail) => {
+  const accessToken = localStorage.getItem("accessToken");
+  try {
+    const res = await instance.put(
+      `api/v1/friend/accept?friendEmail=${friendEmail}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    );
+    return res.data;
   } catch (err) {
     console.error(err);
   }

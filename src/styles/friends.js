@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const CommonLayout = styled.div`
@@ -61,4 +62,13 @@ export const FriendParagraph = styled.p`
   font-weight: 400
   color: #999;
   
+`;
+
+export const FriendAnchor = styled(Link)`
+  font-family: Pretendard;
+  font-weight: 500;
+  font-size: 14px;
+  margin-left: auto;
+  width: 100px;
+  display: block;
 `;
