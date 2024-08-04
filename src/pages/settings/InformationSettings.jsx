@@ -27,7 +27,6 @@ const InformationSettings = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const accessToken = localStorage.getItem("accessToken");
-
       if (accessToken) {
         try {
           const response = await axios.get(
@@ -69,8 +68,8 @@ const InformationSettings = () => {
         <MyText>내정보</MyText>
       </Box>
       <Container>
-        <BackButton src={BackArrowIcon} onClick={() => navigate(-1)} />{" "}
-        {/* 아이콘 사용 */}
+        {" "}
+        <BackButton src={BackArrowIcon} onClick={() => navigate(-1)} />
         <ContentWrapper>
           <Title>사용자 정보</Title>
           {errorMessage && <ErrorText>오류: {errorMessage}</ErrorText>}
