@@ -33,8 +33,29 @@ import DiaryDetail from "./pages/tracker/DiaryDetail";
 import EditDiary from "./pages/tracker/EditDiary";
 import RecommendHospital from "./pages/tracker/RecommendHospital";
 import RequestList from "./pages/friends/RequestList";
+import React, { useEffect, useState } from "react";
+import MobileWarning from "./components/common/MobileWarning";
 
 function App() {
+  const [isMobile, setIsMobile] = useState(true);
+  // 모바일 기기 접속만 가능하도록 변경
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 450);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  if (!isMobile) {
+    return <MobileWarning />;
+  }
+
   return (
     <Router>
       <GlobalStyle />

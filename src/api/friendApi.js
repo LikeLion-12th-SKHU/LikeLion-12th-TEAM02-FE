@@ -6,20 +6,16 @@ import instance from "./instance";
 export const requestFriend = async (receiverEmail) => {
   const accessToken = localStorage.getItem("accessToken");
   if (accessToken) {
-    try {
-      const res = await instance.post(
-        `api/v1/friend/request`,
-        { receiverEmail },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+    const res = await instance.post(
+      `api/v1/friend/request`,
+      { receiverEmail },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
         }
-      );
-      return res;
-    } catch (err) {
-      console.error(err);
-    }
+      }
+    );
+    return res;
   }
 };
 

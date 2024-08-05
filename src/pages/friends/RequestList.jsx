@@ -5,6 +5,7 @@ import Header from "../../components/common/Header";
 import * as F from "../../styles/friends";
 import { acceptFriendRequest, fetchRequestFriends } from "../../api/friendApi";
 import FriendCard from "../../components/friends/FriendCard";
+import * as T from "../../styles/tracker";
 
 const RequestList = () => {
   const [requests, setRequests] = useState([]);
@@ -48,7 +49,7 @@ const RequestList = () => {
             ))}
           </ul>
         ) : (
-          <p>친구 요청이 없습니다.</p>
+          <T.DiaryErrorMessage>친구 요청이 없습니다.</T.DiaryErrorMessage>
         )}
       </F.FriendSection>
     </div>

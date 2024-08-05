@@ -62,7 +62,6 @@ export default function Chat() {
       if (container.scrollHeight > container.clientHeight) {
         container.scrollTop = container.scrollHeight;
       }
-      console.log(container.scrollTop);
     }
   }, [chatHistory]);
 

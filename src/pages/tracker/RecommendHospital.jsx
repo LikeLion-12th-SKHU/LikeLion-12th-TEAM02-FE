@@ -3,6 +3,7 @@ import { fetchHospitals } from "../../api/diaryApi";
 import Header from "../../components/common/Header";
 import InstitutionCard from "../../components/tracker/InstitutionCard";
 import * as T from "../../styles/tracker";
+import Loading from "../../components/common/Loading";
 
 const RecommendHospital = () => {
   const [latitude, setLatitude] = useState(null);
@@ -50,7 +51,7 @@ const RecommendHospital = () => {
   }
 
   if (!latitude || !longitude) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

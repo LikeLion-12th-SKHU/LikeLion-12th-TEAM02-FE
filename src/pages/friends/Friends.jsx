@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
 import * as F from "../../styles/friends";
+import * as T from "../../styles/tracker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -11,16 +12,32 @@ import {
 import { deleteFriend, requestFriend } from "../../api/friendApi";
 import { fetchFriends } from "../../api/friendApi";
 import FriendCard from "../../components/friends/FriendCard";
+import RequestMessage from "../../components/friends/RequestMessage";
 
 function Friends() {
   const [email, setEmail] = useState("");
   const [friends, setFriends] = useState([]);
+  const [message, setMessage] = useState(null);
 
   const handleKeyDown = async (event) => {
     if (event.key === "Enter" || event.keyCode === 13) {
       event.preventDefault();
-      const response = await requestFriend(email);
-      console.log("Friend request sent:", response);
+      try {
+        const response = await requestFriend(email);
+        console.log("Friend request sent:", response);
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 404) {
+            setMessage("친구 정보를 찾을 수 없습니다.");
+          } else if (error.response.status === 409) {
+            setMessage("이미 친구 요청을 보냈습니다");
+          } else {
+            setMessage("알 수 없는 오류가 발생했습니다.");
+          }
+        } else {
+          setMessage("네트워크 오류가 발생했습니다.");
+        }
+      }
     }
   };
 
@@ -37,10 +54,12 @@ function Friends() {
 
   const handleDelete = async (friendEmail) => {
     try {
-      const response = await deleteFriend(friendEmail);
-      alert("삭제 완료");
-      // 상태 관리를 위함.
-      setFriends(friends.filter((friend) => friend.email !== friendEmail));
+      if (window.confirm("해당 친구를 정말 삭제하시겠습니까?")) {
+        const res = await deleteFriend(friendEmail);
+        alert("삭제가 완료되었습니다.");
+        // 상태 관리를 위함.
+        setFriends(friends.filter((friend) => friend.email !== friendEmail));
+      }
     } catch (err) {
       console.error(err);
     }
@@ -82,9 +101,10 @@ function Friends() {
             ))}
           </ul>
         ) : (
-          <p>친구 목록이 없습니다.</p>
+          <T.DiaryErrorMessage>친구 목록이 없습니다.</T.DiaryErrorMessage>
         )}
       </F.FriendSection>
+      {message && <RequestMessage message={message} />}
       <Menubar />
     </div>
   );

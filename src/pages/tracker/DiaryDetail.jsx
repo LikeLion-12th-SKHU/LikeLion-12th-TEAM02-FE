@@ -7,6 +7,7 @@ import * as T from "../../styles/tracker";
 import Header from "../../components/common/Header";
 import DiaryDetailForm from "../../components/tracker/DiaryDetailForm";
 import { useEffect, useState } from "react";
+import Loading from "../../components/common/Loading";
 
 const DiaryDetail = () => {
   const { id } = useParams();
@@ -57,7 +58,7 @@ const DiaryDetail = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error)
     return <T.DiaryErrorMessage>Error: {error.message}</T.DiaryErrorMessage>;
 
