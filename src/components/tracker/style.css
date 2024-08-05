@@ -81,3 +81,7 @@ input[type="radio"] {
 .react-calendar__tile--now {
   background: #fff;
 }
+
+button {
+  color: inherit;
+}
