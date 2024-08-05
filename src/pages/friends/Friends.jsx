@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
 import * as F from "../../styles/friends";
+import * as T from "../../styles/tracker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -100,7 +101,7 @@ function Friends() {
             ))}
           </ul>
         ) : (
-          <p>친구 목록이 없습니다.</p>
+          <T.DiaryErrorMessage>친구 목록이 없습니다.</T.DiaryErrorMessage>
         )}
       </F.FriendSection>
       {message && <RequestMessage message={message} />}
