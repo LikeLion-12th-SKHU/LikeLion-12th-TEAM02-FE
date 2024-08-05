@@ -65,7 +65,7 @@ const EditDiary = () => {
   }
 
   if (isError) {
-    return <div>에러가 발생했습니다.</div>;
+    return <T.DiaryErrorMessage>에러가 발생했습니다.</T.DiaryErrorMessage>;
   }
 
   return (

@@ -58,7 +58,8 @@ const DiaryDetail = () => {
   };
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error)
+    return <T.DiaryErrorMessage>Error: {error.message}</T.DiaryErrorMessage>;
 
   return (
     <T.DiaryLayout>
