@@ -29,7 +29,7 @@ const StyledDatePicker = styled(DatePicker)`
   text-align: center;
 `;
 
-const DiaryDetailForm = ({ data, onEdit, onDelete }) => {
+const DiaryDetailForm = ({ data, onEdit, onDelete, summaryData }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -72,7 +72,7 @@ const DiaryDetailForm = ({ data, onEdit, onDelete }) => {
         readOnly
       />
 
-      <T.DiaryFormLayout formHeight="400px">
+      <T.DiaryFormLayout formHeight="100%">
         <T.DiaryOptionBtn onClick={toggleMenu}>
           <FontAwesomeIcon icon={faEllipsis} />
           {menuOpen && (
@@ -97,14 +97,27 @@ const DiaryDetailForm = ({ data, onEdit, onDelete }) => {
           )}
           <T.DiaryDetailHeadline1>{data.title}</T.DiaryDetailHeadline1>
         </T.DiaryDetailTitleLayout>
-        <div>
+        <T.TextArea
+          name="content"
+          value={data.content}
+          maxLength={1024}
+          readOnly
+        />
+      </T.DiaryFormLayout>
+      <T.DiaryFormLayout formHeight="100%">
+        <T.DiaryDetailHeadline1>호야와 대화한 내용 요약</T.DiaryDetailHeadline1>
+        {summaryData ? (
           <T.TextArea
             name="content"
-            value={data.content}
+            value={summaryData}
             maxLength={1024}
             readOnly
           />
-        </div>
+        ) : (
+          <T.DiaryErrorMessage>
+            ⚠️ 해당 날짜에 호야와 대화한 내역이 없습니다.
+          </T.DiaryErrorMessage>
+        )}
       </T.DiaryFormLayout>
     </T.DiaryDetailLayout>
   );

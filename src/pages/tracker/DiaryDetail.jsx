@@ -2,10 +2,11 @@
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteDiary, fetchDiary } from "../../api/diaryApi";
+import { deleteDiary, fetchDiary, generateAiDiary } from "../../api/diaryApi";
 import * as T from "../../styles/tracker";
 import Header from "../../components/common/Header";
 import DiaryDetailForm from "../../components/tracker/DiaryDetailForm";
+import { useEffect, useState } from "react";
 
 const DiaryDetail = () => {
   const { id } = useParams();
@@ -13,6 +14,9 @@ const DiaryDetail = () => {
     queryKey: ["diary", id],
     queryFn: () => fetchDiary(id)
   });
+
+  const [summary, setSummary] = useState(null);
+  const [isSummaryLoading, setIsSummaryLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,6 +27,24 @@ const DiaryDetail = () => {
       console.error(error);
     }
   });
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      setIsSummaryLoading(true);
+      try {
+        const summaryData = await generateAiDiary(data.createdAt);
+        setSummary(summaryData.data.summary);
+      } catch (error) {
+        console.error("Failed to generate summary:", error);
+      } finally {
+        setIsSummaryLoading(false);
+      }
+    };
+
+    if (data) {
+      fetchSummary();
+    }
+  }, [id, data]);
 
   const onEdit = () => {
     navigate(`/diary/edit/${id}`);
@@ -36,20 +58,18 @@ const DiaryDetail = () => {
   };
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error)
+    return <T.DiaryErrorMessage>Error: {error.message}</T.DiaryErrorMessage>;
 
   return (
     <T.DiaryLayout>
       <Header backLink="/tracker" title="일기 조회" />
-      <DiaryDetailForm data={data} onEdit={onEdit} onDelete={onDelete} />
-      {/* <div>
-        <h1>{data.title}</h1>
-        <p>{data.content}</p>
-        <p>{data.weatherType}</p>
-        <p>{data.createdAt}</p>
-        <button onClick={handleEdit}>수정</button>
-        <button onClick={handleDelete}>삭제</button>
-      </div> */}
+      <DiaryDetailForm
+        data={data}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        summaryData={summary}
+      />
     </T.DiaryLayout>
   );
 };

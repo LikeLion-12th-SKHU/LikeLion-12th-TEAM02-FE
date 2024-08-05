@@ -1,37 +1,49 @@
 // src/api/diaryApi.js
 
 import instance from "./instance";
-const memberId = 3;
 
 // 일기 생성
 export const createDiary = async (diary) => {
-  const res = await instance.post(
-    `/api/v1/diary/create?memberId=${memberId}`,
-    diary
-  );
+  const accessToken = localStorage.getItem("accessToken");
+  const res = await instance.post(`/api/v1/diary/create`, diary, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
   return res.data;
 };
 
 // 모든 일기 조회
 export const fetchDiaries = async () => {
-  const res = await instance.get(`/api/v1/diary/display?memberId=${memberId}`);
+  const accessToken = localStorage.getItem("accessToken");
+  const res = await instance.get(`/api/v1/diary/display`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
   return res.data.data;
 };
 
 // 특정 일기 조회
 export const fetchDiary = async (diaryId) => {
-  const res = await instance.get(
-    `/api/v1/diary/display/${diaryId}?memberId=${memberId}`
-  );
+  const accessToken = localStorage.getItem("accessToken");
+  const res = await instance.get(`/api/v1/diary/display/${diaryId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
   return res.data.data;
 };
 
-export const updateDiary = async (diaryId, diary) => {
+// 일기 수정
+export const updateDiary = async (diary) => {
   try {
-    const res = await instance.patch(
-      `/api/v1/diary/update/${diaryId}?memberId=${memberId}`,
-      diary
-    );
+    const accessToken = localStorage.getItem("accessToken");
+    const res = await instance.patch(`/api/v1/diary/update`, diary, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
     return res.data;
   } catch (error) {
     console.error(error);
@@ -39,23 +51,47 @@ export const updateDiary = async (diaryId, diary) => {
   }
 };
 
+// 일기 삭제
 export const deleteDiary = async (diaryId) => {
-  const res = await instance.delete(
-    `/api/v1/diary/delete/${diaryId}?memberId=${memberId}`
-  );
+  const accessToken = localStorage.getItem("accessToken");
+  const res = await instance.delete(`/api/v1/diary/delete/${diaryId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+  return res.data;
+};
+
+// AI 일기 요약 생성
+export const generateAiDiary = async (createdAt) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const res = await instance.get(`/api/v1/diary/ai/display/${createdAt}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
   return res.data;
 };
 
 // 사용자 위치 정보
 export const fetchHospitals = async (longitude, latitude, radius = 10000) => {
   try {
-    const res = await instance.get("/api/v1/member/hospital/display", {
-      params: {
-        x: longitude,
-        y: latitude,
-        radius
+    const accessToken = localStorage.getItem("accessToken");
+    const res = await instance.get(
+      "/api/v1/member/hospital/display",
+      {
+        params: {
+          x: longitude,
+          y: latitude,
+          radius
+        }
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       }
-    });
+    );
     return res.data.data;
   } catch (err) {
     console.error(err);
