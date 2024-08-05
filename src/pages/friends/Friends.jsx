@@ -11,16 +11,32 @@ import {
 import { deleteFriend, requestFriend } from "../../api/friendApi";
 import { fetchFriends } from "../../api/friendApi";
 import FriendCard from "../../components/friends/FriendCard";
+import RequestMessage from "../../components/friends/RequestMessage";
 
 function Friends() {
   const [email, setEmail] = useState("");
   const [friends, setFriends] = useState([]);
+  const [message, setMessage] = useState(null);
 
   const handleKeyDown = async (event) => {
     if (event.key === "Enter" || event.keyCode === 13) {
       event.preventDefault();
-      const response = await requestFriend(email);
-      console.log("Friend request sent:", response);
+      try {
+        const response = await requestFriend(email);
+        console.log("Friend request sent:", response);
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 404) {
+            setMessage("친구 정보를 찾을 수 없습니다.");
+          } else if (error.response.status === 409) {
+            setMessage("이미 친구 요청을 보냈습니다");
+          } else {
+            setMessage("알 수 없는 오류가 발생했습니다.");
+          }
+        } else {
+          setMessage("네트워크 오류가 발생했습니다.");
+        }
+      }
     }
   };
 
@@ -87,6 +103,7 @@ function Friends() {
           <p>친구 목록이 없습니다.</p>
         )}
       </F.FriendSection>
+      {message && <RequestMessage message={message} />}
       <Menubar />
     </div>
   );
