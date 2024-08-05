@@ -21,6 +21,7 @@ export const fetchDiaries = async () => {
       Authorization: `Bearer ${accessToken}`
     }
   });
+  console.log("env테스트");
   return res.data.data;
 };
 
