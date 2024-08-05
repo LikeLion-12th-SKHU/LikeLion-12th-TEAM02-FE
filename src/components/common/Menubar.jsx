@@ -21,7 +21,7 @@ export default function Menubar() {
     right: 0;
     max-width: 430px;
     margin: 0 auto;
-    height: 6vh;
+    height: 8vh;
     background-color: #fff;
     box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -31,8 +31,8 @@ export default function Menubar() {
   `;
 
   const NavWrap = styled.div`
+    display: flex;
     width: 20%;
-    height: 50px;
     line-height: 50px;
     text-align: center;
   `;
@@ -40,10 +40,6 @@ export default function Menubar() {
   const NavIconImg = styled.img`
     width: 28px;
     height: 28px;
-  `;
-
-  const NavLink = styled(Link)`
-    height: 50%;
   `;
 
   const locationNow = useLocation();
@@ -60,7 +56,7 @@ export default function Menubar() {
   ) {
     return (
       <NavContainer>
-        <NavLink to="/">
+        <Link to="/">
           <NavWrap>
             {locationNow.pathname === "/" ? (
               <NavIconImg src={HomeSolid} />
@@ -68,8 +64,8 @@ export default function Menubar() {
               <NavIconImg src={Home} />
             )}
           </NavWrap>
-        </NavLink>
-        <NavLink to="/chat">
+        </Link>
+        <Link to="/chat">
           <NavWrap>
             {locationNow.pathname === "/chat" ? (
               <NavIconImg src={ChatSolid} />
@@ -77,8 +73,8 @@ export default function Menubar() {
               <NavIconImg src={Chat} />
             )}
           </NavWrap>
-        </NavLink>
-        <NavLink to="/tracker">
+        </Link>
+        <Link to="/tracker">
           <NavWrap>
             <NavWrap>
               {locationNow.pathname === "/tracker" ? (
@@ -88,8 +84,8 @@ export default function Menubar() {
               )}
             </NavWrap>
           </NavWrap>
-        </NavLink>
-        <NavLink to="/friends">
+        </Link>
+        <Link to="/friends">
           <NavWrap>
             <NavWrap>
               {locationNow.pathname === "/friends" ? (
@@ -99,8 +95,8 @@ export default function Menubar() {
               )}
             </NavWrap>
           </NavWrap>
-        </NavLink>
-        <NavLink to="/settings">
+        </Link>
+        <Link to="/settings">
           <NavWrap>
             <NavWrap>
               {locationNow.pathname === "/settings" ? (
@@ -110,7 +106,7 @@ export default function Menubar() {
               )}
             </NavWrap>
           </NavWrap>
-        </NavLink>
+        </Link>
       </NavContainer>
     );
   } else {
