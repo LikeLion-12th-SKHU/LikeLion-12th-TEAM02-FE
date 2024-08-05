@@ -13,35 +13,35 @@ import FriendsSolid from "../../assets/icons/Friends-Solid.svg";
 import Settings from "../../assets/icons/Settings.svg";
 import SettingsSolid from "../../assets/icons/Settings-Solid.svg";
 
+const NavContainer = styled.nav`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 430px;
+  margin: 0 auto;
+  height: 8vh;
+  background-color: #fff;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  overflow: hidden;
+`;
+
+const NavWrap = styled.div`
+  display: flex;
+  width: 20%;
+  line-height: 50px;
+  text-align: center;
+`;
+
+const NavIconImg = styled.img`
+  width: 28px;
+  height: 28px;
+`;
+
 export default function Menubar() {
-  const NavContainer = styled.nav`
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-width: 430px;
-    margin: 0 auto;
-    height: 8vh;
-    background-color: #fff;
-    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    overflow: hidden;
-  `;
-
-  const NavWrap = styled.div`
-    display: flex;
-    width: 20%;
-    line-height: 50px;
-    text-align: center;
-  `;
-
-  const NavIconImg = styled.img`
-    width: 28px;
-    height: 28px;
-  `;
-
   const locationNow = useLocation();
 
   if (

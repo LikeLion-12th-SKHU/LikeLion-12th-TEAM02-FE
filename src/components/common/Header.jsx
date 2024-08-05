@@ -8,7 +8,7 @@ import styled from "styled-components";
 const HeaderLayout = styled.header`
   max-width: 430px;
   min-width: 360px;
-  height: 40px;
+  height: 7.5vh;
 
   display: flex;
   align-items: center;
@@ -26,7 +26,7 @@ const Title = styled.h1`
   padding-right: 20px;
   color: #fff;
   font-family: Pretendard;
-  font-size: 1rem;
+  font-size: 1.2rem;
 `;
 
 const Header = ({ title, backLink }) => {
