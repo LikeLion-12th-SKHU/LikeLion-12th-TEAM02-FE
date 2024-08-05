@@ -2,10 +2,11 @@
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteDiary, fetchDiary } from "../../api/diaryApi";
+import { deleteDiary, fetchDiary, generateAiDiary } from "../../api/diaryApi";
 import * as T from "../../styles/tracker";
 import Header from "../../components/common/Header";
 import DiaryDetailForm from "../../components/tracker/DiaryDetailForm";
+import { useEffect, useState } from "react";
 
 const DiaryDetail = () => {
   const { id } = useParams();
@@ -13,6 +14,9 @@ const DiaryDetail = () => {
     queryKey: ["diary", id],
     queryFn: () => fetchDiary(id)
   });
+
+  const [summary, setSummary] = useState(null);
+  const [isSummaryLoading, setIsSummaryLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,6 +27,24 @@ const DiaryDetail = () => {
       console.error(error);
     }
   });
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      setIsSummaryLoading(true);
+      try {
+        const summaryData = await generateAiDiary(data.createdAt);
+        setSummary(summaryData.data.summary);
+      } catch (error) {
+        console.error("Failed to generate summary:", error);
+      } finally {
+        setIsSummaryLoading(false);
+      }
+    };
+
+    if (data) {
+      fetchSummary();
+    }
+  }, [id, data]);
 
   const onEdit = () => {
     navigate(`/diary/edit/${id}`);
@@ -41,7 +63,12 @@ const DiaryDetail = () => {
   return (
     <T.DiaryLayout>
       <Header backLink="/tracker" title="일기 조회" />
-      <DiaryDetailForm data={data} onEdit={onEdit} onDelete={onDelete} />
+      <DiaryDetailForm
+        data={data}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        summaryData={summary}
+      />
     </T.DiaryLayout>
   );
 };

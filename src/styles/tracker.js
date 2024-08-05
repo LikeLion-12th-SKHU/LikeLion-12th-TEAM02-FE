@@ -71,6 +71,8 @@ export const TextArea = styled.textarea`
   resize: none;
   width: 100%;
   height: 100%;
+  line-height: 150%;
+  min-height: 140px;
 `;
 
 export const SubmitBtn = styled.button`
@@ -214,4 +216,11 @@ export const CardSpan = styled.span`
 export const CardImg = styled.img`
   width: 32px;
   height: 32px;
+`;
+
+export const DiaryErrorMessage = styled.p`
+  font-size: 14px;
+  font-family: Pretendard;
+  font-weight: 400;
+  color: #999;
 `;

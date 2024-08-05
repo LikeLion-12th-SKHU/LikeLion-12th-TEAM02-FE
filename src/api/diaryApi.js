@@ -35,6 +35,7 @@ export const fetchDiary = async (diaryId) => {
   return res.data.data;
 };
 
+// 일기 수정
 export const updateDiary = async (diary) => {
   try {
     const accessToken = localStorage.getItem("accessToken");
@@ -50,9 +51,21 @@ export const updateDiary = async (diary) => {
   }
 };
 
+// 일기 삭제
 export const deleteDiary = async (diaryId) => {
   const accessToken = localStorage.getItem("accessToken");
   const res = await instance.delete(`/api/v1/diary/delete/${diaryId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+  return res.data;
+};
+
+// AI 일기 요약 생성
+export const generateAiDiary = async (createdAt) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const res = await instance.get(`/api/v1/diary/ai/display/${createdAt}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
