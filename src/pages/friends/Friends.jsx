@@ -37,10 +37,12 @@ function Friends() {
 
   const handleDelete = async (friendEmail) => {
     try {
-      const response = await deleteFriend(friendEmail);
-      alert("삭제 완료");
-      // 상태 관리를 위함.
-      setFriends(friends.filter((friend) => friend.email !== friendEmail));
+      if (window.confirm("해당 친구를 정말 삭제하시겠습니까?")) {
+        const res = await deleteFriend(friendEmail);
+        alert("삭제가 완료되었습니다.");
+        // 상태 관리를 위함.
+        setFriends(friends.filter((friend) => friend.email !== friendEmail));
+      }
     } catch (err) {
       console.error(err);
     }

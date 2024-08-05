@@ -5,6 +5,7 @@ import { fetchDiaries } from "../../api/diaryApi";
 import Header from "../../components/common/Header";
 import DiaryCalendar from "../../components/tracker/DiaryCalendar";
 import * as T from "../../styles/tracker";
+import Loading from "../../components/common/Loading";
 
 export default function Tracker() {
   const { data, error, isLoading } = useQuery({
@@ -12,7 +13,7 @@ export default function Tracker() {
     queryFn: fetchDiaries
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error)
     return <T.DiaryErrorMessage>Error: {error.message}</T.DiaryErrorMessage>;
 

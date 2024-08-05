@@ -33,6 +33,7 @@ import DiaryDetail from "./pages/tracker/DiaryDetail";
 import EditDiary from "./pages/tracker/EditDiary";
 import RecommendHospital from "./pages/tracker/RecommendHospital";
 import RequestList from "./pages/friends/RequestList";
+import Loading from "./components/common/Loading";
 
 function App() {
   return (
