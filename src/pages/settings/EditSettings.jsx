@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import instance from "../../api/instance";
 import Menubar from "../../components/common/Menubar";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import BackArrowIcon from "../../assets/icons/BackArrow.svg";
 import Header from "../../components/common/Header";
 
 const EditSettings = () => {
@@ -18,14 +17,11 @@ const EditSettings = () => {
 
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/member/info",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("/api/v1/member/info", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
           const { name } = response.data.data;
           setOriginalName(name);
           setName(name);
@@ -48,8 +44,8 @@ const EditSettings = () => {
         const accessToken = localStorage.getItem("accessToken");
 
         if (accessToken) {
-          await axios.patch(
-            "https://moodfriend.site/api/v1/member/info/edit",
+          await instance.patch(
+            "/api/v1/member/info/edit",
             { name },
             {
               headers: {
@@ -75,9 +71,8 @@ const EditSettings = () => {
       <Header title="내 정보 수정" backLink="/information-setting" />
 
       <Container>
-        <BackButton src={BackArrowIcon} onClick={() => navigate(-1)} />
         <ContentWrapper>
-          <Title>사용자 정보</Title>
+          <Title>변경할 이름을 작성해주세요.</Title>
           <Input
             type="text"
             value={name}
@@ -104,14 +99,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Box = styled.div`
-  padding: 15px;
-  background-color: ${(props) => props.theme.color.primaryColor};
-`;
-
-const ContentWrapper = styled.div`
-  padding-left: 40px;
-`;
+const ContentWrapper = styled.div``;
 
 const ButtonWrapper = styled.div`
   margin-top: 20px;
@@ -133,19 +121,6 @@ const ConfirmButton = styled.button`
   &:active {
     background-color: ${(props) => props.theme.color.primaryColor};
     transform: scale(0.98);
-  }
-`;
-const BackButton = styled.img`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  transition: transform 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.1);
   }
 `;
 

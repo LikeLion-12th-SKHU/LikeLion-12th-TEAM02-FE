@@ -3,10 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Menubar from "../../components/common/Menubar";
-import BackArrowIcon from "../../assets/icons/BackArrow.svg";
 import WithdrawalIcon from "../../assets/icons/Withdrawal.svg";
 import CheckIcon from "../../assets/icons/Check.svg";
 import Header from "../../components/common/Header";
+import instance from "../../api/instance";
 
 const WithdrawalSettings = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -62,19 +62,16 @@ const WithdrawalSettings = () => {
       const accessToken = localStorage.getItem("accessToken");
       if (window.confirm("회원탈퇴 하시겠습니까?")) {
         try {
-          const response = await fetch(
-            "https://moodfriend.site/api/v1/account/withdraw",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`
-              },
-              body: JSON.stringify({
-                reason: reason
-              })
-            }
-          );
+          const response = await instance.get("/api/v1/account/withdraw", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              reason: reason
+            })
+          });
 
           if (!response.ok) {
             const errorText = await response.text(); // 응답을 텍스트로 읽음

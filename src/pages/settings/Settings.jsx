@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Menubar from "../../components/common/Menubar";
 import FrontArrowIcon from "../../assets/icons/FrontArrow.svg";
 import FeedbackIcon from "../../assets/icons/Feedback.svg";
@@ -9,7 +9,7 @@ import WithdrawalIcon from "../../assets/icons/Withdrawal.svg";
 import ProfileIcon from "../../assets/icons/Profile.svg";
 import styled from "styled-components";
 import Header from "../../components/common/Header";
-import axios from "axios";
+import instance from "../../api/instance";
 
 const Settings = () => {
   const [email, setEmail] = useState("");
@@ -25,8 +25,8 @@ const Settings = () => {
         const refreshToken = localStorage.getItem("refreshToken");
 
         if (refreshToken) {
-          await axios.post(
-            "https://moodfriend.site/api/v1/account/logout",
+          await instance.post(
+            "/api/v1/account/logout",
             {},
             {
               headers: {
@@ -55,14 +55,11 @@ const Settings = () => {
 
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/member/info",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("/api/v1/member/info", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
           const { email, name } = response.data.data;
           setEmail(email);
           setName(name);
