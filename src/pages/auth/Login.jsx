@@ -18,7 +18,7 @@ const Login = () => {
 
   // 구글 로그인 URL을 정의
   const G_CLIENT_ID = process.env.REACT_APP_G_CLIENT_ID;
-  const G_REDIRECT_URI = "https://moodfriend.site/auth/callback/google";
+  const G_REDIRECT_URI = "https://moodfriend.vercel.app/auth/callback/google";
   const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${G_CLIENT_ID}&redirect_uri=${G_REDIRECT_URI}&response_type=code&scope=email%20profile`;
 
   const handleKakaoLogin = () => {
