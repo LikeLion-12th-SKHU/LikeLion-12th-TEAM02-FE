@@ -162,7 +162,7 @@ const FormGroup = styled.div`
 const InputEmail = styled.input`
   width: 100%;
   padding: 10px 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   font-family: "Pretendard";
@@ -188,7 +188,6 @@ const Button = styled.button`
   width: 100%;
   border-radius: 8px;
   padding: 15px 0;
-  margin: 15px 0;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: #ffffff;
   cursor: pointer;
