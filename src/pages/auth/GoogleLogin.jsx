@@ -19,7 +19,6 @@ const GoogleLogin = () => {
           console.log(accessToken, refreshToken);
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
-          alert("로그인 되었습니다.");
           navigate("/");
         })
         .catch((error) => {
