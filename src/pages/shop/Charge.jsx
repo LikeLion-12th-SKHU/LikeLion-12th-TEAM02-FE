@@ -51,7 +51,7 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 10px;
   background-color: ${(props) => props.theme.color.primaryColor};
   position: relative;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -72,7 +72,7 @@ const MyText = styled.span`
 `;
 
 const Content = styled.div`
-  padding: 20px;
+  padding: 10px;
 `;
 
 const TopRow = styled.div`
@@ -97,12 +97,11 @@ const ObjCheckText2 = styled.span`
 `;
 
 const PaymentContainer = styled.div`
-  margin: 20px;
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  margin: 10px;
   display: flex;
   justify-content: space-between;
   cursor: pointer;

@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import WhiteBackArrowIcon from "../../assets/icons/WhiteBackArrow.svg";
+import KakaopayIcon from "../../assets/icons/Kakaopay.svg";
+import TosspayIcon from "../../assets/icons/Tosspay.svg";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { productName, price: initialPrice } = location.state || {};
+  const [price, setPrice] = useState(initialPrice || 0);
 
   useEffect(() => {
-    // 아임포트 스크립트 로드
     const script = document.createElement("script");
     script.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
     script.async = true;
@@ -17,11 +22,11 @@ const PaymentPage = () => {
     };
   }, []);
 
-  const handlePayment = () => {
+  const handlePayment = (pg) => {
     const order = {
       productId: 1,
-      productName: "상품1",
-      price: 3000,
+      productName: productName || "상품1",
+      price: price,
       quantity: 1,
       buyerName: "김민규",
       buyerTel: "010-1234-5678"
@@ -35,21 +40,25 @@ const PaymentPage = () => {
       return;
     }
 
+    console.log("impCode:", impCode);
+    console.log("pg:", pg);
+    console.log("order:", order);
+
     window.IMP.init(impCode);
     window.IMP.request_pay(
       {
-        pg: "kakaopay",
+        pg: pg,
         pay_method: "card",
-        merchant_uid: `order_${new Date().getTime()}`, // 주문번호 생성
+        merchant_uid: `order_${new Date().getTime()}`,
         name: order.productName,
-        amount: order.price, // 결제 가격
+        amount: order.price,
         buyer_name: order.buyerName,
         buyer_tel: order.buyerTel,
-        m_redirect_url: `${window.location.origin}/payment-result` // 리디렉션 URL 설정
+        m_redirect_url: `${window.location.origin}/payment-result`
       },
       (rsp) => {
+        console.log("response:", rsp);
         if (rsp.success) {
-          // 결제 성공 시 백엔드로 결과를 전송
           fetch("/api/v1/payment/order", {
             method: "POST",
             headers: {
@@ -63,9 +72,10 @@ const PaymentPage = () => {
           })
             .then((res) => res.json())
             .then((result) => {
+              console.log("result:", result);
               if (result.success) {
                 alert("결제가 완료되었습니다.");
-                navigate("/"); // 결제 완료 후 메인 페이지로 이동
+                navigate("/");
               } else {
                 alert("결제 처리에 실패하였습니다.");
               }
@@ -82,10 +92,126 @@ const PaymentPage = () => {
   };
 
   return (
-    <div>
-      <button onClick={handlePayment}>카카오페이 결제</button>
-    </div>
+    <>
+      <Box>
+        <BackButton src={WhiteBackArrowIcon} onClick={() => navigate(-1)} />
+        <MyText>주문/결제</MyText>
+      </Box>
+      <Content>
+        <TopRow>
+          <ObjCheckText>결제 금액</ObjCheckText>
+        </TopRow>
+        <FormGroup>
+          <PriceInput
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(Number(e.target.value))}
+          />
+          <h3>원</h3>
+        </FormGroup>
+      </Content>
+      <ButtonContent>
+        <ObjCheckText>결제 수단</ObjCheckText>
+        <PaymentButton onClick={() => handlePayment("kakaopay")}>
+          <img src={KakaopayIcon} alt="KakaoPay" />
+        </PaymentButton>
+        <PaymentButton onClick={() => handlePayment("tosspayments")}>
+          <img src={TosspayIcon} alt="TossPay" />
+        </PaymentButton>
+      </ButtonContent>
+    </>
   );
 };
 
 export default PaymentPage;
+
+const Box = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  background-color: ${(props) => props.theme.color.primaryColor};
+  position: relative;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+const BackButton = styled.img`
+  position: absolute;
+  left: 20px;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+`;
+
+const MyText = styled.span`
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: bold;
+`;
+
+const Content = styled.div`
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+`;
+
+const ButtonContent = styled.div`
+  display: block;
+  justify-content: space-around;
+  gap: 20px;
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+`;
+
+const TopRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const ObjCheckText = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const PriceInput = styled.input`
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 300px;
+  text-align: right;
+  margin: 5px;
+`;
+
+const PaymentButton = styled.button`
+  background-color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 10px;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  img {
+    width: 80px;
+    height: 40px;
+  }
+`;
