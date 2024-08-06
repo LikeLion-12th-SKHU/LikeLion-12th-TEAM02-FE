@@ -11,9 +11,12 @@ const GoogleLogin = () => {
   useEffect(() => {
     if (code) {
       axios
-        .get(`https://moodfriend.site/api/v1/auth/callback/google?code=${code}`)
+        .get(
+          `https://moodfriend.site/api/v1/auth/callback/google?code=${code}&redirect_uri=${process.env.REACT_APP_GOOGLE_AUTH_REDIRECT_URI}`
+        )
         .then((response) => {
           const { accessToken, refreshToken } = response.data.data;
+          console.log(accessToken, refreshToken);
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           alert("로그인 되었습니다.");
