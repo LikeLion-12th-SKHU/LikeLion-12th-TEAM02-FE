@@ -28,6 +28,7 @@ const PaymentPage = () => {
     };
 
     const impCode = process.env.REACT_APP_IMP_CODE;
+    console.log(impCode);
 
     if (!window.IMP) {
       alert("아임포트 로드 중 오류가 발생했습니다.");
