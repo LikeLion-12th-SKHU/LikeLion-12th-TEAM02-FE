@@ -77,9 +77,16 @@ const Settings = () => {
     fetchUserData();
   }, []);
 
+  const handleInformLink = (linkPath) => {
+    navigate(linkPath);
+  };
+
+  const handleExternalLink = (linkPath) => {
+    window.location.href = linkPath;
+  };
+
   return (
     <>
-      <Menubar />
       <Box>
         <LogoText>M</LogoText>
         <MyText>내정보</MyText>
@@ -92,56 +99,49 @@ const Settings = () => {
         </ProfileSection>
       </Box>
       <Container>
-        <LinkWrapper>
+        <LinkWrapper onClick={() => handleInformLink("/information-setting")}>
           <InformationImg src={UserInformIcon} alt="UserInform" />
           <TextWrapper>
             <Text>사용자 정보</Text>
             <SubText>사용자의 정보를 조회할 수 있습니다.</SubText>
           </TextWrapper>
-          <Link to="/information-setting">
-            <Img src={FrontArrowIcon} alt="FrontArrow" />
-          </Link>
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
         </LinkWrapper>
         <Separator />
-        <FeedbackWrapper>
+        <FeedbackWrapper
+          onClick={() =>
+            handleExternalLink("https://open.kakao.com/o/sSeRtsGg")
+          }
+        >
           <FeedbackImg src={FeedbackIcon} alt="Feedback" />
           <FeedbackTextWrapper>
             <Text>개발자 피드백</Text>
             <SubText>개발자에게 피드백을 할 수 있습니다.</SubText>
           </FeedbackTextWrapper>
-          <a
-            href="https://open.kakao.com/o/sSeRtsGg"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Img src={FrontArrowIcon} alt="FrontArrow" />
-          </a>
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
         </FeedbackWrapper>
         <Separator />
-        <LogoutWrapper>
+        <LogoutWrapper onClick={handleLogoutClick}>
           <LogoutImg src={LogoutIcon} alt="Logout" />
           <TextWrapper>
             <Text>로그아웃</Text>
             <SubText>일시적으로 계정을 나갈 수 있습니다.</SubText>
           </TextWrapper>
-          <Img
-            src={FrontArrowIcon}
-            alt="FrontArrow"
-            onClick={handleLogoutClick}
-          />
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
         </LogoutWrapper>
         <Separator />
-        <WithdrawalWrapper>
+        <WithdrawalWrapper
+          onClick={() => handleInformLink("/Withdrawal-setting")}
+        >
           <WithdrawalImg src={WithdrawalIcon} alt="Withdrawal" />
           <TextWrapper>
             <Text>회원탈퇴</Text>
             <SubText>영구적으로 계정을 지울 수 있습니다.</SubText>
           </TextWrapper>
-          <Link to="/Withdrawal-setting">
-            <Img src={FrontArrowIcon} alt="FrontArrow" />
-          </Link>
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
         </WithdrawalWrapper>
       </Container>
+      <Menubar />
     </>
   );
 };
@@ -156,8 +156,6 @@ const Container = styled.div`
   align-items: center;
   max-width: 430px;
   min-width: 360px;
-  max-height: 932px;
-  min-height: 780px;
   margin: auto;
 `;
 
@@ -195,35 +193,42 @@ const EditProfile = styled.span`
 const LinkWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
+  padding: 20px 0;
+  gap: 30px;
 `;
 
 const FeedbackWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
+  padding: 20px 0;
+  gap: 30px;
 `;
 
 const LogoutWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
+  padding: 20px 0;
+  gap: 30px;
 `;
 
 const WithdrawalWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
+  padding: 20px 0;
+  gap: 30px;
 `;
 
 const Separator = styled.div`
   width: 100%;
   border-bottom: 1px solid #ddd;
-  margin: 20px 0; /* 조정된 간격 */
 `;
 
 const FeedbackImg = styled.img`
@@ -268,12 +273,14 @@ const FeedbackTextWrapper = styled.div`
 `;
 
 const Text = styled.span`
+  font-family: Pretendard;
   font-size: 16px;
   color: #333;
   cursor: pointer;
 `;
 
 const LogoText = styled.span`
+  font-family: Pretendard;
   font-size: 18pt;
   font-weight: bold;
   color: #ffffff;
@@ -281,6 +288,7 @@ const LogoText = styled.span`
 `;
 
 const MyText = styled.span`
+  font-family: Pretendard;
   margin: 10px;
   font-size: 18px;
   color: #ffffff;
@@ -288,6 +296,7 @@ const MyText = styled.span`
 `;
 
 const Name = styled.span`
+  font-family: Pretendard;
   margin-left: 20px;
   font-size: 16px;
   color: #ffffff;
@@ -295,6 +304,7 @@ const Name = styled.span`
 `;
 
 const Email = styled.span`
+  font-family: Pretendard;
   margin-left: 20px;
   font-size: 12px;
   color: #bbbbbb;
@@ -302,6 +312,7 @@ const Email = styled.span`
 `;
 
 const SubText = styled.span`
+  font-family: Pretendard;
   font-size: 12px;
   color: #666;
   margin-top: 5px;
