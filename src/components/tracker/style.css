@@ -85,3 +85,7 @@ input[type="radio"] {
 button {
   color: inherit;
 }
+
+.react-datepicker__input-container {
+  width: 124px !important;
+}
