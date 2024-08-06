@@ -15,7 +15,6 @@ const KakaoLogin = () => {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           alert("로그인 되었습니다.");
-          console.log("카카오 로그인 성공! 메인 화면으로 이동합니다."); // 디버깅 로그
           navigate("/"); // 메인 화면으로 전환
         })
         .catch((error) => {
