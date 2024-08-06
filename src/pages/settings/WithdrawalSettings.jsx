@@ -6,6 +6,7 @@ import Menubar from "../../components/common/Menubar";
 import BackArrowIcon from "../../assets/icons/BackArrow.svg";
 import WithdrawalIcon from "../../assets/icons/Withdrawal.svg";
 import CheckIcon from "../../assets/icons/Check.svg";
+import Header from "../../components/common/Header";
 
 const WithdrawalSettings = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -128,15 +129,10 @@ const WithdrawalSettings = () => {
 
   return (
     <>
-      <Menubar />
-      <Box>
-        <LogoText>M</LogoText>
-        <MyText>내정보</MyText>
-      </Box>
+      <Header title="회원 탈퇴" backLink="/settings" />
+
       <Container>
-        <BackButton src={BackArrowIcon} onClick={() => navigate(-1)} />
         <ContentWrapper>
-          <Title>회원탈퇴</Title>
           <Title2>{name}님! </Title2>
           <Title>정말 탈퇴하시겠습니까?</Title>
           <WithdrawalWrapper>
@@ -199,6 +195,7 @@ const WithdrawalSettings = () => {
           </ConfirmButton>
         </ButtonWrapper>
       </Container>
+      <Menubar />
     </>
   );
 };
@@ -206,33 +203,17 @@ const WithdrawalSettings = () => {
 export default WithdrawalSettings;
 
 // 스타일 컴포넌트 정의
-const Box = styled.div`
-  padding: 15px;
-  background-color: ${(props) => props.theme.color.primaryColor};
-`;
 
 const Container = styled.div`
   padding: 20px;
-  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   height: 100vh;
 `;
 
-const BackButton = styled.img`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  transition: transform 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
 const ContentWrapper = styled.div`
-  padding-left: 30px;
+  width: 100%;
 `;
 
 const TextWrapper = styled.div``;
@@ -245,8 +226,6 @@ const WithdrawalWrapper = styled.div`
 `;
 
 const ReasonWrapper = styled.div`
-  display: flex;
-  align-items: center;
   margin-top: 50px;
   width: 100%;
 `;
@@ -261,17 +240,20 @@ const WithdrawalImg = styled.img`
 `;
 
 const Textarea = styled.textarea`
-  width: 35vh;
+  width: 100%;
   height: 20vh;
   padding: 10px;
   margin-top: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-family: Pretendard;
   font-size: 12px;
   color: #767676;
+  outline: none;
 `;
 
 const Title = styled.span`
+  font-family: Pretendard;
   font-size: 16px;
   margin: 5px 0;
   padding-bottom: 20px;
@@ -280,6 +262,7 @@ const Title = styled.span`
 `;
 
 const Title2 = styled.span`
+  font-family: Pretendard;
   font-size: 16px;
   margin: 5px 0;
   font-weight: bold;
@@ -287,6 +270,7 @@ const Title2 = styled.span`
 `;
 
 const Text2 = styled.span`
+  font-family: Pretendard;
   font-size: 20px;
   margin: 10px 0;
   display: block;
@@ -294,23 +278,10 @@ const Text2 = styled.span`
 `;
 
 const SubText = styled.span`
+  font-family: Pretendard;
   font-size: 14px;
   margin-top: 5px;
   margin-left: 10px;
-`;
-
-const LogoText = styled.span`
-  font-size: 18pt;
-  font-weight: bold;
-  color: #ffffff;
-  cursor: pointer;
-`;
-
-const MyText = styled.span`
-  margin: 10px;
-  font-size: 18px;
-  color: #ffffff;
-  cursor: pointer;
 `;
 
 const ButtonWrapper = styled.div`
@@ -320,14 +291,14 @@ const ButtonWrapper = styled.div`
 const ConfirmButton = styled.button`
   width: 100%;
   border-radius: 8px;
-  padding: 15px 0;
+  padding: 15px 20px;
   margin: 15px 0;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: #ffffff;
   cursor: pointer;
   font-family: "Pretendard";
   font-weight: 500;
-  font-size: 14pt;
+  font-size: 14px;
   border: none;
 
   &:active {
@@ -338,6 +309,7 @@ const ConfirmButton = styled.button`
 
 const ErrorWrapper = styled.div`
   color: red;
+  font-family: Pretendard;
   font-size: 14px;
   margin-top: 10px;
 `;

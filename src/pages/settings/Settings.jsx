@@ -8,6 +8,7 @@ import LogoutIcon from "../../assets/icons/Logout.svg";
 import WithdrawalIcon from "../../assets/icons/Withdrawal.svg";
 import ProfileIcon from "../../assets/icons/Profile.svg";
 import styled from "styled-components";
+import Header from "../../components/common/Header";
 import axios from "axios";
 
 const Settings = () => {
@@ -87,9 +88,8 @@ const Settings = () => {
 
   return (
     <>
+      <Header title="내 정보" backLink="/" />
       <Box>
-        <LogoText>M</LogoText>
-        <MyText>내정보</MyText>
         <ProfileSection>
           <ProfileImage src={ProfileIcon} alt="Profile" />
           <ProfileInfo>

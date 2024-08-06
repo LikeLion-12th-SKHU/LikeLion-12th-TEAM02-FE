@@ -3,7 +3,8 @@ import axios from "axios";
 import Menubar from "../../components/common/Menubar";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import BackArrowIcon from "../../assets/icons/BackArrow.svg"; // 아이콘 import
+import BackArrowIcon from "../../assets/icons/BackArrow.svg";
+import Header from "../../components/common/Header";
 
 const InformationSettings = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,6 @@ const InformationSettings = () => {
 
   const handleChangeClick = async () => {
     try {
-      console.log("수정 시도 성공");
       navigate("/edit-setting");
     } catch (error) {
       console.error("수정 시도 중 오류 발생:", error);
@@ -62,11 +62,7 @@ const InformationSettings = () => {
 
   return (
     <>
-      <Menubar />
-      <Box>
-        <LogoText>M</LogoText>
-        <MyText>내정보</MyText>
-      </Box>
+      <Header title="내 정보" backLink="/settings" />
       <Container>
         {" "}
         <BackButton src={BackArrowIcon} onClick={() => navigate(-1)} />
@@ -82,6 +78,7 @@ const InformationSettings = () => {
           <ConfirmButton onClick={handleChangeClick}>수정하기</ConfirmButton>
         </ButtonWrapper>
       </Container>
+      <Menubar />
     </>
   );
 };
@@ -142,6 +139,7 @@ const ConfirmButton = styled.button`
 `;
 
 const Title = styled.span`
+  font-family: "Pretendard";
   font-size: 16px;
   margin: 5px 0;
   padding-bottom: 20px;
@@ -150,26 +148,14 @@ const Title = styled.span`
 `;
 
 const Text = styled.span`
+  font-family: "Pretendard";
   font-size: 16px;
   margin: 10px 0;
   display: block;
 `;
 
 const ErrorText = styled.p`
+  font-family: "Pretendard";
   color: red;
   font-size: 16px;
-`;
-
-const LogoText = styled.span`
-  font-size: 18pt;
-  font-weight: bold;
-  color: #ffffff; /* 글씨 색상 */
-  cursor: pointer;
-`;
-
-const MyText = styled.span`
-  margin: 10px;
-  font-size: 18px; /* 글씨 크기 */
-  color: #ffffff; /* 글씨 색상 */
-  cursor: pointer;
 `;

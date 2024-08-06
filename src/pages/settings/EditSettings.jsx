@@ -4,6 +4,7 @@ import Menubar from "../../components/common/Menubar";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BackArrowIcon from "../../assets/icons/BackArrow.svg";
+import Header from "../../components/common/Header";
 
 const EditSettings = () => {
   const navigate = useNavigate();
@@ -71,11 +72,8 @@ const EditSettings = () => {
 
   return (
     <>
-      <Menubar />
-      <Box>
-        <LogoText>M</LogoText>
-        <MyText>내정보</MyText>
-      </Box>
+      <Header title="내 정보 수정" backLink="/information-setting" />
+
       <Container>
         <BackButton src={BackArrowIcon} onClick={() => navigate(-1)} />
         <ContentWrapper>
@@ -92,6 +90,7 @@ const EditSettings = () => {
           {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
         </ButtonWrapper>
       </Container>
+      <Menubar />
     </>
   );
 };
@@ -136,21 +135,6 @@ const ConfirmButton = styled.button`
     transform: scale(0.98);
   }
 `;
-
-const LogoText = styled.span`
-  font-size: 18pt;
-  font-weight: bold;
-  color: #ffffff;
-  cursor: pointer;
-`;
-
-const MyText = styled.span`
-  margin: 10px;
-  font-size: 18px;
-  color: #ffffff;
-  cursor: pointer;
-`;
-
 const BackButton = styled.img`
   position: absolute;
   top: 20px;
@@ -166,6 +150,7 @@ const BackButton = styled.img`
 `;
 
 const Title = styled.span`
+  font-family: "Pretendard";
   font-size: 16px;
   margin: 5px 0;
   padding-bottom: 20px;
@@ -179,10 +164,12 @@ const Input = styled.input`
   margin-top: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  font-family: "Pretendard";
   font-size: 16px;
 `;
 
 const ErrorText = styled.span`
+  font-family: "Pretendard";
   color: red;
   font-size: 14px;
 `;
