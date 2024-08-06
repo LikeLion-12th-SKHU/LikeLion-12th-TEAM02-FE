@@ -7,7 +7,6 @@ import WhiteBackArrowIcon from "../../assets/icons/WhiteBackArrow.svg";
 import AngryHoyaIcon from "../../assets/icons/AngryHoya.svg";
 import ShopIcon from "../../assets/icons/Shop.svg";
 import ObjCheckIcon from "../../assets/icons/ObjCheck.svg";
-import XIcon from "../../assets/icons/X.svg";
 import HeartObjIcon from "../../assets/icons/HeartObj.svg";
 import PinkHeartObjIcon from "../../assets/icons/PinkHeartObj.svg";
 import BlackHeartObjIcon from "../../assets/icons/BlackHeartObj.svg";
@@ -16,101 +15,72 @@ const Gift = () => {
   const [objectNames, setObjectNames] = useState([]);
   const [objectStatuses, setObjectStatuses] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [viewMode, setViewMode] = useState("owned"); // "owned" or "available"
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const accessToken = localStorage.getItem("accessToken");
-      if (accessToken) {
-        try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/object/display",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
-            }
-          );
-
-          console.log("API 응답 데이터:", response.data); // 응답 데이터 확인
-
-          const objectData = response.data.data;
-          if (objectData && objectData.length > 0) {
-            const names = objectData.map((obj) => obj.objectName);
-            const statuses = objectData.map((obj) => obj.isVisible);
-            setObjectNames(names);
-            setObjectStatuses(statuses);
-
-            localStorage.setItem("objectNames", JSON.stringify(names));
-            localStorage.setItem("objectStatuses", JSON.stringify(statuses));
-          } else {
-            console.error("data 배열에 오브제 정보가 없습니다.");
-            setErrorMessage("서버에서 오브제 정보를 가져오지 못했습니다.");
+  const fetchObjectData = async (url) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
           }
-        } catch (error) {
-          console.error("사용자 정보 조회 실패:", error);
-          setErrorMessage("사용자 정보를 불러올 수 없습니다.");
-        }
-      } else {
-        console.log("액세스 토큰이 없습니다.");
-      }
-    };
+        });
 
-    fetchUserData();
-  }, []);
+        console.log("API 응답 데이터:", response.data);
+
+        const objectData = response.data.data;
+        if (objectData && objectData.length > 0) {
+          const names = objectData.map((obj) => obj.objectName || obj);
+          const statuses = objectData.map((obj) => obj.status || false);
+          setObjectNames(names);
+          setObjectStatuses(statuses);
+
+          localStorage.setItem("objectNames", JSON.stringify(names));
+          localStorage.setItem("objectStatuses", JSON.stringify(statuses));
+        } else {
+          console.error("data 배열에 오브제 정보가 없습니다.");
+          setErrorMessage("서버에서 오브제 정보를 가져오지 못했습니다.");
+        }
+      } catch (error) {
+        console.error("사용자 정보 조회 실패:", error);
+        setErrorMessage("사용자 정보를 불러올 수 없습니다.");
+      }
+    } else {
+      console.log("액세스 토큰이 없습니다.");
+    }
+  };
 
   useEffect(() => {
-    // 로컬 스토리지에서 상태를 복원
-    const savedStatuses = JSON.parse(
-      localStorage.getItem("objectStatuses") || "[]"
-    );
-    if (savedStatuses.length === 0) {
-      setObjectStatuses([false, false, false]); // 초기화
-    } else {
-      setObjectStatuses(savedStatuses);
+    if (viewMode === "owned") {
+      fetchObjectData("https://moodfriend.site/api/v1/object/owned/display");
+    } else if (viewMode === "available") {
+      fetchObjectData(
+        "https://moodfriend.site/api/v1/object/available/display"
+      );
     }
-  }, []);
+  }, [viewMode]);
 
   const handleShopClick = () => {
     navigate("/shop");
   };
 
   const handleObjCheckClick = () => {
-    if (selectedIndex !== null) {
-      if (selectedIndex === 0) {
-        // 인덱스가 0일 때, objectStatuses를 [true, false, false]로 설정
-        const updatedStatuses = [true, false, false];
-        setObjectStatuses(updatedStatuses);
-        localStorage.setItem("objectStatuses", JSON.stringify(updatedStatuses));
-        navigate("/object");
-      } else {
-        // 인덱스가 0이 아닌 경우의 동작
-        const updatedStatuses = objectStatuses.map((status, index) =>
-          index === selectedIndex ? status : false
-        );
-        setObjectStatuses(updatedStatuses);
-        localStorage.setItem("objectStatuses", JSON.stringify(updatedStatuses));
-        navigate("/object");
-      }
+    if (viewMode === "available") {
+      alert("상점에서 구매해주세요!");
+    } else {
+      navigate("/object");
     }
   };
 
   const handleObjItemClick = (index) => {
-    // 인덱스가 0일 때, 모든 오브제 비활성화
-    if (index === 0) {
-      const updatedStatuses = [true, false, false]; // 인덱스 0만 활성화
-      setObjectStatuses(updatedStatuses);
-      localStorage.setItem("objectStatuses", JSON.stringify(updatedStatuses));
-      setSelectedIndex(0); // 인덱스 0을 선택된 인덱스로 설정
-    } else {
-      // 인덱스가 0이 아닌 경우, 선택된 오브제만 활성화
-      const updatedStatuses = objectStatuses.map((_, i) => i === index);
-      setObjectStatuses(updatedStatuses);
-      localStorage.setItem("objectStatuses", JSON.stringify(updatedStatuses));
-      setSelectedIndex(index); // 선택된 인덱스를 설정
-    }
+    const updatedStatuses = objectStatuses.map((_, i) => i === index);
+    setObjectStatuses(updatedStatuses);
+    localStorage.setItem("objectStatuses", JSON.stringify(updatedStatuses));
+    setSelectedIndex(index);
   };
 
   return (
@@ -124,7 +94,6 @@ const Gift = () => {
         <Background>
           <Character src={AngryHoyaIcon} alt="AngryHoya Icon" />
           <FloorInterior>
-            {/* 선택된 인덱스에 따라 오브제 아이콘 변경 */}
             {selectedIndex !== null && (
               <RightFloorObj
                 src={
@@ -145,8 +114,12 @@ const Gift = () => {
       </CenteredContainer>
       <Container>
         <TopRow>
-          <ObjCheckText>보유중</ObjCheckText>
-          <ObjCheckText2>구매하기</ObjCheckText2>
+          <ObjCheckText onClick={() => setViewMode("owned")}>
+            보유중
+          </ObjCheckText>
+          <ObjCheckText2 onClick={() => setViewMode("available")}>
+            구매하기
+          </ObjCheckText2>
           <ObjCheck onClick={handleObjCheckClick}>
             <ObjCheckImage src={ObjCheckIcon} alt="ObjCheck Icon" />
           </ObjCheck>
@@ -157,7 +130,13 @@ const Gift = () => {
               <ObjItem
                 key={index}
                 onClick={() => handleObjItemClick(index)}
-                style={{ opacity: objectStatuses[index] ? 1 : 0.5 }}
+                style={{
+                  opacity:
+                    (viewMode === "owned" && objectStatuses[index]) ||
+                    (viewMode === "available" && selectedIndex === index)
+                      ? 1
+                      : 0.7
+                }}
               >
                 <ObjItemCheckImage
                   src={
@@ -166,7 +145,7 @@ const Gift = () => {
                       : index === 1
                         ? HeartObjIcon
                         : PinkHeartObjIcon
-                  } // 인덱스에 따른 아이콘 변경
+                  }
                   alt={
                     index === 0
                       ? "BlackHeartObjIcon"
@@ -249,6 +228,7 @@ const ObjCheckText = styled.span`
   font-size: 14px;
   font-weight: bold;
   margin-left: 45px;
+  cursor: pointer;
 `;
 
 const ObjCheckText2 = styled.span`
@@ -256,6 +236,7 @@ const ObjCheckText2 = styled.span`
   font-size: 14px;
   font-weight: bold;
   margin-right: 65px;
+  cursor: pointer;
 `;
 
 const Background = styled.div`

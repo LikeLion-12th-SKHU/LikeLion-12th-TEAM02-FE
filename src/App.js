@@ -21,6 +21,7 @@ import Toy from "./pages/objects/Toy";
 import Wallpaper from "./pages/objects/Wallpaper";
 import Object from "./pages/Object";
 import Shop from "./pages/shop/Shop";
+import Payment from "./pages/shop/Payment";
 import Chat from "./pages/chat/Chat";
 import Friends from "./pages/friends/Friends";
 import Settings from "./pages/settings/Settings";
@@ -28,6 +29,8 @@ import EditSettings from "./pages/settings/EditSettings";
 import InformationSettings from "./pages/settings/InformationSettings";
 import WithdrawalSettings from "./pages/settings/WithdrawalSettings";
 import Tracker from "./pages/tracker/Tracker";
+import Charge from "./pages/shop/Charge";
+// import PaymentResult from "./pages/shop/PaymentResult";
 
 function App() {
   return (
@@ -53,6 +56,9 @@ function App() {
         <Route path="/gift" element={<Gift />} />
         <Route path="/object" element={<Object />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment-result" element={<PaymentResult />} />
+        <Route path="/charge" element={<Charge />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/edit-setting" element={<EditSettings />} />
