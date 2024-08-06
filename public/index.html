@@ -12,17 +12,13 @@
 </html>
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- jQuery -->
-    <script
-      type="text/javascript"
-      src="https://code.jquery.com/jquery-1.12.4.min.js"
-    ></script>
-    <!-- iamport.payment.js -->
-    <script
-      type="text/javascript"
-      src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
-    ></script>
+<!-- 포트원 결제 -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<!-- 포트원 결제 -->
     <script>
       var IMP = window.IMP;
       IMP.init("imp11681810");
@@ -31,7 +27,7 @@
         IMP.request_pay(
           {
             pg: "kakaopay.TC0ONETIME", // 테스트용 PG 상점 ID
-            pay_method: "card",
+            pay_method: "kakaopay",
             merchant_uid: "57008833-33004",
             name: "테스트 상점",
             amount: 1004,
@@ -40,22 +36,13 @@
             buyer_tel: "010-1234-5678",
             buyer_addr: "서울특별시",
             buyer_postcode: "123-456",
-            m_redirect_url: "http://localhost:3000/payment-result" // 결제 완료 후 돌아갈 URL
+            m_redirect_url: "/payment-result" // 결제 완료 후 돌아갈 URL
           },
           function (rsp) {
-            if (rsp.success) {
-              $.ajax({
-                type: "POST",
-                url: "/verifyIamport/" + rsp.imp_uid
-              }).done(function (data) {
-                if (rsp.paid_amount === data.response.amount) {
-                  alert("결제 성공");
-                } else {
-                  alert("결제 실패");
-                }
-              });
+            if(rsp.success) {
+              console.log(rsp);
             } else {
-              alert("결제 실패: " + rsp.error_msg);
+              console.log(rsp);
             }
           }
         );
@@ -64,5 +51,6 @@
     <meta charset="UTF-8" />
     <title>Sample Payment</title>
   </head>
-  <body></body>
+  <body>
+  </body>
 </html>
