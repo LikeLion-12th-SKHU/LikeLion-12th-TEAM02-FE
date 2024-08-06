@@ -13,12 +13,12 @@ const Login = () => {
 
   // 카카오 로그인 URL을 정의
   const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
-  const K_REDIRECT_URI = `https://moodfriend.site/api/v1/auth/callback/kakao`;
+  const K_REDIRECT_URI = "https://moodfriend.site/api/v1/auth/callback/kakao";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${K_REDIRECT_URI}&response_type=code`;
 
   // 구글 로그인 URL을 정의
   const G_CLIENT_ID = process.env.REACT_APP_G_CLIENT_ID;
-  const G_REDIRECT_URI = `https://moodfriend.site/api/v1/auth/callback/google`;
+  const G_REDIRECT_URI = "https://moodfriend.site/";
   const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${G_CLIENT_ID}&redirect_uri=${G_REDIRECT_URI}&response_type=code&scope=email%20profile`;
 
   const handleSubmit = async (e) => {
