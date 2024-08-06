@@ -61,7 +61,7 @@ export const FriendParagraph = styled.p`
   font-family: Pretendard;
   font-weight: 400
   color: #999;
-  
+  text-decoration: none;
 `;
 
 export const FriendAnchor = styled(Link)`
