@@ -159,7 +159,7 @@ export function Main() {
 
 // 스타일 정의
 const Container = styled.div`
-  display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   max-width: 430px;
