@@ -13,13 +13,21 @@ const Login = () => {
 
   // 카카오 로그인 URL을 정의
   const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
-  const K_REDIRECT_URI = `https://moodfriend.site/api/v1/auth/callback/kakao`;
+  const K_REDIRECT_URI = "https://moodfriend.vercel.app/auth/callback/kakao";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${K_REDIRECT_URI}&response_type=code`;
 
   // 구글 로그인 URL을 정의
   const G_CLIENT_ID = process.env.REACT_APP_G_CLIENT_ID;
-  const G_REDIRECT_URI = `https://moodfriend.site/api/v1/auth/callback/google`;
+  const G_REDIRECT_URI = "https://moodfriend.vercel.app/auth/callback/google";
   const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${G_CLIENT_ID}&redirect_uri=${G_REDIRECT_URI}&response_type=code&scope=email%20profile`;
+
+  const handleKakaoLogin = () => {
+    window.location.href = kakaoURL;
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = googleURL;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,14 +59,6 @@ const Login = () => {
       console.error("로그인 실패:", error);
       setErrorMessage("이메일 또는 비밀번호가 잘못 되었습니다.");
     }
-  };
-
-  const handleKakaoLogin = () => {
-    window.location.href = kakaoURL;
-  };
-
-  const handleGoogleLogin = () => {
-    window.location.href = googleURL;
   };
 
   return (
@@ -162,7 +162,7 @@ const FormGroup = styled.div`
 const InputEmail = styled.input`
   width: 100%;
   padding: 10px 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   font-family: "Pretendard";
@@ -188,7 +188,6 @@ const Button = styled.button`
   width: 100%;
   border-radius: 8px;
   padding: 15px 0;
-  margin: 15px 0;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: #ffffff;
   cursor: pointer;

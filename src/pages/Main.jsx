@@ -164,8 +164,7 @@ const Container = styled.div`
   align-items: center;
   max-width: 430px;
   min-width: 360px;
-  max-height: 932px;
-  min-height: 780px;
+  min-height: 100vh;
   margin: auto;
 `;
 
@@ -174,14 +173,12 @@ const Background = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 80vh;
   background-color: ${(props) => props.theme.color.pinkColor};
 `;
 
 const Floor = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 130px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -284,7 +281,7 @@ const Character = styled.img`
 
 const Circular = styled.button`
   width: 180px;
-  height: 80px;
+  height: 60px;
   border-radius: 50%;
   background-color: ${(props) => props.theme.color.greenColor};
   display: flex;
