@@ -178,7 +178,8 @@ const Background = styled.div`
 
 const Floor = styled.div`
   width: 100%;
-  height: 130px;
+  min-height: 130px;
+  max-height: 300px; /* 기본 max-height 설정 */
   display: flex;
   flex-direction: column;
   align-items: center;
