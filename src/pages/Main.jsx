@@ -178,12 +178,20 @@ const Background = styled.div`
 
 const Floor = styled.div`
   width: 100%;
-  min-height: 130px;
-  max-height: 300px; /* 기본 max-height 설정 */
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: ${(props) => props.theme.color.lightPinkColor};
+
+  @media (max-height: 932px) {
+    height: calc(100vh - 632px);
+    max-height: 932px;
+  }
+
+  @media (max-height: 780px) {
+    height: calc(100vh - 660px);
+    overflow: hidden;
+  }
 `;
 
 const Interior = styled.div`
