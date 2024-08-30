@@ -159,13 +159,12 @@ export function Main() {
 
 // 스타일 정의
 const Container = styled.div`
-  display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   max-width: 430px;
   min-width: 360px;
-  max-height: 932px;
-  min-height: 780px;
+  min-height: 100vh;
   margin: auto;
 `;
 
@@ -174,18 +173,25 @@ const Background = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 80vh;
   background-color: ${(props) => props.theme.color.pinkColor};
 `;
 
 const Floor = styled.div`
   width: 100%;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: ${(props) => props.theme.color.lightPinkColor};
+
+  @media (max-height: 932px) {
+    height: calc(100vh - 632px);
+    max-height: 932px;
+  }
+
+  @media (max-height: 780px) {
+    height: calc(100vh - 660px);
+    overflow: hidden;
+  }
 `;
 
 const Interior = styled.div`
@@ -284,7 +290,7 @@ const Character = styled.img`
 
 const Circular = styled.button`
   width: 180px;
-  height: 80px;
+  height: 60px;
   border-radius: 50%;
   background-color: ${(props) => props.theme.color.greenColor};
   display: flex;

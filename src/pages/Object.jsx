@@ -108,19 +108,35 @@ const Floor = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  z-index: 1;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    height: 35%;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    height: 33%;
+  }
 `;
 
 const Circular = styled.img`
-  width: 120px;
-  height: 40px;
   border-radius: 50%;
   background-color: ${(props) => props.theme.color.greenColor};
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  bottom: 75px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 120px;
+    height: 45px;
+    bottom: 80px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 110px;
+    height: 40px;
+    bottom: 60px;
+  }
 `;
 
 const FloorInterior = styled.div`
@@ -128,7 +144,6 @@ const FloorInterior = styled.div`
   align-items: center;
   position: absolute;
   bottom: 40px;
-  z-index: 3;
 `;
 
 const RightFloorObj = styled.img`
@@ -165,23 +180,36 @@ const Items = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 5px;
-  width: 70%;
   position: absolute;
-  bottom: -250px;
-  left: 40%;
-  transform: translateX(-50%);
-  z-index: 0;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 80%;
+    bottom: -250px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 80%;
+    bottom: -220px;
+  }
 `;
 
 const Item = styled.button`
-  width: 80px;
-  height: 80px;
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border-radius: 4px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 80px;
+    height: 80px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 70px;
+    height: 70px;
+  }
 `;
 
 const BackButton = styled.img`
@@ -203,8 +231,18 @@ const MyText = styled.span`
 `;
 
 const Character = styled.img`
-  width: 70px;
-  height: 80px;
   position: absolute;
-  bottom: 115px;
+  z-index: 1;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 70px;
+    height: 80px;
+    bottom: 100px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 60px;
+    height: 70px;
+    bottom: 80px;
+  }
 `;
