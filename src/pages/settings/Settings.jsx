@@ -92,55 +92,49 @@ const Settings = () => {
         </ProfileSection>
       </Box>
       <Container>
-        <LinkWrapper>
-          <InformationImg src={UserInformIcon} alt="UserInform" />
-          <TextWrapper>
-            <Text>사용자 정보</Text>
-            <SubText>사용자의 정보를 조회할 수 있습니다.</SubText>
-          </TextWrapper>
-          <Link to="/information-setting">
+        <Link to="/information-setting">
+          <LinkWrapper>
+            <InformationImg src={UserInformIcon} alt="UserInform" />
+            <TextWrapper>
+              <Text>사용자 정보</Text>
+              <SubText>사용자의 정보를 조회할 수 있습니다.</SubText>
+            </TextWrapper>
             <Img src={FrontArrowIcon} alt="FrontArrow" />
-          </Link>
-        </LinkWrapper>
+          </LinkWrapper>
+        </Link>
         <Separator />
-        <FeedbackWrapper>
+        <FeedbackWrapper
+          href="https://open.kakao.com/o/sSeRtsGg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FeedbackImg src={FeedbackIcon} alt="Feedback" />
           <FeedbackTextWrapper>
             <Text>개발자 피드백</Text>
             <SubText>개발자에게 피드백을 할 수 있습니다.</SubText>
           </FeedbackTextWrapper>
-          <a
-            href="https://open.kakao.com/o/sSeRtsGg"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Img src={FrontArrowIcon} alt="FrontArrow" />
-          </a>
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
         </FeedbackWrapper>
         <Separator />
-        <LogoutWrapper>
+        <LogoutWrapper onClick={handleLogoutClick}>
           <LogoutImg src={LogoutIcon} alt="Logout" />
           <TextWrapper>
             <Text>로그아웃</Text>
             <SubText>일시적으로 계정을 나갈 수 있습니다.</SubText>
           </TextWrapper>
-          <Img
-            src={FrontArrowIcon}
-            alt="FrontArrow"
-            onClick={handleLogoutClick}
-          />
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
         </LogoutWrapper>
         <Separator />
-        <WithdrawalWrapper>
-          <WithdrawalImg src={WithdrawalIcon} alt="Withdrawal" />
-          <TextWrapper>
-            <Text>회원탈퇴</Text>
-            <SubText>영구적으로 계정을 지울 수 있습니다.</SubText>
-          </TextWrapper>
-          <Link to="/Withdrawal-setting">
+        <Link to="/Withdrawal-setting">
+          <WithdrawalWrapper>
+            <WithdrawalImg src={WithdrawalIcon} alt="Withdrawal" />
+            <TextWrapper>
+              <Text>회원탈퇴</Text>
+              <SubText>영구적으로 계정을 지울 수 있습니다.</SubText>
+            </TextWrapper>
             <Img src={FrontArrowIcon} alt="FrontArrow" />
-          </Link>
-        </WithdrawalWrapper>
+          </WithdrawalWrapper>
+        </Link>
       </Container>
     </>
   );
@@ -156,12 +150,12 @@ const Container = styled.div`
   align-items: center;
   max-width: 430px;
   min-width: 360px;
-  max-height: 932px;
-  min-height: 780px;
+  height: 75vh;
   margin: auto;
 `;
 
 const Box = styled.div`
+  height: 25vh;
   padding: 15px;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: white;
@@ -199,7 +193,7 @@ const LinkWrapper = styled.div`
   width: 100%;
 `;
 
-const FeedbackWrapper = styled.div`
+const FeedbackWrapper = styled.a`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -211,6 +205,7 @@ const LogoutWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  cursor: pointer;
 `;
 
 const WithdrawalWrapper = styled.div`
@@ -223,7 +218,7 @@ const WithdrawalWrapper = styled.div`
 const Separator = styled.div`
   width: 100%;
   border-bottom: 1px solid #ddd;
-  margin: 20px 0; /* 조정된 간격 */
+  margin: 20px 0;
 `;
 
 const FeedbackImg = styled.img`
@@ -236,6 +231,7 @@ const InformationImg = styled.img`
   cursor: pointer;
   width: 30px;
   height: 30px;
+  margin: 0 0 0 -50px;
 `;
 
 const LogoutImg = styled.img`
@@ -249,6 +245,7 @@ const WithdrawalImg = styled.img`
   width: 30px;
   height: 30px;
   opacity: 40%;
+  margin: 0;
 `;
 
 const Img = styled.img`
@@ -258,6 +255,11 @@ const Img = styled.img`
 `;
 
 const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const InformTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
