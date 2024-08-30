@@ -38,6 +38,7 @@ import RecommendHospital from "./pages/tracker/RecommendHospital";
 import RequestList from "./pages/friends/RequestList";
 import React, { useEffect, useState } from "react";
 import MobileWarning from "./components/common/MobileWarning";
+import NotFound from "./pages/Errors/NotFound";
 
 function App() {
   const [isMobile, setIsMobile] = useState(true);
@@ -97,6 +98,7 @@ function App() {
         <Route path="/diary/:id" element={<DiaryDetail />} />
         <Route path="/diary/edit/:id" element={<EditDiary />} />
         <Route path="/hospital" element={<RecommendHospital />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
