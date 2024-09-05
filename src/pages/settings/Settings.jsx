@@ -87,6 +87,10 @@ const Settings = () => {
     <>
       <Header title="내 정보" backLink="/" />
       <Box>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <LogoText>M</LogoText>
+        </Link>
+        <MyText>내정보</MyText>
         <ProfileSection>
           <ProfileImage src={ProfileIcon} alt="Profile" />
           <ProfileInfo>
@@ -96,19 +100,20 @@ const Settings = () => {
         </ProfileSection>
       </Box>
       <Container>
-        <LinkWrapper onClick={() => handleInformLink("/information-setting")}>
+        <StyledWrapper as={Link} to="/information-setting">
           <InformationImg src={UserInformIcon} alt="UserInform" />
           <TextWrapper>
             <Text>사용자 정보</Text>
             <SubText>사용자의 정보를 조회할 수 있습니다.</SubText>
           </TextWrapper>
           <Img src={FrontArrowIcon} alt="FrontArrow" />
-        </LinkWrapper>
+        </StyledWrapper>
         <Separator />
-        <FeedbackWrapper
-          onClick={() =>
-            handleExternalLink("https://open.kakao.com/o/sSeRtsGg")
-          }
+        <StyledWrapper
+          as="a"
+          href="https://open.kakao.com/o/sSeRtsGg"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <FeedbackImg src={FeedbackIcon} alt="Feedback" />
           <FeedbackTextWrapper>
@@ -116,27 +121,25 @@ const Settings = () => {
             <SubText>개발자에게 피드백을 할 수 있습니다.</SubText>
           </FeedbackTextWrapper>
           <Img src={FrontArrowIcon} alt="FrontArrow" />
-        </FeedbackWrapper>
+        </StyledWrapper>
         <Separator />
-        <LogoutWrapper onClick={handleLogoutClick}>
+        <StyledWrapper as="div" onClick={handleLogoutClick}>
           <LogoutImg src={LogoutIcon} alt="Logout" />
           <TextWrapper>
             <Text>로그아웃</Text>
             <SubText>일시적으로 계정을 나갈 수 있습니다.</SubText>
           </TextWrapper>
           <Img src={FrontArrowIcon} alt="FrontArrow" />
-        </LogoutWrapper>
+        </StyledWrapper>
         <Separator />
-        <WithdrawalWrapper
-          onClick={() => handleInformLink("/Withdrawal-setting")}
-        >
+        <StyledWrapper as={Link} to="/Withdrawal-setting">
           <WithdrawalImg src={WithdrawalIcon} alt="Withdrawal" />
           <TextWrapper>
             <Text>회원탈퇴</Text>
             <SubText>영구적으로 계정을 지울 수 있습니다.</SubText>
           </TextWrapper>
           <Img src={FrontArrowIcon} alt="FrontArrow" />
-        </WithdrawalWrapper>
+        </StyledWrapper>
       </Container>
       <Menubar />
     </>
@@ -145,7 +148,6 @@ const Settings = () => {
 
 export default Settings;
 
-// 스타일 컴포넌트 정의
 const Container = styled.div`
   padding: 20px;
   display: flex;
@@ -153,10 +155,12 @@ const Container = styled.div`
   align-items: center;
   max-width: 430px;
   min-width: 360px;
+  height: 75vh;
   margin: auto;
 `;
 
 const Box = styled.div`
+  height: 25vh;
   padding: 15px;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: white;
@@ -168,10 +172,19 @@ const ProfileSection = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  width: 100px;
-  height: 100px;
   border-radius: 50%;
-  margin: 20px 5px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 120px;
+    height: 120px;
+    margin: 30px 10px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 100px;
+    height: 100px;
+    margin: 25px 10px;
+  }
 `;
 
 const ProfileInfo = styled.div`
@@ -180,124 +193,167 @@ const ProfileInfo = styled.div`
   gap: 10px;
 `;
 
-const EditProfile = styled.span`
-  font-size: 14px;
-  color: #007bff;
+const StyledWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 0;
   cursor: pointer;
-  text-decoration: underline;
-`;
+  text-decoration: none;
+  color: inherit;
 
-const LinkWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 20px 0;
-  gap: 30px;
-`;
-
-const FeedbackWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 20px 0;
-  gap: 30px;
-`;
-
-const LogoutWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 20px 0;
-  gap: 30px;
-`;
-
-const WithdrawalWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 20px 0;
-  gap: 30px;
+  &:hover {
+    background-color: #f9f9f9;
+  }
 `;
 
 const Separator = styled.div`
   width: 100%;
   border-bottom: 1px solid #ddd;
-`;
-
-const FeedbackImg = styled.img`
-  cursor: pointer;
-  width: 25px;
-  height: 25px;
+  margin: 20px 0;
 `;
 
 const InformationImg = styled.img`
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 35px;
+    height: 35px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 30px;
+    height: 30px;
+  }
+`;
+
+const FeedbackImg = styled.img`
+  cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 30px;
+    height: 30px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 const LogoutImg = styled.img`
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 35px;
+    height: 35px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const WithdrawalImg = styled.img`
   cursor: pointer;
-  width: 30px;
-  height: 30px;
   opacity: 40%;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 35px;
+    height: 35px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const Img = styled.img`
-  width: 25px;
-  height: 25px;
   margin-left: 10px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 35px;
+    height: 35px;
+    margin-left: 15px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+  }
 `;
 
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 10px;
 `;
 
 const FeedbackTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 15px;
 `;
 
 const Text = styled.span`
-  font-family: Pretendard;
-  font-size: 16px;
   color: #333;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    font-size: 18px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    font-size: 16px;
+  }
 `;
 
 const LogoText = styled.span`
-  font-family: Pretendard;
-  font-size: 18pt;
   font-weight: bold;
   color: #ffffff;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    font-size: 30px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    font-size: 18pt;
+  }
 `;
 
 const MyText = styled.span`
   font-family: Pretendard;
   margin: 10px;
-  font-size: 18px;
   color: #ffffff;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    font-size: 25px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    font-size: 14pt;
+  }
 `;
 
 const Name = styled.span`
-  font-family: Pretendard;
-  margin-left: 20px;
-  font-size: 16px;
   color: #ffffff;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    margin-left: 25px;
+    font-size: 21px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    margin-left: 20px;
+    font-size: 16px;
+  }
 `;
 
 const Email = styled.span`
@@ -306,11 +362,28 @@ const Email = styled.span`
   font-size: 12px;
   color: #bbbbbb;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    margin-left: 25px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    margin-left: 20px;
+    font-size: 12px;
+  }
 `;
 
 const SubText = styled.span`
-  font-family: Pretendard;
-  font-size: 12px;
   color: #666;
   margin-top: 5px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    font-size: 14px;
+    opacity: 70%;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    font-size: 12px;
+  }
 `;
