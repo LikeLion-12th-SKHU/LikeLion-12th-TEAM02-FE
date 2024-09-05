@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import instance from "../../api/instance";
 import Menubar from "../../components/common/Menubar";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import BackArrowIcon from "../../assets/icons/BackArrow.svg";
+import Header from "../../components/common/Header";
 
 const EditSettings = () => {
   const navigate = useNavigate();
@@ -17,14 +17,11 @@ const EditSettings = () => {
 
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/member/info",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("/api/v1/member/info", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
           const { name } = response.data.data;
           setOriginalName(name);
           setName(name);
@@ -47,8 +44,8 @@ const EditSettings = () => {
         const accessToken = localStorage.getItem("accessToken");
 
         if (accessToken) {
-          await axios.patch(
-            "https://moodfriend.site/api/v1/member/info/edit",
+          await instance.patch(
+            "/api/v1/member/info/edit",
             { name },
             {
               headers: {
@@ -71,15 +68,11 @@ const EditSettings = () => {
 
   return (
     <>
-      <Menubar />
-      <Box>
-        <LogoText>M</LogoText>
-        <MyText>내정보</MyText>
-      </Box>
+      <Header title="내 정보 수정" backLink="/information-setting" />
+
       <Container>
-        <BackButton src={BackArrowIcon} onClick={() => navigate(-1)} />
         <ContentWrapper>
-          <Title>사용자 정보</Title>
+          <Title>변경할 이름을 작성해주세요.</Title>
           <Input
             type="text"
             value={name}
@@ -92,6 +85,7 @@ const EditSettings = () => {
           {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
         </ButtonWrapper>
       </Container>
+      <Menubar />
     </>
   );
 };
@@ -105,14 +99,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Box = styled.div`
-  padding: 15px;
-  background-color: ${(props) => props.theme.color.primaryColor};
-`;
-
-const ContentWrapper = styled.div`
-  padding-left: 40px;
-`;
+const ContentWrapper = styled.div``;
 
 const ButtonWrapper = styled.div`
   margin-top: 20px;
@@ -137,35 +124,8 @@ const ConfirmButton = styled.button`
   }
 `;
 
-const LogoText = styled.span`
-  font-size: 18pt;
-  font-weight: bold;
-  color: #ffffff;
-  cursor: pointer;
-`;
-
-const MyText = styled.span`
-  margin: 10px;
-  font-size: 18px;
-  color: #ffffff;
-  cursor: pointer;
-`;
-
-const BackButton = styled.img`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  transition: transform 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
 const Title = styled.span`
+  font-family: "Pretendard";
   font-size: 16px;
   margin: 5px 0;
   padding-bottom: 20px;
@@ -179,10 +139,12 @@ const Input = styled.input`
   margin-top: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  font-family: "Pretendard";
   font-size: 16px;
 `;
 
 const ErrorText = styled.span`
+  font-family: "Pretendard";
   color: red;
   font-size: 14px;
 `;

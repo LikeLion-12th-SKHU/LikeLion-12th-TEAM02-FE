@@ -27,6 +27,7 @@ import {
   faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loading from "../common/Loading";
 
 const StyledDatePicker = styled(DatePicker)`
   border: none;
@@ -167,8 +168,7 @@ const DiaryForm = ({
       <T.SubmitBtn type="submit">
         <T.SubmitIcon icon={faCheck} style={{ color: "#fff" }} />
       </T.SubmitBtn>
-      {isLoading && <p>일기 작성 중...</p>}
-      {isError && <p>일기 작성 중 오류가 발생했습니다. 다시 시도해 주세요.</p>}
+      {isLoading && <Loading />}
     </T.DiaryForm>
   );
 };

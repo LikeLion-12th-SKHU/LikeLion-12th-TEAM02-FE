@@ -54,7 +54,7 @@ const DiaryCalendar = ({ diaries }) => {
           <div style={{ position: "relative", height: "100%" }}>
             <T.RadioImg
               src={emotionIcon}
-              style={{ position: "absolute", top: "-25px", right: "0" }}
+              style={{ position: "absolute", top: "-26px", right: "0" }}
             />
           </div>
         );

@@ -8,42 +8,52 @@ import ObjIcon from "../assets/icons/Obj.svg";
 import WindowIcon from "../assets/icons/Window.svg";
 import DialogIcon from "../assets/icons/Dialog.svg";
 import HeartObjIcon from "../assets/icons/HeartObj.svg";
+import BlackHeartObjIcon from "../assets/icons/BlackHeartObj.svg";
+import PinkHeartObjIcon from "../assets/icons/PinkHeartObj.svg";
+import { useNavigate } from "react-router-dom";
 
 export function Main() {
   const [mileage, setMileage] = useState(0);
+  const [name, setName] = useState(""); // name 상태 추가
+  const [objectStatuses, setObjectStatuses] = useState([false, false, false]); // objectStatuses 상태 추가
   const [errorMessage, setErrorMessage] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const fetchMileage = async () => {
+    const fetchUserData = async () => {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
         try {
-          const mileage = localStorage.getItem("mileage");
-          if (mileage) {
-            setMileage(parseInt(mileage, 10));
-          } else {
-            const response = await axios.get(
-              "https://moodfriend.site/api/v1/member/info",
-              {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`
-                }
+          const response = await axios.get(
+            "https://moodfriend.site/api/v1/member/info",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`
               }
-            );
-            const { mileage } = response.data.data;
-            localStorage.setItem("mileage", mileage);
-            setMileage(mileage);
-          }
+            }
+          );
+          const { mileage, name } = response.data.data;
+          setMileage(mileage);
+          setName(name);
+          localStorage.setItem("mileage", mileage);
+          localStorage.setItem("name", name);
         } catch (error) {
-          console.error("Failed to fetch mileage:", error);
-          setErrorMessage("마일리지 정보를 불러올 수 없습니다.");
+          console.error("Failed to fetch user data:", error);
+          setErrorMessage("사용자 정보를 불러올 수 없습니다.");
         }
       } else {
         console.log("No Access Token Found");
       }
     };
 
-    fetchMileage();
+    fetchUserData();
+
+    // Fetch objectStatuses from localStorage
+    const savedStatuses = JSON.parse(
+      localStorage.getItem("objectStatuses") || "[]"
+    );
+    setObjectStatuses(savedStatuses);
   }, []);
 
   const handleMileageClick = async (e) => {
@@ -92,6 +102,27 @@ export function Main() {
     }
   };
 
+  const handleObjClick = async () => {
+    try {
+      console.log("오브제 화면 전환 성공");
+      navigate("/object");
+    } catch (error) {
+      console.error("오브제 화면 전환 시도 중 오류 발생:", error);
+      alert("오브제 화면 전환 시도에 실패했습니다. 다시 시도해 주세요.");
+    }
+  };
+
+  const getObjectIcon = () => {
+    if (objectStatuses[0]) {
+      return BlackHeartObjIcon;
+    } else if (objectStatuses[1]) {
+      return HeartObjIcon;
+    } else if (objectStatuses[2]) {
+      return PinkHeartObjIcon;
+    }
+    return null;
+  };
+
   return (
     <Container>
       <Background>
@@ -103,7 +134,7 @@ export function Main() {
           />
           <Number>{mileage !== null ? mileage : 0}</Number>
           <Label>Mood Friend</Label>
-          <Icon src={ObjIcon} alt="Obj Icon" />
+          <Icon src={ObjIcon} alt="Obj Icon" onClick={handleObjClick} />
         </Icons>
         <Interior>
           <LeftObj src={WindowIcon} alt="Window Icon" />
@@ -111,10 +142,11 @@ export function Main() {
         </Interior>
         <Chat>
           <Dialog src={DialogIcon} alt="Dialog Icon" />
+          <DialogText>누가 {name} 기분을 안 좋게 했어!</DialogText>
         </Chat>
         <Character src={AngryHoyaIcon} alt="AngryHoya Icon" />
         <FloorInterior>
-          <RightFloorObj src={HeartObjIcon} alt="HeartObj Icon" />
+          <RightFloorObj src={getObjectIcon()} alt="HeartObj Icon" />
         </FloorInterior>
       </Background>
       <Floor>
@@ -127,13 +159,12 @@ export function Main() {
 
 // 스타일 정의
 const Container = styled.div`
-  display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   max-width: 430px;
   min-width: 360px;
-  max-height: 932px;
-  min-height: 780px;
+  min-height: 100vh;
   margin: auto;
 `;
 
@@ -142,18 +173,25 @@ const Background = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 80vh;
   background-color: ${(props) => props.theme.color.pinkColor};
 `;
 
 const Floor = styled.div`
   width: 100%;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: ${(props) => props.theme.color.lightPinkColor};
+
+  @media (max-height: 932px) {
+    height: calc(100vh - 632px);
+    max-height: 932px;
+  }
+
+  @media (max-height: 780px) {
+    height: calc(100vh - 660px);
+    overflow: hidden;
+  }
 `;
 
 const Interior = styled.div`
@@ -206,11 +244,25 @@ const Chat = styled.div`
   align-items: center;
   margin-top: 30px;
   margin-bottom: 30px;
+  position: relative;
 `;
 
 const Dialog = styled.img`
   width: 150%;
   height: 100%;
+`;
+
+const DialogText = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #000000;
+  font-size: 12px;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  white-space: nowrap;
 `;
 
 const Label = styled.h1`
@@ -238,7 +290,7 @@ const Character = styled.img`
 
 const Circular = styled.button`
   width: 180px;
-  height: 80px;
+  height: 60px;
   border-radius: 50%;
   background-color: ${(props) => props.theme.color.greenColor};
   display: flex;

@@ -8,10 +8,12 @@ import { EmotionTypes, WeatherTypes } from "../../constants/diaryEnums";
 import * as T from "../../styles/tracker";
 import DiaryForm from "../../components/tracker/DiaryForm";
 import Header from "../../components/common/Header";
+import Loading from "../../components/common/Loading";
 
 const EditDiary = () => {
   const { id } = useParams();
   const [formData, setFormData] = useState({
+    diaryId: id,
     title: "",
     content: "",
     emotionType: EmotionTypes.JOY,
@@ -29,6 +31,7 @@ const EditDiary = () => {
   useEffect(() => {
     if (data) {
       setFormData({
+        diaryId: data.diaryId,
         title: data.title,
         content: data.content,
         emotionType: data.emotionType,
@@ -39,9 +42,16 @@ const EditDiary = () => {
   }, [data]);
 
   const diaryMutation = useMutation({
-    mutationFn: (updatedDiary) => updateDiary(id, updatedDiary),
+    mutationFn: (updatedDiary) => updateDiary(updatedDiary),
     onSuccess: () => {
       navigate(`/diary/${id}`);
+    },
+    onError: (error) => {
+      if (error.response && error.response.status === 409) {
+        alert("해당 날짜에는 일기가 이미 존재합니다.");
+      } else {
+        alert("일기 작성 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      }
     }
   });
 
@@ -59,11 +69,11 @@ const EditDiary = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (isError) {
-    return <div>에러가 발생했습니다.</div>;
+    return <T.DiaryErrorMessage>에러가 발생했습니다.</T.DiaryErrorMessage>;
   }
 
   return (

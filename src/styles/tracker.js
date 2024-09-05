@@ -19,12 +19,12 @@ export const DateLayout = styled.div`
 `;
 
 export const RadioImg = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
 `;
 
 export const RadioIcon = styled(FontAwesomeIcon)`
-  font-size: 28px;
+  font-size: 36px;
   color: ${(props) => (props.selected ? "#756AB6" : "gray")};
   cursor: pointer;
   transition: color 0.3s;
@@ -41,7 +41,7 @@ export const DiaryFormLabel = styled.label`
 `;
 
 export const DiaryFormLayout = styled.div`
-  width: 300px;
+  width: 330px;
   height: ${(props) => props.formHeight || "100px"};
   border-radius: 20px;
   background: #fff;
@@ -71,6 +71,8 @@ export const TextArea = styled.textarea`
   resize: none;
   width: 100%;
   height: 100%;
+  line-height: 150%;
+  min-height: 140px;
 `;
 
 export const SubmitBtn = styled.button`
@@ -168,16 +170,16 @@ export const HospitalCaption = styled.label`
 export const RecommendLayout = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 20px auto;
+  margin: 40px auto;
   gap: 5px;
 `;
 
 // InstitutionCard
 export const InstitutionCardBox = styled.div`
   display: flex;
-  width: 350px;
+  min-width: 300px;
   height: 80px;
-  margin: 10px auto;
+  margin: 10px;
   padding: 10px;
   background: #fff;
   border-radius: 10px;
@@ -214,4 +216,11 @@ export const CardSpan = styled.span`
 export const CardImg = styled.img`
   width: 32px;
   height: 32px;
+`;
+
+export const DiaryErrorMessage = styled.p`
+  font-size: 14px;
+  font-family: Pretendard;
+  font-weight: 400;
+  color: #999;
 `;

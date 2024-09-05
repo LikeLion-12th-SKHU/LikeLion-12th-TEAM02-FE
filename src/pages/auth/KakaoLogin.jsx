@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/common/Loading";
 
 const KakaoLogin = () => {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ const KakaoLogin = () => {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           alert("로그인 되었습니다.");
-          console.log("카카오 로그인 성공! 메인 화면으로 이동합니다."); // 디버깅 로그
           navigate("/"); // 메인 화면으로 전환
         })
         .catch((error) => {
@@ -27,11 +27,7 @@ const KakaoLogin = () => {
 
   return (
     <div className="LoginHandler">
-      <div className="notice">
-        <p>로그인 중입니다.</p>
-        <p>잠시만 기다려주세요.</p>
-        <div className="spinner"></div>
-      </div>
+      <Loading />
     </div>
   );
 };

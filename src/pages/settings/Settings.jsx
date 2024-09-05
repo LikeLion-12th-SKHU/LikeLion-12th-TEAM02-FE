@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Menubar from "../../components/common/Menubar";
 import FrontArrowIcon from "../../assets/icons/FrontArrow.svg";
 import FeedbackIcon from "../../assets/icons/Feedback.svg";
@@ -8,7 +8,8 @@ import LogoutIcon from "../../assets/icons/Logout.svg";
 import WithdrawalIcon from "../../assets/icons/Withdrawal.svg";
 import ProfileIcon from "../../assets/icons/Profile.svg";
 import styled from "styled-components";
-import axios from "axios";
+import Header from "../../components/common/Header";
+import instance from "../../api/instance";
 
 const Settings = () => {
   const [email, setEmail] = useState("");
@@ -24,8 +25,8 @@ const Settings = () => {
         const refreshToken = localStorage.getItem("refreshToken");
 
         if (refreshToken) {
-          await axios.post(
-            "https://moodfriend.site/api/v1/account/logout",
+          await instance.post(
+            "/api/v1/account/logout",
             {},
             {
               headers: {
@@ -54,14 +55,11 @@ const Settings = () => {
 
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/member/info",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("/api/v1/member/info", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
           const { email, name } = response.data.data;
           setEmail(email);
           setName(name);
@@ -77,9 +75,17 @@ const Settings = () => {
     fetchUserData();
   }, []);
 
+  const handleInformLink = (linkPath) => {
+    navigate(linkPath);
+  };
+
+  const handleExternalLink = (linkPath) => {
+    window.location.href = linkPath;
+  };
+
   return (
     <>
-      <Menubar />
+      <Header title="내 정보" backLink="/" />
       <Box>
         <Link to="/" style={{ textDecoration: "none" }}>
           <LogoText>M</LogoText>
@@ -135,6 +141,7 @@ const Settings = () => {
           <Img src={FrontArrowIcon} alt="FrontArrow" />
         </StyledWrapper>
       </Container>
+      <Menubar />
     </>
   );
 };
@@ -189,7 +196,7 @@ const ProfileInfo = styled.div`
 const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   padding: 10px 0;
   cursor: pointer;
@@ -320,6 +327,7 @@ const LogoText = styled.span`
 `;
 
 const MyText = styled.span`
+  font-family: Pretendard;
   margin: 10px;
   color: #ffffff;
   cursor: pointer;
@@ -349,6 +357,7 @@ const Name = styled.span`
 `;
 
 const Email = styled.span`
+  font-family: Pretendard;
   margin-left: 20px;
   font-size: 12px;
   color: #bbbbbb;
