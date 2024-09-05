@@ -141,7 +141,6 @@ const Settings = () => {
 
 export default Settings;
 
-// 스타일 컴포넌트 정의
 const Container = styled.div`
   padding: 20px;
   display: flex;
