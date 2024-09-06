@@ -1,6 +1,9 @@
-// App.js
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
 import Login from "./pages/auth/Login";
 import KakaoLogin from "./pages/auth/KakaoLogin";
