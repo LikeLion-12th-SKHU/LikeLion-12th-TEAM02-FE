@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Menubar from "../../components/common/Menubar";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import BackArrowIcon from "../../assets/icons/BackArrow.svg"; // 아이콘 import
+import Header from "../../components/common/Header";
+import instance from "../../api/instance";
 
 const InformationSettings = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +16,6 @@ const InformationSettings = () => {
 
   const handleChangeClick = async () => {
     try {
-      console.log("수정 시도 성공");
       navigate("/edit-setting");
     } catch (error) {
       console.error("수정 시도 중 오류 발생:", error);
@@ -29,14 +28,11 @@ const InformationSettings = () => {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/member/info",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("/api/v1/member/info", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
           const { email, name, mileage, loginType } = response.data.data;
           setEmail(email);
           setName(name);
@@ -62,26 +58,19 @@ const InformationSettings = () => {
 
   return (
     <>
-      <Menubar />
-      <Box>
-        <LogoText>M</LogoText>
-        <MyText>내정보</MyText>
-      </Box>
+      <Header title="내 정보" backLink="/settings" />
       <Container>
-        {" "}
-        <BackButton src={BackArrowIcon} onClick={() => navigate(-1)} />
         <ContentWrapper>
-          <Title>사용자 정보</Title>
           {errorMessage && <ErrorText>오류: {errorMessage}</ErrorText>}
           <Text>이메일: {email}</Text>
           <Text>이름: {name}</Text>
           <Text>마일리지: {mileage}</Text>
-          <Text>로그인 타입: {loginType}</Text>
         </ContentWrapper>
         <ButtonWrapper>
           <ConfirmButton onClick={handleChangeClick}>수정하기</ConfirmButton>
         </ButtonWrapper>
       </Container>
+      <Menubar />
     </>
   );
 };
@@ -95,28 +84,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Box = styled.div`
-  padding: 15px;
-  background-color: ${(props) => props.theme.color.primaryColor};
-`;
-
-const BackButton = styled.img`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  transition: transform 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
-const ContentWrapper = styled.div`
-  padding-left: 40px;
-`;
+const ContentWrapper = styled.div``;
 
 const ButtonWrapper = styled.div`
   margin-top: 20px;
@@ -141,35 +109,15 @@ const ConfirmButton = styled.button`
   }
 `;
 
-const Title = styled.span`
-  font-size: 16px;
-  margin: 5px 0;
-  padding-bottom: 20px;
-  font-weight: bold;
-  display: block;
-`;
-
 const Text = styled.span`
+  font-family: "Pretendard";
   font-size: 16px;
   margin: 10px 0;
   display: block;
 `;
 
 const ErrorText = styled.p`
+  font-family: "Pretendard";
   color: red;
   font-size: 16px;
-`;
-
-const LogoText = styled.span`
-  font-size: 18pt;
-  font-weight: bold;
-  color: #ffffff; /* 글씨 색상 */
-  cursor: pointer;
-`;
-
-const MyText = styled.span`
-  margin: 10px;
-  font-size: 18px; /* 글씨 크기 */
-  color: #ffffff; /* 글씨 색상 */
-  cursor: pointer;
 `;

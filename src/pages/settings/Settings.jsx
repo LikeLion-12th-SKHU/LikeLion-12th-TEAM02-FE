@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Menubar from "../../components/common/Menubar";
 import FrontArrowIcon from "../../assets/icons/FrontArrow.svg";
 import FeedbackIcon from "../../assets/icons/Feedback.svg";
@@ -8,7 +8,8 @@ import LogoutIcon from "../../assets/icons/Logout.svg";
 import WithdrawalIcon from "../../assets/icons/Withdrawal.svg";
 import ProfileIcon from "../../assets/icons/Profile.svg";
 import styled from "styled-components";
-import axios from "axios";
+import Header from "../../components/common/Header";
+import instance from "../../api/instance";
 
 const Settings = () => {
   const [email, setEmail] = useState("");
@@ -24,8 +25,8 @@ const Settings = () => {
         const refreshToken = localStorage.getItem("refreshToken");
 
         if (refreshToken) {
-          await axios.post(
-            "https://moodfriend.site/api/v1/account/logout",
+          await instance.post(
+            "/api/v1/account/logout",
             {},
             {
               headers: {
@@ -54,14 +55,11 @@ const Settings = () => {
 
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/member/info",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("/api/v1/member/info", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
           const { email, name } = response.data.data;
           setEmail(email);
           setName(name);
@@ -77,11 +75,21 @@ const Settings = () => {
     fetchUserData();
   }, []);
 
+  const handleInformLink = (linkPath) => {
+    navigate(linkPath);
+  };
+
+  const handleExternalLink = (linkPath) => {
+    window.location.href = linkPath;
+  };
+
   return (
     <>
-      <Menubar />
+      <Header title="내 정보" backLink="/" />
       <Box>
-        <LogoText>M</LogoText>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <LogoText>M</LogoText>
+        </Link>
         <MyText>내정보</MyText>
         <ProfileSection>
           <ProfileImage src={ProfileIcon} alt="Profile" />
@@ -92,63 +100,54 @@ const Settings = () => {
         </ProfileSection>
       </Box>
       <Container>
-        <LinkWrapper>
+        <StyledWrapper as={Link} to="/information-setting">
           <InformationImg src={UserInformIcon} alt="UserInform" />
           <TextWrapper>
             <Text>사용자 정보</Text>
             <SubText>사용자의 정보를 조회할 수 있습니다.</SubText>
           </TextWrapper>
-          <Link to="/information-setting">
-            <Img src={FrontArrowIcon} alt="FrontArrow" />
-          </Link>
-        </LinkWrapper>
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
+        </StyledWrapper>
         <Separator />
-        <FeedbackWrapper>
+        <StyledWrapper
+          as="a"
+          href="https://open.kakao.com/o/sSeRtsGg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FeedbackImg src={FeedbackIcon} alt="Feedback" />
           <FeedbackTextWrapper>
             <Text>개발자 피드백</Text>
             <SubText>개발자에게 피드백을 할 수 있습니다.</SubText>
           </FeedbackTextWrapper>
-          <a
-            href="https://open.kakao.com/o/sSeRtsGg"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Img src={FrontArrowIcon} alt="FrontArrow" />
-          </a>
-        </FeedbackWrapper>
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
+        </StyledWrapper>
         <Separator />
-        <LogoutWrapper>
+        <StyledWrapper as="div" onClick={handleLogoutClick}>
           <LogoutImg src={LogoutIcon} alt="Logout" />
           <TextWrapper>
             <Text>로그아웃</Text>
             <SubText>일시적으로 계정을 나갈 수 있습니다.</SubText>
           </TextWrapper>
-          <Img
-            src={FrontArrowIcon}
-            alt="FrontArrow"
-            onClick={handleLogoutClick}
-          />
-        </LogoutWrapper>
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
+        </StyledWrapper>
         <Separator />
-        <WithdrawalWrapper>
+        <StyledWrapper as={Link} to="/Withdrawal-setting">
           <WithdrawalImg src={WithdrawalIcon} alt="Withdrawal" />
           <TextWrapper>
             <Text>회원탈퇴</Text>
             <SubText>영구적으로 계정을 지울 수 있습니다.</SubText>
           </TextWrapper>
-          <Link to="/Withdrawal-setting">
-            <Img src={FrontArrowIcon} alt="FrontArrow" />
-          </Link>
-        </WithdrawalWrapper>
+          <Img src={FrontArrowIcon} alt="FrontArrow" />
+        </StyledWrapper>
       </Container>
+      <Menubar />
     </>
   );
 };
 
 export default Settings;
 
-// 스타일 컴포넌트 정의
 const Container = styled.div`
   padding: 20px;
   display: flex;
@@ -156,12 +155,12 @@ const Container = styled.div`
   align-items: center;
   max-width: 430px;
   min-width: 360px;
-  max-height: 932px;
-  min-height: 780px;
+  height: 75vh;
   margin: auto;
 `;
 
 const Box = styled.div`
+  height: 25vh;
   padding: 15px;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: white;
@@ -173,10 +172,19 @@ const ProfileSection = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  width: 100px;
-  height: 100px;
   border-radius: 50%;
-  margin: 20px 5px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 120px;
+    height: 120px;
+    margin: 30px 10px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 100px;
+    height: 100px;
+    margin: 25px 10px;
+  }
 `;
 
 const ProfileInfo = styled.div`
@@ -185,124 +193,197 @@ const ProfileInfo = styled.div`
   gap: 10px;
 `;
 
-const EditProfile = styled.span`
-  font-size: 14px;
-  color: #007bff;
+const StyledWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 0;
   cursor: pointer;
-  text-decoration: underline;
-`;
+  text-decoration: none;
+  color: inherit;
 
-const LinkWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const FeedbackWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const LogoutWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const WithdrawalWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  &:hover {
+    background-color: #f9f9f9;
+  }
 `;
 
 const Separator = styled.div`
   width: 100%;
   border-bottom: 1px solid #ddd;
-  margin: 20px 0; /* 조정된 간격 */
-`;
-
-const FeedbackImg = styled.img`
-  cursor: pointer;
-  width: 25px;
-  height: 25px;
+  margin: 20px 0;
 `;
 
 const InformationImg = styled.img`
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 35px;
+    height: 35px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 30px;
+    height: 30px;
+  }
+`;
+
+const FeedbackImg = styled.img`
+  cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 30px;
+    height: 30px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 const LogoutImg = styled.img`
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 35px;
+    height: 35px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const WithdrawalImg = styled.img`
   cursor: pointer;
-  width: 30px;
-  height: 30px;
   opacity: 40%;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 35px;
+    height: 35px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const Img = styled.img`
-  width: 25px;
-  height: 25px;
   margin-left: 10px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 35px;
+    height: 35px;
+    margin-left: 15px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+  }
 `;
 
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 10px;
 `;
 
 const FeedbackTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 15px;
 `;
 
 const Text = styled.span`
-  font-size: 16px;
   color: #333;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    font-size: 18px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    font-size: 16px;
+  }
 `;
 
 const LogoText = styled.span`
-  font-size: 18pt;
   font-weight: bold;
   color: #ffffff;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    font-size: 30px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    font-size: 18pt;
+  }
 `;
 
 const MyText = styled.span`
+  font-family: Pretendard;
   margin: 10px;
-  font-size: 18px;
   color: #ffffff;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    font-size: 25px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    font-size: 14pt;
+  }
 `;
 
 const Name = styled.span`
-  margin-left: 20px;
-  font-size: 16px;
   color: #ffffff;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    margin-left: 25px;
+    font-size: 21px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    margin-left: 20px;
+    font-size: 16px;
+  }
 `;
 
 const Email = styled.span`
+  font-family: Pretendard;
   margin-left: 20px;
   font-size: 12px;
   color: #bbbbbb;
   cursor: pointer;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    margin-left: 25px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    margin-left: 20px;
+    font-size: 12px;
+  }
 `;
 
 const SubText = styled.span`
-  font-size: 12px;
   color: #666;
   margin-top: 5px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    font-size: 14px;
+    opacity: 70%;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    font-size: 12px;
+  }
 `;

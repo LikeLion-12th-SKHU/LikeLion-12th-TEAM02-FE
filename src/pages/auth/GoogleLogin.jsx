@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/common/Loading";
 
 const GoogleLogin = () => {
   const navigate = useNavigate();
@@ -16,7 +17,6 @@ const GoogleLogin = () => {
           const { accessToken, refreshToken } = response.data.data;
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
-          alert("로그인 되었습니다.");
           navigate("/");
         })
         .catch((error) => {
@@ -27,11 +27,7 @@ const GoogleLogin = () => {
 
   return (
     <div className="LoginHandler">
-      <div className="notice">
-        <p>로그인 중입니다.</p>
-        <p>잠시만 기다려주세요.</p>
-        <div className="spinner"></div>
-      </div>
+      <Loading />
     </div>
   );
 };

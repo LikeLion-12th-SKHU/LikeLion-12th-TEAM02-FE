@@ -24,6 +24,7 @@ import Toy from "./pages/objects/Toy";
 import Wallpaper from "./pages/objects/Wallpaper";
 import Object from "./pages/Object";
 import Shop from "./pages/shop/Shop";
+import Payment from "./pages/shop/Payment";
 import Chat from "./pages/chat/Chat";
 import Friends from "./pages/friends/Friends";
 import Settings from "./pages/settings/Settings";
@@ -31,8 +32,36 @@ import EditSettings from "./pages/settings/EditSettings";
 import InformationSettings from "./pages/settings/InformationSettings";
 import WithdrawalSettings from "./pages/settings/WithdrawalSettings";
 import Tracker from "./pages/tracker/Tracker";
+import Charge from "./pages/shop/Charge";
+import PaymentResult from "./pages/shop/PaymentResult";
+import CreateDiary from "./pages/tracker/CreateDiary";
+import DiaryDetail from "./pages/tracker/DiaryDetail";
+import EditDiary from "./pages/tracker/EditDiary";
+import RecommendHospital from "./pages/tracker/RecommendHospital";
+import RequestList from "./pages/friends/RequestList";
+import React, { useEffect, useState } from "react";
+import MobileWarning from "./components/common/MobileWarning";
 
 function App() {
+  const [isMobile, setIsMobile] = useState(true);
+  // 모바일 기기 접속만 가능하도록 변경
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 450);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  if (!isMobile) {
+    return <MobileWarning />;
+  }
+
   return (
     <Router>
       <GlobalStyle />
@@ -56,13 +85,21 @@ function App() {
         <Route path="/gift" element={<Gift />} />
         <Route path="/object" element={<Object />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment-result" element={<PaymentResult />} />
+        <Route path="/charge" element={<Charge />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/friends" element={<Friends />} />
+        <Route path="/friends/request" element={<RequestList />} />
         <Route path="/edit-setting" element={<EditSettings />} />
         <Route path="/information-setting" element={<InformationSettings />} />
         <Route path="/withdrawal-setting" element={<WithdrawalSettings />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/tracker" element={<Tracker />} />
+        <Route path="/diary/new" element={<CreateDiary />} />
+        <Route path="/diary/:id" element={<DiaryDetail />} />
+        <Route path="/diary/edit/:id" element={<EditDiary />} />
+        <Route path="/hospital" element={<RecommendHospital />} />
       </Routes>
     </Router>
   );
