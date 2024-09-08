@@ -156,28 +156,31 @@ const Label = styled.h1`
 `;
 
 const FormGroup = styled.div`
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
 `;
 
 const InputEmail = styled.input`
   width: 100%;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  border: 1px solid #ffffff;
-  border-radius: 8px;
+  padding: 0.875rem 1.5rem;
   font-family: "Pretendard";
-  font-weight: 600;
-  font-size: 14pt;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  border-radius: 0.5rem;
+  border: 1px solid #e1e1e8;
+  background: #fff;
 `;
 
 const InputPassword = styled.input`
   width: 100%;
-  padding: 10px 20px;
-  border: 1px solid #ffffff;
-  border-radius: 8px;
+  padding: 0.875rem 1.5rem;
   font-family: "Pretendard";
-  font-weight: 600;
-  font-size: 14pt;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  border-radius: 0.5rem;
+  border: 1px solid #e1e1e8;
+  background: #fff;
 `;
 
 const ButtonContainer = styled.div`
@@ -193,7 +196,7 @@ const Button = styled.button`
   cursor: pointer;
   font-family: "Pretendard";
   font-weight: 500;
-  font-size: 14pt;
+  font-size: 1rem;
   border: none;
 
   &:active {
@@ -208,7 +211,7 @@ const KakaoButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14pt;
+  font-size: 16px;
 
   &:hover {
     background-color: #f9e300;
@@ -223,7 +226,10 @@ const GoogleButton = styled(Button)`
   background-color: #ffffff;
   border: 1px solid #c5c5c5;
   color: #000000;
-  font-size: 14pt;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: #f1f1f1;
@@ -241,7 +247,7 @@ const Icon = styled.img`
 `;
 
 const List = styled.ul`
-  margin: 20px 0;
+  margin: 16px 0;
   display: flex;
   justify-content: center;
 `;
@@ -254,8 +260,8 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${(props) => props.theme.color.inputColor};
   font-family: "Pretendard", sans-serif;
-  font-weight: 500;
-  font-size: 12pt;
+  font-weight: 400;
+  font-size: 1rem;
 
   &:hover {
     text-decoration: underline;
@@ -266,7 +272,7 @@ const Div = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 40px 0;
+  margin: 20px 0 16px 0;
 `;
 
 const DivItem = styled.div`
