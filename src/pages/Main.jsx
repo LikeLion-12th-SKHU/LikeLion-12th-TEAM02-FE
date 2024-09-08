@@ -124,8 +124,8 @@ export function Main() {
   };
 
   return (
-    <Container>
-      <Background>
+    <>
+      <Container>
         <Icons>
           <Icon
             src={MileageIcon}
@@ -136,68 +136,64 @@ export function Main() {
           <Label>Mood Friend</Label>
           <Icon src={ObjIcon} alt="Obj Icon" onClick={handleObjClick} />
         </Icons>
-        <Interior>
-          <LeftObj src={WindowIcon} alt="Window Icon" />
-          <RightObj src={WindowIcon} alt="Window Icon" />
-        </Interior>
-        <Chat>
-          <Dialog src={DialogIcon} alt="Dialog Icon" />
-          <DialogText>누가 {name} 기분을 안 좋게 했어!</DialogText>
-        </Chat>
-        <Character src={AngryHoyaIcon} alt="AngryHoya Icon" />
-        <FloorInterior>
-          <RightFloorObj src={getObjectIcon()} alt="HeartObj Icon" />
-        </FloorInterior>
-      </Background>
-      <Floor>
-        <Circular></Circular>
-      </Floor>
+        <Background>
+          <TopSection>
+            <Interior>
+              <LeftObj src={WindowIcon} alt="Window Icon" />
+              <RightObj src={WindowIcon} alt="Window Icon" />
+            </Interior>
+            <Chat>
+              <Dialog src={DialogIcon} alt="Dialog Icon" />
+              <DialogText> {name} 안하고싶어...</DialogText>
+            </Chat>
+          </TopSection>
+
+          <BottomSection>
+            {/* <FloorInterior>
+              <RightFloorObj src={getObjectIcon()} alt="HeartObj Icon" />
+            </FloorInterior> */}
+            <Floor>
+              <Character src={AngryHoyaIcon} alt="AngryHoya Icon" />
+              <Circular></Circular>
+            </Floor>
+          </BottomSection>
+        </Background>
+      </Container>
       <Menubar />
-    </Container>
+    </>
   );
 }
 
 // 스타일 정의
 const Container = styled.div`
-  position: relative;
-  flex-direction: column;
-  align-items: center;
   max-width: 430px;
   min-width: 360px;
-  min-height: 100vh;
-  margin: auto;
+  height: calc(100vh - 16vh);
+  background-color: ${(props) => props.theme.color.pinkColor};
 `;
 
 const Background = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-color: ${(props) => props.theme.color.pinkColor};
+  height: 100%;
 `;
 
 const Floor = styled.div`
   width: 100%;
+  height: 100%;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: ${(props) => props.theme.color.lightPinkColor};
-
-  @media (max-height: 932px) {
-    height: calc(100vh - 632px);
-    max-height: 932px;
-  }
-
-  @media (max-height: 780px) {
-    height: calc(100vh - 660px);
-    overflow: hidden;
-  }
 `;
 
 const Interior = styled.div`
+  margin-top: 2rem;
   display: flex;
   align-items: center;
-  margin-top: -200px;
+  justify-content: space-between;
 `;
 
 const FloorInterior = styled.div`
@@ -208,8 +204,11 @@ const FloorInterior = styled.div`
 const LeftObj = styled.img`
   width: 80px;
   height: 80px;
-  margin-top: -100px;
   margin-right: 150px;
+`;
+const RightObj = styled.img`
+  width: 80px;
+  height: 80px;
 `;
 
 const RightFloorObj = styled.img`
@@ -217,12 +216,6 @@ const RightFloorObj = styled.img`
   height: 50px;
   margin-left: 100px;
   position: absolute;
-`;
-
-const RightObj = styled.img`
-  width: 80px;
-  height: 80px;
-  margin-top: -100px;
 `;
 
 const Icon = styled.img`
@@ -235,30 +228,27 @@ const Icon = styled.img`
 const Icons = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 70px;
-  margin-bottom: 350px;
+  justify-content: center;
+  height: 8vh;
 `;
 
 const Chat = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 1rem;
   margin-bottom: 30px;
   position: relative;
 `;
 
-const Dialog = styled.img`
-  width: 150%;
-  height: 100%;
-`;
+const Dialog = styled.img``;
 
-const DialogText = styled.div`
+const DialogText = styled.h2`
+  font-family: "Pretendard";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 40%;
   color: #000000;
-  font-size: 12px;
+  font-size: 18px;
   text-align: center;
   font-weight: bold;
   padding: 10px;
@@ -283,12 +273,14 @@ const Number = styled.h1`
 `;
 
 const Character = styled.img`
+  position: absolute;
+  top: -35%;
   width: 140px;
   height: 150px;
   display: flex;
 `;
 
-const Circular = styled.button`
+const Circular = styled.div`
   width: 180px;
   height: 60px;
   border-radius: 50%;
@@ -300,4 +292,16 @@ const Circular = styled.button`
   color: #fff;
   font-size: 16pt;
   cursor: pointer;
+`;
+
+const TopSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 60%;
+`;
+
+const BottomSection = styled.div`
+  width: 100%;
+  height: 40%;
 `;
