@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import LockIcon from "../../assets/icons/Lock.svg";
+import instance from "../../api/instance";
 
 // Signup 컴포넌트 정의
 const Signup = () => {
   const navigate = useNavigate(); // 페이지 이동을 위한 navigate 훅
   const [email, setEmail] = useState(""); // 이메일 상태
+  const [code, setCode] = useState(""); // 인증코드 상태
   const [password, setPassword] = useState(""); // 비밀번호 상태
   const [confirmPassword, setConfirmPassword] = useState(""); // 비밀번호 확인 상태
   const [errorMessage, setErrorMessage] = useState(""); // 오류 메시지 상태
   const [showPassword, setShowPassword] = useState(false); // 비밀번호 표시 여부 상태
   const [showPasswordCheck, setShowPasswordCheck] = useState(false); // 비밀번호 확인 표시 여부 상태
+  const [timeLeft, setTimeLeft] = useState(0); // 남은 시간 관리
+  const [showTimer, setShowTimer] = useState(false); // 타이머 보이게 할지 여부
+  const [isEmailSent, setIsEmailSent] = useState(false); // 이메일 전송 여부
+  const [isVerfied, setIsVerified] = useState(false); // 이메일 인증 완료 여부
+  const [isLoading, setIsLoading] = useState(false); // 이메일 전송 로딩 여부
+  const [isDisabled, setIsDisabled] = useState(false); // 모든 버튼 비활성화
 
   // 이메일 유효성 검사 함수
   const validateEmail = (email) => {
@@ -26,6 +33,42 @@ const Signup = () => {
     const re =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{10,16}$/;
     return re.test(password);
+  };
+
+  // 인증메일 보내기 버튼
+  const sendVerificationEmail = async () => {
+    setIsLoading(true); // 로딩
+    try {
+      const response = await instance.post("api/v1/auth/email-send", { email });
+      if (response.status === 200) {
+        setIsEmailSent(true);
+        startTimer();
+      }
+      alert("메일에 인증코드를 보냈습니다.");
+    } catch (error) {
+      setErrorMessage("이메일 전송 실패");
+    } finally {
+      setIsLoading(false); // 버튼 활성화
+    }
+  };
+
+  // 이메일 인증
+  const verifyEmail = async () => {
+    try {
+      const response = await instance.post("api/v1/auth/email-verify", {
+        email,
+        code
+      });
+      if (response.status === 200) {
+        setIsVerified(true); // 이메일 인증 완료
+        setShowTimer(false); // 타이머 숨기기
+        setTimeLeft(0);
+        setIsDisabled(true);
+        alert("이메일 검증이 완료되었습니다.");
+      }
+    } catch (error) {
+      setErrorMessage("이메일 검증 실패");
+    }
   };
 
   // 폼 제출 핸들러
@@ -55,17 +98,18 @@ const Signup = () => {
 
     try {
       // 서버에 회원가입 요청
-      const signupResponse = await axios.post(
-        "https://moodfriend.site/api/v1/auth/signUp",
-        { email, password, confirmPassword }
-      );
+      const signupResponse = await instance.post("api/v1/auth/signUp", {
+        email,
+        password,
+        confirmPassword
+      });
 
       if (signupResponse.status === 201) {
         // 로그인 요청
-        const loginResponse = await axios.post(
-          "https://moodfriend.site/api/v1/auth/login",
-          { email, password }
-        );
+        const loginResponse = await instance.post("api/v1/auth/login", {
+          email,
+          password
+        });
 
         const { accessToken, refreshToken } = loginResponse.data.data;
 
@@ -112,20 +156,85 @@ const Signup = () => {
     navigate("/auth/login");
   };
 
+  useEffect(() => {
+    if (timeLeft === 0) return;
+
+    const intervalId = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [timeLeft]);
+
+  // 5분 타이머 작동
+  const startTimer = () => {
+    setTimeLeft(300);
+    setShowTimer(true);
+  };
+
+  const formatTime = () => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  };
+
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
         <Label>Mood Friend</Label>
         <FormGroup>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="이메일"
-            required
-            autoComplete="your_email"
-          />
+          <EmailVeri>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="이메일"
+              required
+              autoComplete="your_email"
+              disabled={isDisabled}
+            />
+            <EmailVeriBtn
+              type="button"
+              onClick={sendVerificationEmail}
+              disabled={isLoading || isDisabled}
+            >
+              {isLoading ? "인증 중..." : "인증"}
+            </EmailVeriBtn>
+          </EmailVeri>
         </FormGroup>
+
+        {isEmailSent && (
+          <FormGroup>
+            <EmailVeri>
+              <Input
+                type="text"
+                value={code}
+                placeholder="인증코드"
+                required
+                onChange={(e) => setCode(e.target.value)}
+                disabled={isDisabled}
+              />
+              <EmailVeriBtn
+                w="180px"
+                type="button"
+                onClick={verifyEmail}
+                disabled={isLoading || isDisabled}
+              >
+                이메일 인증
+              </EmailVeriBtn>
+            </EmailVeri>
+            {showTimer && (
+              <Timer>
+                <b>{formatTime()}</b> 내로 인증해야합니다. <br />
+                메일이 가지 않은 경우 다시 인증 버튼을 눌러주세요.
+              </Timer>
+            )}
+
+            {isVerfied && (
+              <VerifiedMessage>이메일 인증이 완료되었습니다.</VerifiedMessage>
+            )}
+          </FormGroup>
+        )}
         <FormGroup>
           <InputGroup>
             <InputPassword
@@ -274,9 +383,51 @@ const Button = styled.button`
 `;
 
 const Error = styled.div`
-  color: red;
-  font-size: 14pt;
-  margin: 5px 0;
+  color: #dc143c;
+  font-size: 14px;
   font-family: "Pretendard";
-  font-weight: 500;
+  padding: 0 4px;
+  margin: 10px 0;
+`;
+
+const EmailVeri = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+`;
+
+const EmailVeriBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${(props) => props.w || "80px"};
+  height: 49px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  background: ${(props) => props.theme.color.primaryColor};
+  border-radius: 0.5rem;
+
+  &:disabled {
+    background: "#cccccc";
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+`;
+
+const Timer = styled.p`
+  color: #dc143c;
+  font-size: 14px;
+  font-family: "Pretendard";
+  padding: 0 4px;
+  margin: 10px 0;
+`;
+
+const VerifiedMessage = styled.p`
+  color: #009000;
+  font-size: 14px;
+  font-family: "Pretendard";
+  padding: 0 4px;
+  margin: 10px 0;
 `;

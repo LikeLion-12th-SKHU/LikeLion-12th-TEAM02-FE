@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import KakaoIcon from "../../assets/icons/Kakao.svg";
 import GoogleIcon from "../../assets/icons/Google.svg";
+import instance from "../../api/instance";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -39,10 +40,10 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://moodfriend.site/api/v1/auth/login",
-        { email, password }
-      );
+      const response = await instance.post("api/v1/auth/login", {
+        email,
+        password
+      });
 
       const { accessToken, refreshToken } = response.data.data;
 
