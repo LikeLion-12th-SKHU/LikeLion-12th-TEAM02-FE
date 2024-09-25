@@ -3,7 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import LockIcon from "../../assets/icons/Lock.svg";
-import instance from "../../api/instance";
+import loginInstance from "../../api/loginInstance";
 
 // Signup 컴포넌트 정의
 const Signup = () => {
@@ -39,7 +39,9 @@ const Signup = () => {
   const sendVerificationEmail = async () => {
     setIsLoading(true); // 로딩
     try {
-      const response = await instance.post("api/v1/auth/email-send", { email });
+      const response = await loginInstance.post("api/v1/auth/email-send", {
+        email
+      });
       if (response.status === 200) {
         setIsEmailSent(true);
         startTimer();
@@ -55,7 +57,7 @@ const Signup = () => {
   // 이메일 인증
   const verifyEmail = async () => {
     try {
-      const response = await instance.post("api/v1/auth/email-verify", {
+      const response = await loginInstance.post("api/v1/auth/email-verify", {
         email,
         code
       });
@@ -98,7 +100,7 @@ const Signup = () => {
 
     try {
       // 서버에 회원가입 요청
-      const signupResponse = await instance.post("api/v1/auth/signUp", {
+      const signupResponse = await loginInstance.post("api/v1/auth/signUp", {
         email,
         password,
         confirmPassword
@@ -106,7 +108,7 @@ const Signup = () => {
 
       if (signupResponse.status === 201) {
         // 로그인 요청
-        const loginResponse = await instance.post("api/v1/auth/login", {
+        const loginResponse = await loginInstance.post("api/v1/auth/login", {
           email,
           password
         });

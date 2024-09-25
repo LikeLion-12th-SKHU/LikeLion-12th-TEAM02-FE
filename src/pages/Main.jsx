@@ -11,6 +11,7 @@ import HeartObjIcon from "../assets/icons/HeartObj.svg";
 import BlackHeartObjIcon from "../assets/icons/BlackHeartObj.svg";
 import PinkHeartObjIcon from "../assets/icons/PinkHeartObj.svg";
 import { useNavigate } from "react-router-dom";
+import instance from "../api/instance";
 
 export function Main() {
   const [mileage, setMileage] = useState(0);
@@ -25,14 +26,11 @@ export function Main() {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/member/info",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("api/v1/member/info", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
           const { mileage, name } = response.data.data;
           setMileage(mileage);
           setName(name);
@@ -68,8 +66,8 @@ export function Main() {
         return;
       }
 
-      const response = await axios.post(
-        "https://moodfriend.site/api/v1/member/attendance",
+      const response = await instance.post(
+        "api/v1/member/attendance",
         {},
         {
           headers: {
@@ -144,7 +142,7 @@ export function Main() {
             </Interior>
             <Chat>
               <Dialog src={DialogIcon} alt="Dialog Icon" />
-              <DialogText> {name} 안하고싶어...</DialogText>
+              <DialogText> 누가 {name} 화나게했어!</DialogText>
             </Chat>
           </TopSection>
 
@@ -248,9 +246,9 @@ const DialogText = styled.h2`
   position: absolute;
   top: 40%;
   color: #000000;
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
-  font-weight: bold;
+  font-weight: 500;
   padding: 10px;
   white-space: nowrap;
 `;
