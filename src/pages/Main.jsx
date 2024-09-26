@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Menubar from "../components/common/Menubar";
 import styled from "styled-components";
 import MileageIcon from "../assets/icons/Mileage.svg";
@@ -12,6 +11,7 @@ import BlackHeartObjIcon from "../assets/icons/BlackHeartObj.svg";
 import PinkHeartObjIcon from "../assets/icons/PinkHeartObj.svg";
 import { useNavigate } from "react-router-dom";
 import instance from "../api/instance";
+import useAuthStore from "../store/useAuthStore";
 
 export function Main() {
   const [mileage, setMileage] = useState(0);
@@ -19,6 +19,7 @@ export function Main() {
   const [objectStatuses, setObjectStatuses] = useState([false, false, false]); // objectStatuses 상태 추가
 
   const navigate = useNavigate();
+  const { logout } = useAuthStore();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -36,6 +37,7 @@ export function Main() {
           localStorage.setItem("mileage", mileage);
           localStorage.setItem("name", name);
         } catch (error) {
+          logout();
           console.error("Failed to fetch user data:", error);
         }
       } else {
@@ -59,7 +61,7 @@ export function Main() {
       const accessToken = localStorage.getItem("accessToken");
 
       if (!accessToken) {
-        console.log("엑세스토큰이 없습니다.");
+        console.error("엑세스토큰이 없습니다.");
         return;
       }
 
@@ -73,7 +75,6 @@ export function Main() {
           }
         }
       );
-      console.log(response.data.status);
 
       if (response.data.status === 200) {
         const { mileage } = response.data.data;
@@ -97,7 +98,6 @@ export function Main() {
 
   const handleObjClick = async () => {
     try {
-      console.log("오브제 화면 전환 성공");
       navigate("/object");
     } catch (error) {
       console.error("오브제 화면 전환 시도 중 오류 발생:", error);

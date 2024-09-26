@@ -19,7 +19,7 @@ export default function Tracker() {
 
   return (
     <div>
-      <Header title="감정 통계" />
+      <Header title="감정 통계" backLink="/" />
       <DiaryCalendar diaries={data} />
       <Menubar />
     </div>

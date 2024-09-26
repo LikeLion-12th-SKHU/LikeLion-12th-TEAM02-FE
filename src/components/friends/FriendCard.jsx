@@ -6,7 +6,7 @@ import SadnessIcon from "../../assets/icons/Hoya-SadnessIcon-Solid.svg";
 import DispleasureIcon from "../../assets/icons/Hoya-DispleasureIcon-Solid.svg";
 import AngerIcon from "../../assets/icons/Hoya-AngerIcon-Solid.svg";
 
-const FriendCard = ({ friend, isRequest, onAccept, onDelete }) => {
+const FriendCard = ({ friend, isRequest, onAccept, onReject, onDelete }) => {
   const emotionImageMap = {
     JOY: JoyIcon,
     SO_SO: SoSoIcon,
@@ -20,7 +20,7 @@ const FriendCard = ({ friend, isRequest, onAccept, onDelete }) => {
   return (
     <F.FriendCardLayout>
       {!isRequest && emotionImage && (
-        <div style={{ width: "40px", height: "40px" }}>
+        <div style={{ width: "50px", height: "50px" }}>
           <img
             src={emotionImage}
             alt={friend.emotionType}
@@ -35,9 +35,14 @@ const FriendCard = ({ friend, isRequest, onAccept, onDelete }) => {
       </F.CommonFlexLayout>
 
       {isRequest && (
-        <F.AcceptBtn onClick={onAccept} backColor="#1CC260">
-          수락
-        </F.AcceptBtn>
+        <F.RequestBtnDiv>
+          <F.AcceptBtn onClick={onAccept} backColor="#1CC260">
+            수락
+          </F.AcceptBtn>
+          <F.AcceptBtn onClick={onReject} backColor="#F3314C">
+            거절
+          </F.AcceptBtn>
+        </F.RequestBtnDiv>
       )}
       {!isRequest && (
         <F.AcceptBtn onClick={onDelete} backColor="#F3314C">

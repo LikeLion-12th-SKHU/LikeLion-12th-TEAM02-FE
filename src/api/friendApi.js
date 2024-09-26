@@ -68,6 +68,25 @@ export const acceptFriendRequest = async (friendEmail) => {
   }
 };
 
+// 친구 요청 수락
+export const rejectFriendRequest = async (friendEmail) => {
+  const accessToken = localStorage.getItem("accessToken");
+  try {
+    const res = await instance.put(
+      `api/v1/friend/reject?friendEmail=${friendEmail}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    );
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 // 친구 삭제
 export const deleteFriend = async (friendEmail) => {
   const accessToken = localStorage.getItem("accessToken");
