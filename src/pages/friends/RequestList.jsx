@@ -3,7 +3,11 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/common/Header";
 import * as F from "../../styles/friends";
-import { acceptFriendRequest, fetchRequestFriends } from "../../api/friendApi";
+import {
+  acceptFriendRequest,
+  fetchRequestFriends,
+  rejectFriendRequest
+} from "../../api/friendApi";
 import FriendCard from "../../components/friends/FriendCard";
 import * as T from "../../styles/tracker";
 
@@ -23,8 +27,20 @@ const RequestList = () => {
 
   const handleAccept = async (friendEmail) => {
     try {
-      const response = await acceptFriendRequest(friendEmail);
+      await acceptFriendRequest(friendEmail);
       alert("친구 수락이 완료되었습니다.");
+
+      setRequests((prevRequests) =>
+        prevRequests.filter((friend) => friend.email !== friendEmail)
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleReject = async (friendEmail) => {
+    try {
+      await rejectFriendRequest(friendEmail);
 
       setRequests((prevRequests) =>
         prevRequests.filter((friend) => friend.email !== friendEmail)
@@ -49,6 +65,7 @@ const RequestList = () => {
                 friend={friend}
                 isRequest={true}
                 onAccept={() => handleAccept(friend.email)}
+                onReject={() => handleReject(friend.email)}
               />
             ))}
           </ul>

@@ -84,3 +84,9 @@ export const AcceptBtn = styled.button`
   font-size: 14px;
   margin-left: auto;
 `;
+
+export const RequestBtnDiv = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+`;

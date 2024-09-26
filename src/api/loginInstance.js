@@ -19,7 +19,7 @@ export const refreshAccessToken = async () => {
     const { accessToken } = response.data;
     localStorage.setItem("accessToken", accessToken);
 
-    loginInstance.defaults.headers["accessToken"] = `Bearer ${accessToken}`;
+    loginInstance.defaults.headers["Authorization"] = `Bearer ${accessToken}`;
   } catch (error) {
     console.error("Access token refresh failed", error);
   }

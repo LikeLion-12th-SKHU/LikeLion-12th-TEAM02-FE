@@ -66,6 +66,7 @@
 
 .chat_container {
   margin: 0 auto;
+  padding: 10px 0 80px 0;
   height: 80vh;
   overflow-y: auto;
 }

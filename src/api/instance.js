@@ -20,7 +20,7 @@ instance.interceptors.request.use(
       // 토큰 만료
       if (decodedToken.exp < currentTime) {
         useAuthStore.getState().logout();
-        console.log("asdf");
+        console.log(useAuthStore.getState().logout());
         return Promise.reject(new Error("Token Expired"));
       }
 
