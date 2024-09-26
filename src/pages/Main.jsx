@@ -17,7 +17,6 @@ export function Main() {
   const [mileage, setMileage] = useState(0);
   const [name, setName] = useState(""); // name 상태 추가
   const [objectStatuses, setObjectStatuses] = useState([false, false, false]); // objectStatuses 상태 추가
-  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -38,7 +37,6 @@ export function Main() {
           localStorage.setItem("name", name);
         } catch (error) {
           console.error("Failed to fetch user data:", error);
-          setErrorMessage("사용자 정보를 불러올 수 없습니다.");
         }
       } else {
         console.log("No Access Token Found");
@@ -56,13 +54,12 @@ export function Main() {
 
   const handleMileageClick = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
 
     try {
       const accessToken = localStorage.getItem("accessToken");
 
       if (!accessToken) {
-        setErrorMessage("인증 토큰이 없습니다. 로그인 후 다시 시도해 주세요.");
+        console.log("엑세스토큰이 없습니다.");
         return;
       }
 
@@ -76,26 +73,24 @@ export function Main() {
           }
         }
       );
+      console.log(response.data.status);
 
-      if (response.data.success) {
+      if (response.data.status === 200) {
         const { mileage } = response.data.data;
         setMileage(mileage);
         localStorage.setItem("mileage", mileage);
         alert("행복을 얻었어요!");
-      } else {
+      } else if (response.data.status === 409) {
         alert("이미 행복을 얻었어요!");
       }
     } catch (error) {
-      console.error("출석 실패:", error);
       alert("이미 행복을 얻었어요!");
       if (error.response) {
-        setErrorMessage(
-          error.response.data.message || "행복을 얻을 수 없습니다."
-        );
+        console.log(error.response.data.message || "행복을 얻을 수 없습니다.");
       } else if (error.request) {
-        setErrorMessage("서버 응답이 없습니다.");
+        console.log("서버 응답이 없습니다.");
       } else {
-        setErrorMessage("요청을 처리할 수 없습니다.");
+        console.log("요청을 처리할 수 없습니다.");
       }
     }
   };
