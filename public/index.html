@@ -11,25 +11,25 @@
       name="viewport"
       content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
     />
+
+    <!-- 포트원 결제 라이브러리 -->
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <!-- jQuery -->
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+    ></script>
+
     <title>Mood Friend</title>
   </head>
   <body>
     <div id="root"></div>
-  </body>
-</html>
-<!doctype html>
-<html lang="en">
-<!-- 포트원 결제 -->
-<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-<!-- jQuery -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<!-- iamport.payment.js -->
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-<!-- 포트원 결제 -->
+
+    <!-- 포트원 결제 스크립트 -->
     <script>
-      var IMP = window.IMP;
-      IMP.init("imp11681810");
+      var IMP = window.IMP; // 아임포트 초기화
+      IMP.init("imp11681810"); // 가맹점 식별코드
 
       function requestPay() {
         IMP.request_pay(
@@ -44,21 +44,17 @@
             buyer_tel: "010-1234-5678",
             buyer_addr: "서울특별시",
             buyer_postcode: "123-456",
-            m_redirect_url: "/payment-result" // 결제 완료 후 돌아갈 URL
+            m_redirect_url: "/payment-result" // 결제 완료 후 리디렉션될 URL
           },
           function (rsp) {
-            if(rsp.success) {
-              console.log(rsp);
+            if (rsp.success) {
+              console.log(rsp); // 성공시 처리
             } else {
-              console.log(rsp);
+              console.log(rsp); // 실패시 처리
             }
           }
         );
       }
     </script>
-    <meta charset="UTF-8" />
-    <title>Sample Payment</title>
-  </head>
-  <body>
   </body>
 </html>

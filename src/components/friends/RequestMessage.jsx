@@ -1,7 +1,22 @@
 // src/components/friends/RequestMessage.jsx
 import React, { useEffect, useState } from "react";
 import shop from "../../assets/icons/Shop.svg";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeOut = keyframes`
+  0% {
+  opacity: 1;
+  
+  }
+
+  70% {
+  opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+`;
 
 const ToastWrap = styled.div`
   display: flex;
@@ -20,6 +35,7 @@ const ToastWrap = styled.div`
   bottom: 20%;
   left: 50%;
   transform: translate(-50%, 20%);
+  animation: ${fadeOut} 3s forwards;
 `;
 
 const ToastImage = styled.img`
@@ -40,7 +56,7 @@ const RequestMessage = ({ message }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);

@@ -1,20 +1,23 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/common/Loading";
+import useAuthStore from "../../store/useAuthStore";
+import loginInstance from "../../api/loginInstance";
 
 const KakaoLogin = () => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
+  const { kakaoLogin } = useAuthStore();
 
   useEffect(() => {
     if (code) {
-      axios
-        .get(`https://moodfriend.site/api/v1/auth/callback/kakao?code=${code}`)
+      loginInstance
+        .get(`api/v1/auth/callback/kakao?code=${code}`)
         .then((response) => {
           const { accessToken, refreshToken } = response.data.data;
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
+          kakaoLogin();
           alert("로그인 되었습니다.");
           navigate("/"); // 메인 화면으로 전환
         })

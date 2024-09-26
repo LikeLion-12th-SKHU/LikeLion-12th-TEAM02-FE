@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import KakaoIcon from "../../assets/icons/Kakao.svg";
 import GoogleIcon from "../../assets/icons/Google.svg";
+import useAuthStore from "../../store/useAuthStore";
+import loginInstance from "../../api/loginInstance";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate(); // useNavigate 훅 사용
+
+  const { login, isLoggedIn } = useAuthStore();
 
   // 카카오 로그인 URL을 정의
   const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
@@ -39,18 +42,18 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://moodfriend.site/api/v1/auth/login",
-        { email, password }
-      );
+      const response = await loginInstance.post("api/v1/auth/login", {
+        email,
+        password
+      });
 
       const { accessToken, refreshToken } = response.data.data;
 
       if (accessToken) {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
+        login(); // 전역 상태 관리
 
-        alert("로그인 성공!");
         navigate("/"); // 메인 화면으로 이동
       } else {
         setErrorMessage("로그인 실패");
@@ -61,64 +64,75 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      // 로그인이 되어있으면 메인 페이지로 리디렉션
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
+
   return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
-        <Label>Mood Friend</Label>
-        <FormGroup>
-          <InputEmail
-            type="email"
-            placeholder="이메일"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-          />
-        </FormGroup>
-        <FormGroup>
-          <InputPassword
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-          />
-          {errorMessage && <Error>{errorMessage}</Error>}
-        </FormGroup>
-        <ButtonContainer>
-          <Button type="submit">로그인</Button>
-        </ButtonContainer>
-        <List>
-          <ListItem>
-            <StyledLink to="/auth/signUp">회원가입을 하시겠습니까?</StyledLink>
-          </ListItem>
-        </List>
-        <Div>
-          <DivItem>
-            <HorizontalLine />
-          </DivItem>
-          <DivItem>
-            <Text>SNS 계정 로그인</Text>
-          </DivItem>
-          <DivItem>
-            <HorizontalLine />
-          </DivItem>
-        </Div>
-        <FormGroup>
-          <KakaoButton onClick={handleKakaoLogin}>
-            <Icon src={KakaoIcon} alt="Kakao Icon" />
-            카카오로 시작하기
-          </KakaoButton>
-        </FormGroup>
-        <FormGroup>
-          <GoogleButton onClick={handleGoogleLogin}>
-            <Icon src={GoogleIcon} alt="Google Icon" />
-            Google로 시작하기
-          </GoogleButton>
-        </FormGroup>
-      </Form>
-    </Container>
+    !isLoggedIn && (
+      <Container>
+        <Form onSubmit={handleSubmit}>
+          <Label>Mood Friend</Label>
+          <FormGroup>
+            <InputEmail
+              type="email"
+              placeholder="이메일"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+          </FormGroup>
+          <FormGroup>
+            <InputPassword
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+            />
+            {errorMessage && <Error>{errorMessage}</Error>}
+          </FormGroup>
+          <ButtonContainer>
+            <Button type="submit">로그인</Button>
+          </ButtonContainer>
+          <List>
+            <ListItem>
+              <StyledLink to="/auth/signUp">
+                회원가입을 하시겠습니까?
+              </StyledLink>
+            </ListItem>
+          </List>
+          <Div>
+            <DivItem>
+              <HorizontalLine />
+            </DivItem>
+            <DivItem>
+              <Text>SNS 계정 로그인</Text>
+            </DivItem>
+            <DivItem>
+              <HorizontalLine />
+            </DivItem>
+          </Div>
+          <FormGroup>
+            <KakaoButton onClick={handleKakaoLogin}>
+              <Icon src={KakaoIcon} alt="Kakao Icon" />
+              카카오로 시작하기
+            </KakaoButton>
+          </FormGroup>
+          <FormGroup>
+            <GoogleButton onClick={handleGoogleLogin}>
+              <Icon src={GoogleIcon} alt="Google Icon" />
+              Google로 시작하기
+            </GoogleButton>
+          </FormGroup>
+        </Form>
+      </Container>
+    )
   );
 };
 
@@ -156,28 +170,31 @@ const Label = styled.h1`
 `;
 
 const FormGroup = styled.div`
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
 `;
 
 const InputEmail = styled.input`
   width: 100%;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  border: 1px solid #ffffff;
-  border-radius: 8px;
+  padding: 0.875rem 1.5rem;
   font-family: "Pretendard";
-  font-weight: 600;
-  font-size: 14pt;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  border-radius: 0.5rem;
+  border: 1px solid #e1e1e8;
+  background: #fff;
 `;
 
 const InputPassword = styled.input`
   width: 100%;
-  padding: 10px 20px;
-  border: 1px solid #ffffff;
-  border-radius: 8px;
+  padding: 0.875rem 1.5rem;
   font-family: "Pretendard";
-  font-weight: 600;
-  font-size: 14pt;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  border-radius: 0.5rem;
+  border: 1px solid #e1e1e8;
+  background: #fff;
 `;
 
 const ButtonContainer = styled.div`
@@ -193,7 +210,7 @@ const Button = styled.button`
   cursor: pointer;
   font-family: "Pretendard";
   font-weight: 500;
-  font-size: 14pt;
+  font-size: 1rem;
   border: none;
 
   &:active {
@@ -208,7 +225,7 @@ const KakaoButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14pt;
+  font-size: 16px;
 
   &:hover {
     background-color: #f9e300;
@@ -223,7 +240,10 @@ const GoogleButton = styled(Button)`
   background-color: #ffffff;
   border: 1px solid #c5c5c5;
   color: #000000;
-  font-size: 14pt;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: #f1f1f1;
@@ -241,7 +261,7 @@ const Icon = styled.img`
 `;
 
 const List = styled.ul`
-  margin: 20px 0;
+  margin: 16px 0;
   display: flex;
   justify-content: center;
 `;
@@ -254,8 +274,8 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${(props) => props.theme.color.inputColor};
   font-family: "Pretendard", sans-serif;
-  font-weight: 500;
-  font-size: 12pt;
+  font-weight: 400;
+  font-size: 1rem;
 
   &:hover {
     text-decoration: underline;
@@ -266,7 +286,7 @@ const Div = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 40px 0;
+  margin: 20px 0 16px 0;
 `;
 
 const DivItem = styled.div`
@@ -288,9 +308,9 @@ const Text = styled.div`
 `;
 
 const Error = styled.div`
-  color: red;
-  font-size: 14pt;
-  margin: 5px 0;
-  font-family: "Pretendard", sans-serif;
-  font-weight: 500;
+  color: #dc143c;
+  font-size: 14px;
+  font-family: "Pretendard";
+  padding: 0 4px;
+  margin: 10px 0;
 `;

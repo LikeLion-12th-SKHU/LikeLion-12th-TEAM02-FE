@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -33,4 +34,13 @@ export const Paragraph1 = styled.p`
   font-weight: 400;
   line-height: 1.5rem;
   letter-spacing: -0.00625rem;
+`;
+
+export const Anchor = styled(Link)`
+  color: #756ab6;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: underline;
 `;
