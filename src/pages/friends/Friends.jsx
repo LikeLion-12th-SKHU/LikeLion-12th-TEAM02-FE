@@ -24,7 +24,7 @@ function Friends() {
       event.preventDefault();
       try {
         const response = await requestFriend(email);
-        console.log("Friend request sent:", response);
+        setMessage("친구 요청을 보냈습니다.");
       } catch (error) {
         if (error.response) {
           if (error.response.status === 404) {
@@ -40,6 +40,17 @@ function Friends() {
       }
     }
   };
+
+  // 3초 후 메시지 리셋
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   useEffect(() => {
     const getFriends = async () => {

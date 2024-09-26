@@ -51,6 +51,9 @@ export default function Chat() {
       ]);
     } catch (err) {
       console.error(err);
+      alert(
+        "서버 오류로 인해 호야와 대화할 수 없습니다. 잠시 후 시도해주세요."
+      );
     } finally {
       setIsLoading(false);
     }
