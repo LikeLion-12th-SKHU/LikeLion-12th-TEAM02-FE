@@ -10,7 +10,7 @@ input[type="radio"] {
 
 .react-calendar {
   width: 350px;
-  min-height: 420px;
+  min-height: 360px;
   max-width: 100%;
   background: white;
   border-radius: 40px;
@@ -72,10 +72,6 @@ input[type="radio"] {
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
   background: #fff;
-}
-
-.react-calendar__month-view__days {
-  row-gap: 12px;
 }
 
 .react-calendar__tile--now {

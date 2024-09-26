@@ -76,8 +76,8 @@ export const TextArea = styled.textarea`
 `;
 
 export const SubmitBtn = styled.button`
-  width: 55px;
-  height: 55px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,7 +87,7 @@ export const SubmitBtn = styled.button`
 `;
 
 export const SubmitIcon = styled(FontAwesomeIcon)`
-  font-size: 28px;
+  font-size: 24px;
   display: block;
 `;
 
@@ -170,7 +170,7 @@ export const HospitalCaption = styled.label`
 export const RecommendLayout = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 40px auto;
+  margin: 20px auto;
   gap: 5px;
 `;
 
