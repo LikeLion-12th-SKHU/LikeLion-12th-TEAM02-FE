@@ -86,20 +86,14 @@ const Settings = () => {
   };
 
   return (
-    <>
+    <SettingContainer>
       <Header title="내 정보" backLink="/" />
       <Box>
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <LogoText>M</LogoText>
-        </Link>
-        <MyText>내정보</MyText>
-        <ProfileSection>
-          <ProfileImage src={ProfileIcon} alt="Profile" />
-          <ProfileInfo>
-            <Name>{name}</Name>
-            <Email>{email}</Email>
-          </ProfileInfo>
-        </ProfileSection>
+        <ProfileImage src={ProfileIcon} alt="Profile" />
+        <ProfileInfo>
+          <Name>{name}</Name>
+          <Email>{email}</Email>
+        </ProfileInfo>
       </Box>
       <Container>
         <StyledWrapper as={Link} to="/information-setting">
@@ -144,49 +138,42 @@ const Settings = () => {
         </StyledWrapper>
       </Container>
       <Menubar />
-    </>
+    </SettingContainer>
   );
 };
 
 export default Settings;
+
+const SettingContainer = styled.div`
+  max-width: 430px;
+  min-width: 360px;
+  height: calc(100vh - 8vh);
+`;
 
 const Container = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 430px;
-  min-width: 360px;
-  height: 75vh;
   margin: auto;
 `;
 
 const Box = styled.div`
-  height: 25vh;
-  padding: 15px;
+  height: 10rem;
+  padding: 20px;
   background-color: ${(props) => props.theme.color.primaryColor};
   color: white;
-`;
-
-const ProfileSection = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
 `;
 
 const ProfileImage = styled.img`
   border-radius: 50%;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    width: 120px;
-    height: 120px;
-    margin: 30px 10px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    width: 100px;
-    height: 100px;
-    margin: 25px 10px;
-  }
+  width: 6rem;
+  height: 6rem;
+  margin: 10px;
 `;
 
 const ProfileInfo = styled.div`
@@ -204,6 +191,7 @@ const StyledWrapper = styled.div`
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  gap: 1rem;
 
   &:hover {
     background-color: #f9f9f9;
@@ -304,88 +292,29 @@ const FeedbackTextWrapper = styled.div`
 const Text = styled.span`
   color: #333;
   cursor: pointer;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    font-size: 18px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    font-size: 16px;
-  }
-`;
-
-const LogoText = styled.span`
-  font-weight: bold;
-  color: #ffffff;
-  cursor: pointer;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    font-size: 30px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    font-size: 18pt;
-  }
-`;
-
-const MyText = styled.span`
+  font-size: 18px;
   font-family: Pretendard;
-  margin: 10px;
-  color: #ffffff;
-  cursor: pointer;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    font-size: 25px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    font-size: 14pt;
-  }
+  font-weight: 500;
 `;
 
 const Name = styled.span`
   color: #ffffff;
-  cursor: pointer;
 
-  @media (max-width: 430px) and (max-height: 932px) {
-    margin-left: 25px;
-    font-size: 21px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    margin-left: 20px;
-    font-size: 16px;
-  }
+  font-size: 20px;
+  font-family: Pretendard;
 `;
 
 const Email = styled.span`
   font-family: Pretendard;
-  margin-left: 20px;
   font-size: 12px;
   color: #bbbbbb;
-  cursor: pointer;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    margin-left: 25px;
-    font-size: 16px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    margin-left: 20px;
-    font-size: 12px;
-  }
+  font-size: 16px;
 `;
 
 const SubText = styled.span`
   color: #666;
   margin-top: 5px;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    font-size: 14px;
-    opacity: 70%;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    font-size: 12px;
-  }
+  font-size: 14px;
+  opacity: 70%;
+  font-family: Pretendard;
 `;
