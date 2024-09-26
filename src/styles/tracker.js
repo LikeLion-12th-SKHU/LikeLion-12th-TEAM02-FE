@@ -223,4 +223,5 @@ export const DiaryErrorMessage = styled.p`
   font-family: Pretendard;
   font-weight: 400;
   color: #999;
+  margin: ${(props) => props.margin || 0};
 `;

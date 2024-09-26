@@ -20,7 +20,7 @@ const FriendCard = ({ friend, isRequest, onAccept, onDelete }) => {
   return (
     <F.FriendCardLayout>
       {!isRequest && emotionImage && (
-        <div style={{ width: "40px", height: "40px" }}>
+        <div style={{ width: "50px", height: "50px" }}>
           <img
             src={emotionImage}
             alt={friend.emotionType}

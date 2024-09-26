@@ -38,7 +38,7 @@ export const SearchInput = styled.input`
 
 export const FriendCardLayout = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 20px;
   width: 100%;
   height: 50px;
   align-items: center;

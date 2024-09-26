@@ -24,7 +24,11 @@ const RequestList = () => {
   const handleAccept = async (friendEmail) => {
     try {
       const response = await acceptFriendRequest(friendEmail);
-      alert("수락 완료");
+      alert("친구 수락이 완료되었습니다.");
+
+      setRequests((prevRequests) =>
+        prevRequests.filter((friend) => friend.email !== friendEmail)
+      );
     } catch (err) {
       console.error(err);
     }
@@ -49,7 +53,9 @@ const RequestList = () => {
             ))}
           </ul>
         ) : (
-          <T.DiaryErrorMessage>친구 요청이 없습니다.</T.DiaryErrorMessage>
+          <T.DiaryErrorMessage margin="10px">
+            친구 요청이 없습니다.
+          </T.DiaryErrorMessage>
         )}
       </F.FriendSection>
     </div>
