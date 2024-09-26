@@ -10,6 +10,7 @@ import ProfileIcon from "../../assets/icons/Profile.svg";
 import styled from "styled-components";
 import Header from "../../components/common/Header";
 import instance from "../../api/instance";
+import useAuthStore from "../../store/useAuthStore";
 
 const Settings = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Settings = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-
+  const { logout } = useAuthStore();
   const handleLogoutClick = async () => {
     const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
     if (confirmLogout) {
@@ -35,6 +36,7 @@ const Settings = () => {
             }
           );
         }
+        logout();
       } catch (error) {
         console.error("로그아웃 처리 중 오류 발생:", error);
         alert("로그아웃 처리에 실패했습니다. 다시 시도해 주세요.");

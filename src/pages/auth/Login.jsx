@@ -54,7 +54,6 @@ const Login = () => {
         localStorage.setItem("refreshToken", refreshToken);
         login(); // 전역 상태 관리
 
-        alert("로그인 성공!");
         navigate("/"); // 메인 화면으로 이동
       } else {
         setErrorMessage("로그인 실패");
@@ -73,71 +72,67 @@ const Login = () => {
   }, [isLoggedIn, navigate]);
 
   return (
-    <div>
-      {isLoggedIn ? (
-        alert("이미 로그인이 되어있습니다. 메인으로 이동합니다.")
-      ) : (
-        <Container>
-          <Form onSubmit={handleSubmit}>
-            <Label>Mood Friend</Label>
-            <FormGroup>
-              <InputEmail
-                type="email"
-                placeholder="이메일"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-              />
-            </FormGroup>
-            <FormGroup>
-              <InputPassword
-                type="password"
-                placeholder="비밀번호"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-              />
-              {errorMessage && <Error>{errorMessage}</Error>}
-            </FormGroup>
-            <ButtonContainer>
-              <Button type="submit">로그인</Button>
-            </ButtonContainer>
-            <List>
-              <ListItem>
-                <StyledLink to="/auth/signUp">
-                  회원가입을 하시겠습니까?
-                </StyledLink>
-              </ListItem>
-            </List>
-            <Div>
-              <DivItem>
-                <HorizontalLine />
-              </DivItem>
-              <DivItem>
-                <Text>SNS 계정 로그인</Text>
-              </DivItem>
-              <DivItem>
-                <HorizontalLine />
-              </DivItem>
-            </Div>
-            <FormGroup>
-              <KakaoButton onClick={handleKakaoLogin}>
-                <Icon src={KakaoIcon} alt="Kakao Icon" />
-                카카오로 시작하기
-              </KakaoButton>
-            </FormGroup>
-            <FormGroup>
-              <GoogleButton onClick={handleGoogleLogin}>
-                <Icon src={GoogleIcon} alt="Google Icon" />
-                Google로 시작하기
-              </GoogleButton>
-            </FormGroup>
-          </Form>
-        </Container>
-      )}
-    </div>
+    !isLoggedIn && (
+      <Container>
+        <Form onSubmit={handleSubmit}>
+          <Label>Mood Friend</Label>
+          <FormGroup>
+            <InputEmail
+              type="email"
+              placeholder="이메일"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+          </FormGroup>
+          <FormGroup>
+            <InputPassword
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+            />
+            {errorMessage && <Error>{errorMessage}</Error>}
+          </FormGroup>
+          <ButtonContainer>
+            <Button type="submit">로그인</Button>
+          </ButtonContainer>
+          <List>
+            <ListItem>
+              <StyledLink to="/auth/signUp">
+                회원가입을 하시겠습니까?
+              </StyledLink>
+            </ListItem>
+          </List>
+          <Div>
+            <DivItem>
+              <HorizontalLine />
+            </DivItem>
+            <DivItem>
+              <Text>SNS 계정 로그인</Text>
+            </DivItem>
+            <DivItem>
+              <HorizontalLine />
+            </DivItem>
+          </Div>
+          <FormGroup>
+            <KakaoButton onClick={handleKakaoLogin}>
+              <Icon src={KakaoIcon} alt="Kakao Icon" />
+              카카오로 시작하기
+            </KakaoButton>
+          </FormGroup>
+          <FormGroup>
+            <GoogleButton onClick={handleGoogleLogin}>
+              <Icon src={GoogleIcon} alt="Google Icon" />
+              Google로 시작하기
+            </GoogleButton>
+          </FormGroup>
+        </Form>
+      </Container>
+    )
   );
 };
 

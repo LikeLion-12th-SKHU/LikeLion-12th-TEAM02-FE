@@ -43,6 +43,7 @@ import React, { useEffect, useState } from "react";
 import MobileWarning from "./components/common/MobileWarning";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { configureAxios } from "./api/instance";
+import { refreshAccessToken } from "./api/loginInstance";
 
 function App() {
   const [isMobile, setIsMobile] = useState(true);
@@ -66,6 +67,17 @@ function App() {
   useEffect(() => {
     configureAxios(navigate);
   }, [navigate]);
+
+  // 25분마다 accessToken을 갱신하는 타이머 설정
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshAccessToken();
+    }, 1000 * 2500);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   // 모바일이 아닐 경우 경고 화면 표시
   if (!isMobile) {
