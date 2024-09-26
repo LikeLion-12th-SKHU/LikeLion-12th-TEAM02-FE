@@ -7,10 +7,9 @@ import WhiteBackArrowIcon from "../../assets/icons/WhiteBackArrow.svg";
 import AngryHoyaIcon from "../../assets/icons/AngryHoya.svg";
 import ShopIcon from "../../assets/icons/Shop.svg";
 import ObjCheckIcon from "../../assets/icons/ObjCheck.svg";
-import XIcon from "../../assets/icons/X.svg";
+import HeartIcon from "../../assets/icons/HeartObj.svg";
 
 const RightAccessory = () => {
-  const [isHeartVisible, setIsHeartVisible] = useState(true);
   const [objectNames, setObjectNames] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -22,7 +21,7 @@ const RightAccessory = () => {
       if (accessToken) {
         try {
           const response = await axios.get(
-            "https://moodfriend.site/api/v1/object/display",
+            "https://moodfriend.site/api/v1/object/owned/display",
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`
@@ -30,16 +29,13 @@ const RightAccessory = () => {
             }
           );
 
-          // 응답 데이터 구조 확인
           console.log("API 응답 데이터:", response.data);
 
-          // 응답 데이터에서 objectNames 추출
           const objectData = response.data.data;
-          if (objectData && objectData.length > 5) {
+          if (objectData && objectData.length > 0) {
             const names = objectData.map((obj) => obj.objectName);
             setObjectNames(names);
 
-            // 로컬스토리지에 저장
             localStorage.setItem("objectNames", JSON.stringify(names));
           } else {
             console.error("data 배열에 오브제 정보가 없습니다.");
@@ -65,13 +61,6 @@ const RightAccessory = () => {
     navigate(-1);
   };
 
-  const handleObjItemClick = () => {
-    if (isHeartVisible) {
-      setIsHeartVisible(false);
-      // 서버에 하트 오브제 상태 업데이트 요청을 보내는 부분 추가 가능
-    }
-  };
-
   return (
     <>
       <Menubar />
@@ -91,21 +80,20 @@ const RightAccessory = () => {
       <Container>
         <TopRow>
           <ObjCheckText>보유중</ObjCheckText>
-          <ObjCheckText2>구매하기</ObjCheckText2>
           <ObjCheck onClick={handleObjCheckClick}>
             <ObjCheckImage src={ObjCheckIcon} alt="ObjCheck Icon" />
           </ObjCheck>
         </TopRow>
         <ObjItems>
-          {objectNames.length > 5 ? (
+          {objectNames.length > 0 ? (
             objectNames.map((name, index) => (
-              <ObjItem key={index} onClick={handleObjItemClick}>
-                <ObjItemCheckImage src={XIcon} alt="X Icon" />
+              <ObjItem key={index}>
+                <HeartImage src={HeartIcon} alt="Heart Icon" />
                 <Text>{name}</Text>
               </ObjItem>
             ))
           ) : (
-            <ObjItemCheckImage src={XIcon} alt="X Icon" />
+            <Text>오브제 정보가 없습니다.</Text>
           )}
         </ObjItems>
         <Shop onClick={handleShopClick}>
@@ -205,19 +193,35 @@ const Floor = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  z-index: 1;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    height: 35%;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    height: 33%;
+  }
 `;
 
 const Circular = styled.img`
-  width: 120px;
-  height: 40px;
   border-radius: 50%;
   background-color: ${(props) => props.theme.color.greenColor};
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  bottom: 75px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 120px;
+    height: 45px;
+    bottom: 80px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 110px;
+    height: 40px;
+    bottom: 60px;
+  }
 `;
 
 const FloorInterior = styled.div`
@@ -236,18 +240,27 @@ const RightFloorObj = styled.img`
 `;
 
 const Character = styled.img`
-  width: 70px;
-  height: 80px;
   position: absolute;
-  bottom: 115px;
+  z-index: 1;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 70px;
+    height: 80px;
+    bottom: 100px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 60px;
+    height: 70px;
+    bottom: 80px;
+  }
 `;
 
 const ObjItems = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 90%;
+  padding: 10px;
 `;
 
 const ObjItem = styled.div`
@@ -255,7 +268,8 @@ const ObjItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px;
+
+  text-align: center;
 `;
 
 const ObjItemCheckImage = styled.img`
@@ -310,4 +324,14 @@ const ObjCheckImage = styled.img`
 
 const Text = styled.span`
   font-size: 12px;
+
+  @media (max-width: 360px) {
+    padding: 20px;
+  }
+`;
+
+const HeartImage = styled.img`
+  width: 24px;
+  height: 24px;
+  margin-top: 5px;
 `;

@@ -65,13 +65,6 @@ const RightWall = () => {
     navigate(-1);
   };
 
-  const handleObjItemClick = () => {
-    if (isHeartVisible) {
-      setIsHeartVisible(false);
-      // 서버에 하트 오브제 상태 업데이트 요청을 보내는 부분 추가 가능
-    }
-  };
-
   return (
     <>
       <Menubar />
@@ -98,14 +91,9 @@ const RightWall = () => {
         </TopRow>
         <ObjItems>
           {objectNames.length > 5 ? (
-            objectNames.map((name, index) => (
-              <ObjItem key={index} onClick={handleObjItemClick}>
-                <ObjItemCheckImage src={XIcon} alt="X Icon" />
-                <Text>{name}</Text>
-              </ObjItem>
-            ))
+            objectNames.map((name, index) => <Text>{name}</Text>)
           ) : (
-            <ObjItemCheckImage src={XIcon} alt="X Icon" />
+            <Text></Text>
           )}
         </ObjItems>
         <Shop onClick={handleShopClick}>
@@ -205,19 +193,35 @@ const Floor = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  z-index: 1;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    height: 35%;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    height: 33%;
+  }
 `;
 
 const Circular = styled.img`
-  width: 120px;
-  height: 40px;
   border-radius: 50%;
   background-color: ${(props) => props.theme.color.greenColor};
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  bottom: 75px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 120px;
+    height: 45px;
+    bottom: 80px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 110px;
+    height: 40px;
+    bottom: 60px;
+  }
 `;
 
 const FloorInterior = styled.div`
@@ -236,10 +240,20 @@ const RightFloorObj = styled.img`
 `;
 
 const Character = styled.img`
-  width: 70px;
-  height: 80px;
   position: absolute;
-  bottom: 115px;
+  z-index: 1;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 70px;
+    height: 80px;
+    bottom: 100px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 60px;
+    height: 70px;
+    bottom: 80px;
+  }
 `;
 
 const ObjItems = styled.div`
