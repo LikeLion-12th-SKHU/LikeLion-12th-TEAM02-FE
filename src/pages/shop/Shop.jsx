@@ -13,7 +13,7 @@ const Shop = () => {
   const [objectNames, setObjectNames] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [visibleHeartIndex, setVisibleHeartIndex] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null); // 선택한 제품 상태 추가
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const navigate = useNavigate();
 
@@ -59,13 +59,13 @@ const Shop = () => {
     const userConfirmed = window.confirm("구매하시겠습니까?");
     if (userConfirmed) {
       console.log("선택한 제품:", selectedProduct);
-      navigate("/payment", { state: { productName: selectedProduct } }); // 선택한 제품 이름 전달
+      navigate("/payment", { state: { productName: selectedProduct } });
     }
   };
 
   const toggleHeart = (index, name) => {
     setVisibleHeartIndex((prevIndex) => (prevIndex === index ? null : index));
-    setSelectedProduct(name); // 선택한 제품 이름 저장
+    setSelectedProduct(name);
   };
 
   return (

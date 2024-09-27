@@ -11,6 +11,7 @@ import HeartIcon from "../../assets/icons/HeartObj.svg";
 
 const RightAccessory = () => {
   const [objectNames, setObjectNames] = useState([]);
+  const [clickedObject, setClickedObject] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
@@ -29,8 +30,6 @@ const RightAccessory = () => {
             }
           );
 
-          console.log("API 응답 데이터:", response.data);
-
           const objectData = response.data.data;
           if (objectData && objectData.length > 0) {
             const names = objectData.map((obj) => obj.objectName);
@@ -38,20 +37,20 @@ const RightAccessory = () => {
 
             localStorage.setItem("objectNames", JSON.stringify(names));
           } else {
-            console.error("data 배열에 오브제 정보가 없습니다.");
             setErrorMessage("서버에서 오브제 정보를 가져오지 못했습니다.");
           }
         } catch (error) {
-          console.error("사용자 정보 조회 실패:", error);
           setErrorMessage("사용자 정보를 불러올 수 없습니다.");
         }
-      } else {
-        console.log("액세스 토큰이 없습니다.");
       }
     };
 
     fetchUserData();
   }, []);
+
+  const handleItemClick = (name) => {
+    setClickedObject((prev) => (prev === name ? null : name)); // 같은 오브제를 두 번 클릭 시 토글
+  };
 
   const handleShopClick = () => {
     navigate("/shop");
@@ -71,7 +70,11 @@ const RightAccessory = () => {
       <CenteredContainer>
         <Background>
           <Character src={AngryHoyaIcon} alt="AngryHoya Icon" />
-          <FloorInterior></FloorInterior>
+          <FloorInterior>
+            {clickedObject && (
+              <HeartImage src={HeartIcon} alt="Pink Heart Icon" />
+            )}
+          </FloorInterior>
           <Floor>
             <Circular></Circular>
           </Floor>
@@ -87,7 +90,7 @@ const RightAccessory = () => {
         <ObjItems>
           {objectNames.length > 0 ? (
             objectNames.map((name, index) => (
-              <ObjItem key={index}>
+              <ObjItem key={index} onClick={() => handleItemClick(name)}>
                 <HeartImage src={HeartIcon} alt="Heart Icon" />
                 <Text>{name}</Text>
               </ObjItem>
@@ -107,7 +110,6 @@ const RightAccessory = () => {
 
 export default RightAccessory;
 
-// 스타일 컴포넌트 정의
 const CenteredContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -163,13 +165,6 @@ const ObjCheckText = styled.span`
   font-size: 14px;
   font-weight: bold;
   margin-left: 45px;
-`;
-
-const ObjCheckText2 = styled.span`
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
-  margin-right: 65px;
 `;
 
 const Background = styled.div`
@@ -232,13 +227,6 @@ const FloorInterior = styled.div`
   z-index: 3;
 `;
 
-const RightFloorObj = styled.img`
-  width: 30px;
-  height: 150px;
-  position: relative;
-  margin-left: 150px;
-`;
-
 const Character = styled.img`
   position: absolute;
   z-index: 1;
@@ -268,14 +256,7 @@ const ObjItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   text-align: center;
-`;
-
-const ObjItemCheckImage = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-top: 100px;
 `;
 
 const Shop = styled.div`

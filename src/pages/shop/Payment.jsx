@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import WhiteBackArrowIcon from "../../assets/icons/WhiteBackArrow.svg";
 import KakaopayIcon from "../../assets/icons/Kakaopay.svg";
-import TosspayIcon from "../../assets/icons/Tosspay.svg";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -61,7 +60,7 @@ const PaymentPage = () => {
           fetch("/api/v1/payment/order", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+              "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
             },
             body: JSON.stringify({
               impUid: rsp.imp_uid,
@@ -113,9 +112,6 @@ const PaymentPage = () => {
         <ObjCheckText>결제 수단</ObjCheckText>
         <PaymentButton onClick={() => handlePayment("kakaopay")}>
           <img src={KakaopayIcon} alt="KakaoPay" />
-        </PaymentButton>
-        <PaymentButton onClick={() => handlePayment("tosspayments")}>
-          <img src={TosspayIcon} alt="TossPay" />
         </PaymentButton>
       </ButtonContent>
     </>
