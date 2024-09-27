@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Menubar from "../../components/common/Menubar";
@@ -7,6 +6,7 @@ import WithdrawalIcon from "../../assets/icons/Withdrawal.svg";
 import CheckIcon from "../../assets/icons/Check.svg";
 import Header from "../../components/common/Header";
 import instance from "../../api/instance";
+import useAuthStore from "../../store/useAuthStore";
 
 const WithdrawalSettings = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -18,6 +18,7 @@ const WithdrawalSettings = () => {
   const [name, setName] = useState("");
 
   const navigate = useNavigate();
+  const { logout } = useAuthStore();
 
   const handleIconClick = (iconNumber) => {
     switch (iconNumber) {
@@ -68,7 +69,7 @@ const WithdrawalSettings = () => {
               Authorization: `Bearer ${accessToken}`
             }
           });
-
+          logout();
           navigate("/auth/login"); // 예를 들어, 메인 페이지로 이동
         } catch (error) {
           alert(error.message);

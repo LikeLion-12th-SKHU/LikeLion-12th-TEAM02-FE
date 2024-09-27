@@ -94,6 +94,7 @@ function App() {
         <Route path="/auth/callback/google" element={<GoogleLogin />} />
         <Route path="/auth/signUp" element={<Signup />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/withdrawal-setting" element={<WithdrawalSettings />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Main />} />
@@ -122,7 +123,6 @@ function App() {
             path="/information-setting"
             element={<InformationSettings />}
           />
-          <Route path="/withdrawal-setting" element={<WithdrawalSettings />} />
 
           <Route path="/tracker" element={<Tracker />} />
           <Route path="/diary/new" element={<CreateDiary />} />
