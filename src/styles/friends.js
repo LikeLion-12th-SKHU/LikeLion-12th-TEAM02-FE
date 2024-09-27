@@ -50,18 +50,24 @@ export const CommonFlexLayout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 180px;
 `;
 
 export const FriendHeadline3 = styled.h3`
   font-family: Pretendard;
   font-weight: 600;
+  font-size: 18px;
 `;
 
 export const FriendParagraph = styled.p`
   font-family: Pretendard;
-  font-weight: 400
+  font-weight: 400;
+  font-size: 14px;
   color: #999;
   text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const FriendAnchor = styled(Link)`
