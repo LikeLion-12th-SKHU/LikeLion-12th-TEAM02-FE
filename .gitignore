@@ -44,6 +44,8 @@ logs
 node_modules
 bower_components
 
+build
+
 *.sublime*
 
 psd
@@ -68,5 +70,16 @@ sketch
 # Ignore all local history of files
 .history
 .ionide
+
+# .eslint
+.eslintcache
+
+# https
+*.pem
+
+# env
+.env
+.env.*
+application.env
 
 # End of https://www.toptal.com/developers/gitignore/api/react,macos,visualstudiocode

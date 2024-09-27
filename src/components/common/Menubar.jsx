@@ -13,39 +13,35 @@ import FriendsSolid from "../../assets/icons/Friends-Solid.svg";
 import Settings from "../../assets/icons/Settings.svg";
 import SettingsSolid from "../../assets/icons/Settings-Solid.svg";
 
+const NavContainer = styled.nav`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 430px;
+  margin: 0 auto;
+  height: 8vh;
+  background-color: #fff;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  overflow: hidden;
+`;
+
+const NavWrap = styled.div`
+  display: flex;
+  width: 20%;
+  line-height: 50px;
+  text-align: center;
+`;
+
+const NavIconImg = styled.img`
+  width: 28px;
+  height: 28px;
+`;
+
 export default function Menubar() {
-  const NavContainer = styled.nav`
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-width: 430px;
-    margin: 0 auto;
-    height: 6vh;
-    background-color: #fff;
-    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    overflow: hidden;
-  `;
-
-  const NavWrap = styled.div`
-    width: 20%;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-  `;
-
-  const NavIconImg = styled.img`
-    width: 28px;
-    height: 28px;
-  `;
-
-  const NavLink = styled(Link)`
-    height: 50%;
-  `;
-
   const locationNow = useLocation();
 
   if (
@@ -53,11 +49,14 @@ export default function Menubar() {
     locationNow.pathname === "/chat" ||
     locationNow.pathname === "/tracker" ||
     locationNow.pathname === "/friends" ||
-    locationNow.pathname === "/settings"
+    locationNow.pathname === "/settings" ||
+    locationNow.pathname === "/information-setting" ||
+    locationNow.pathname === "/Withdrawal-setting" ||
+    locationNow.pathname === "/edit-setting"
   ) {
     return (
       <NavContainer>
-        <NavLink to="/">
+        <Link to="/">
           <NavWrap>
             {locationNow.pathname === "/" ? (
               <NavIconImg src={HomeSolid} />
@@ -65,8 +64,8 @@ export default function Menubar() {
               <NavIconImg src={Home} />
             )}
           </NavWrap>
-        </NavLink>
-        <NavLink to="/chat">
+        </Link>
+        <Link to="/chat">
           <NavWrap>
             {locationNow.pathname === "/chat" ? (
               <NavIconImg src={ChatSolid} />
@@ -74,8 +73,8 @@ export default function Menubar() {
               <NavIconImg src={Chat} />
             )}
           </NavWrap>
-        </NavLink>
-        <NavLink to="/tracker">
+        </Link>
+        <Link to="/tracker">
           <NavWrap>
             <NavWrap>
               {locationNow.pathname === "/tracker" ? (
@@ -85,8 +84,8 @@ export default function Menubar() {
               )}
             </NavWrap>
           </NavWrap>
-        </NavLink>
-        <NavLink to="/friends">
+        </Link>
+        <Link to="/friends">
           <NavWrap>
             <NavWrap>
               {locationNow.pathname === "/friends" ? (
@@ -96,8 +95,8 @@ export default function Menubar() {
               )}
             </NavWrap>
           </NavWrap>
-        </NavLink>
-        <NavLink to="/settings">
+        </Link>
+        <Link to="/settings">
           <NavWrap>
             <NavWrap>
               {locationNow.pathname === "/settings" ? (
@@ -107,7 +106,7 @@ export default function Menubar() {
               )}
             </NavWrap>
           </NavWrap>
-        </NavLink>
+        </Link>
       </NavContainer>
     );
   } else {

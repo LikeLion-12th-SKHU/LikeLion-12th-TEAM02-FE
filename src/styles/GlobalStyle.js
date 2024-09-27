@@ -6,8 +6,9 @@ import { Fonts } from "./Fonts";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
+  ${Fonts}
 
-  a{
+    a{
         text-decoration: none;
         color: inherit;
     }

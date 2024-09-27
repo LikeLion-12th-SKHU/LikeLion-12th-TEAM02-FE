@@ -2,15 +2,59 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
+    <link rel="icon" href="./HoyaChatProfile.png" />
     <!-- 리셋 css 추가 -->
-    <link rel="stylesheet" href="%PUBLIC_URL%/reset.css" />
+    <link rel="stylesheet" href="/reset.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <title>React App</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
+    />
+
+    <!-- 포트원 결제 라이브러리 -->
+    <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <!-- jQuery -->
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+    ></script>
+
+    <title>Mood Friend</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <!-- 포트원 결제 스크립트 -->
+    <script>
+      var IMP = window.IMP; // 아임포트 초기화
+      IMP.init("imp11681810"); // 가맹점 식별코드
+
+      function requestPay() {
+        IMP.request_pay(
+          {
+            pg: "kakaopay.TC0ONETIME", // 테스트용 PG 상점 ID
+            pay_method: "kakaopay",
+            merchant_uid: "57008833-33004",
+            name: "테스트 상점",
+            amount: 1004,
+            buyer_email: "test@naver.com",
+            buyer_name: "코드쿡",
+            buyer_tel: "010-1234-5678",
+            buyer_addr: "서울특별시",
+            buyer_postcode: "123-456",
+            m_redirect_url: "/payment-result" // 결제 완료 후 리디렉션될 URL
+          },
+          function (rsp) {
+            if (rsp.success) {
+              console.log(rsp); // 성공시 처리
+            } else {
+              console.log(rsp); // 실패시 처리
+            }
+          }
+        );
+      }
+    </script>
   </body>
 </html>
