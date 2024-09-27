@@ -21,20 +21,18 @@ const Settings = () => {
   const handleLogoutClick = async () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       try {
-        const refreshToken = localStorage.getItem("refreshToken");
+        const accessToken = localStorage.getItem("accessToken");
 
-        if (refreshToken) {
-          const response = await instance.post(
+        if (accessToken) {
+          await instance.post(
             "/api/v1/account/logout",
             {},
             {
               headers: {
-                Authorization: `Bearer ${refreshToken}`
+                Authorization: `Bearer ${accessToken}`
               }
             }
           );
-
-          console.log(response);
         }
         logout();
       } catch (error) {
