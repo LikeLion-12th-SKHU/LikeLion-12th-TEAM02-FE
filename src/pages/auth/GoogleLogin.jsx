@@ -1,4 +1,4 @@
-// ./src/pages/auth/KakoLogin.jsx
+// ./src/pages/auth/GoogleLogin.jsx
 
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
