@@ -23,7 +23,7 @@ function Friends() {
     if (event.key === "Enter" || event.keyCode === 13) {
       event.preventDefault();
       try {
-        const response = await requestFriend(email);
+        await requestFriend(email);
         setMessage("친구 요청을 보냈습니다.");
       } catch (error) {
         if (error.response) {
@@ -66,7 +66,7 @@ function Friends() {
   const handleDelete = async (friendEmail) => {
     try {
       if (window.confirm("해당 친구를 정말 삭제하시겠습니까?")) {
-        const res = await deleteFriend(friendEmail);
+        await deleteFriend(friendEmail);
         alert("삭제가 완료되었습니다.");
         // 상태 관리를 위함.
         setFriends(friends.filter((friend) => friend.email !== friendEmail));

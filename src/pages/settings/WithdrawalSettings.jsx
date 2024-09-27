@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Menubar from "../../components/common/Menubar";
@@ -7,6 +6,7 @@ import WithdrawalIcon from "../../assets/icons/Withdrawal.svg";
 import CheckIcon from "../../assets/icons/Check.svg";
 import Header from "../../components/common/Header";
 import instance from "../../api/instance";
+import useAuthStore from "../../store/useAuthStore";
 
 const WithdrawalSettings = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -18,6 +18,7 @@ const WithdrawalSettings = () => {
   const [name, setName] = useState("");
 
   const navigate = useNavigate();
+  const { logout } = useAuthStore();
 
   const handleIconClick = (iconNumber) => {
     switch (iconNumber) {
@@ -62,32 +63,14 @@ const WithdrawalSettings = () => {
       const accessToken = localStorage.getItem("accessToken");
       if (window.confirm("회원탈퇴 하시겠습니까?")) {
         try {
-          const response = await instance.get("/api/v1/account/withdraw", {
-            method: "POST",
+          await instance.post("/api/v1/account/withdraw", {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`
-            },
-            body: JSON.stringify({
-              reason: reason
-            })
+            }
           });
-
-          if (!response.ok) {
-            const errorText = await response.text(); // 응답을 텍스트로 읽음
-            throw new Error(`회원탈퇴 요청 실패: ${errorText}`);
-          }
-
-          const data = await response.json();
-
-          if (data.success) {
-            alert("회원탈퇴가 완료되었습니다.");
-            console.log("회원탈퇴 성공", data);
-            // 회원탈퇴 후 페이지 이동
-            navigate("/auth/login"); // 예를 들어, 메인 페이지로 이동
-          } else {
-            throw new Error(data.message || "회원탈퇴에 실패했습니다.");
-          }
+          logout();
+          navigate("/auth/login"); // 예를 들어, 메인 페이지로 이동
         } catch (error) {
           alert(error.message);
           console.error("회원탈퇴 실패", error);
@@ -102,14 +85,11 @@ const WithdrawalSettings = () => {
 
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/member/info",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("api/v1/member/info", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
           const { name } = response.data.data;
           setName(name);
         } catch (error) {
@@ -117,7 +97,7 @@ const WithdrawalSettings = () => {
           setErrorMessage("사용자 정보를 불러올 수 없습니다.");
         }
       } else {
-        console.log("액세스 토큰이 없습니다.");
+        console.error("액세스 토큰이 없습니다.");
       }
     };
 
