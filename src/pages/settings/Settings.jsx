@@ -19,13 +19,12 @@ const Settings = () => {
   const navigate = useNavigate();
   const { logout } = useAuthStore();
   const handleLogoutClick = async () => {
-    const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
-    if (confirmLogout) {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
       try {
         const refreshToken = localStorage.getItem("refreshToken");
 
         if (refreshToken) {
-          await instance.post(
+          const response = await instance.post(
             "/api/v1/account/logout",
             {},
             {
@@ -34,6 +33,8 @@ const Settings = () => {
               }
             }
           );
+
+          console.log(response);
         }
         logout();
       } catch (error) {
