@@ -49,7 +49,7 @@ const InformationSettings = () => {
           setErrorMessage("사용자 정보를 불러올 수 없습니다.");
         }
       } else {
-        console.log("액세스 토큰이 없습니다.");
+        console.error("액세스 토큰이 없습니다.");
       }
     };
 

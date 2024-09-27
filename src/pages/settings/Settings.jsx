@@ -15,7 +15,6 @@ import useAuthStore from "../../store/useAuthStore";
 const Settings = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
   const { logout } = useAuthStore();
@@ -46,6 +45,7 @@ const Settings = () => {
         localStorage.removeItem("email");
         localStorage.removeItem("name");
         localStorage.removeItem("loginType");
+
         navigate("/auth/login");
       }
     }
@@ -67,23 +67,14 @@ const Settings = () => {
           setName(name);
         } catch (error) {
           console.error("사용자 정보 조회 실패:", error);
-          setErrorMessage("사용자 정보를 불러올 수 없습니다.");
         }
       } else {
-        console.log("액세스 토큰이 없습니다.");
+        console.error("액세스 토큰이 없습니다.");
       }
     };
 
     fetchUserData();
   }, []);
-
-  const handleInformLink = (linkPath) => {
-    navigate(linkPath);
-  };
-
-  const handleExternalLink = (linkPath) => {
-    window.location.href = linkPath;
-  };
 
   return (
     <SettingContainer>

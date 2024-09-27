@@ -34,7 +34,7 @@ const useAuthStore = create(
 
           return decodedToken.exp > currentTime;
         } catch (error) {
-          console.log("유효하지 않은 토큰");
+          console.error("유효하지 않은 토큰");
           return false;
         }
       },
