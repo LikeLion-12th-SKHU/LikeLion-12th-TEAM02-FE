@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Menubar from "../../components/common/Menubar";
@@ -8,6 +7,7 @@ import AngryHoyaIcon from "../../assets/icons/AngryHoya.svg";
 import ShopIcon from "../../assets/icons/Shop.svg";
 import ObjCheckIcon from "../../assets/icons/ObjCheck.svg";
 import HeartIcon from "../../assets/icons/HeartObj.svg";
+import instance from "../../api/instance";
 
 const RightAccessory = () => {
   const [objectNames, setObjectNames] = useState([]);
@@ -21,14 +21,11 @@ const RightAccessory = () => {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/object/owned/display",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("/api/v1/object/owned/display", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
 
           const objectData = response.data.data;
           if (objectData && objectData.length > 0) {

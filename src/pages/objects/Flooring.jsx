@@ -8,6 +8,7 @@ import AngryHoyaIcon from "../../assets/icons/AngryHoya.svg";
 import ShopIcon from "../../assets/icons/Shop.svg";
 import ObjCheckIcon from "../../assets/icons/ObjCheck.svg";
 import XIcon from "../../assets/icons/X.svg";
+import instance from "../../api/instance";
 
 const Flooring = () => {
   const [isHeartVisible, setIsHeartVisible] = useState(true);
@@ -21,14 +22,11 @@ const Flooring = () => {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/object/display",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("/api/v1/object/display", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
 
           // 응답 데이터 구조 확인
           console.log("API 응답 데이터:", response.data);
