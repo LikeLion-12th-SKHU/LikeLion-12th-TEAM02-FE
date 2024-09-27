@@ -284,7 +284,6 @@ const Circular = styled.div`
   border: none;
   color: #fff;
   font-size: 16pt;
-  cursor: pointer;
 `;
 
 const TopSection = styled.div`

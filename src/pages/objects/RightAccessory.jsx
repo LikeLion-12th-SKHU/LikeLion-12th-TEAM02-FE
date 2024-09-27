@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Menubar from "../../components/common/Menubar";
@@ -7,11 +6,12 @@ import WhiteBackArrowIcon from "../../assets/icons/WhiteBackArrow.svg";
 import AngryHoyaIcon from "../../assets/icons/AngryHoya.svg";
 import ShopIcon from "../../assets/icons/Shop.svg";
 import ObjCheckIcon from "../../assets/icons/ObjCheck.svg";
-import XIcon from "../../assets/icons/X.svg";
+import HeartIcon from "../../assets/icons/HeartObj.svg";
+import instance from "../../api/instance";
 
 const RightAccessory = () => {
-  const [isHeartVisible, setIsHeartVisible] = useState(true);
   const [objectNames, setObjectNames] = useState([]);
+  const [clickedObject, setClickedObject] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
@@ -21,41 +21,33 @@ const RightAccessory = () => {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
         try {
-          const response = await axios.get(
-            "https://moodfriend.site/api/v1/object/display",
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+          const response = await instance.get("/api/v1/object/owned/display", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
+          });
 
-          // 응답 데이터 구조 확인
-          console.log("API 응답 데이터:", response.data);
-
-          // 응답 데이터에서 objectNames 추출
           const objectData = response.data.data;
-          if (objectData && objectData.length > 5) {
+          if (objectData && objectData.length > 0) {
             const names = objectData.map((obj) => obj.objectName);
             setObjectNames(names);
 
-            // 로컬스토리지에 저장
             localStorage.setItem("objectNames", JSON.stringify(names));
           } else {
-            console.error("data 배열에 오브제 정보가 없습니다.");
             setErrorMessage("서버에서 오브제 정보를 가져오지 못했습니다.");
           }
         } catch (error) {
-          console.error("사용자 정보 조회 실패:", error);
           setErrorMessage("사용자 정보를 불러올 수 없습니다.");
         }
-      } else {
-        console.log("액세스 토큰이 없습니다.");
       }
     };
 
     fetchUserData();
   }, []);
+
+  const handleItemClick = (name) => {
+    setClickedObject((prev) => (prev === name ? null : name)); // 같은 오브제를 두 번 클릭 시 토글
+  };
 
   const handleShopClick = () => {
     navigate("/shop");
@@ -63,13 +55,6 @@ const RightAccessory = () => {
 
   const handleObjCheckClick = () => {
     navigate(-1);
-  };
-
-  const handleObjItemClick = () => {
-    if (isHeartVisible) {
-      setIsHeartVisible(false);
-      // 서버에 하트 오브제 상태 업데이트 요청을 보내는 부분 추가 가능
-    }
   };
 
   return (
@@ -82,7 +67,11 @@ const RightAccessory = () => {
       <CenteredContainer>
         <Background>
           <Character src={AngryHoyaIcon} alt="AngryHoya Icon" />
-          <FloorInterior></FloorInterior>
+          <FloorInterior>
+            {clickedObject && (
+              <HeartImage src={HeartIcon} alt="Pink Heart Icon" />
+            )}
+          </FloorInterior>
           <Floor>
             <Circular></Circular>
           </Floor>
@@ -91,21 +80,20 @@ const RightAccessory = () => {
       <Container>
         <TopRow>
           <ObjCheckText>보유중</ObjCheckText>
-          <ObjCheckText2>구매하기</ObjCheckText2>
           <ObjCheck onClick={handleObjCheckClick}>
             <ObjCheckImage src={ObjCheckIcon} alt="ObjCheck Icon" />
           </ObjCheck>
         </TopRow>
         <ObjItems>
-          {objectNames.length > 5 ? (
+          {objectNames.length > 0 ? (
             objectNames.map((name, index) => (
-              <ObjItem key={index} onClick={handleObjItemClick}>
-                <ObjItemCheckImage src={XIcon} alt="X Icon" />
+              <ObjItem key={index} onClick={() => handleItemClick(name)}>
+                <HeartImage src={HeartIcon} alt="Heart Icon" />
                 <Text>{name}</Text>
               </ObjItem>
             ))
           ) : (
-            <ObjItemCheckImage src={XIcon} alt="X Icon" />
+            <Text>오브제 정보가 없습니다.</Text>
           )}
         </ObjItems>
         <Shop onClick={handleShopClick}>
@@ -119,7 +107,6 @@ const RightAccessory = () => {
 
 export default RightAccessory;
 
-// 스타일 컴포넌트 정의
 const CenteredContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -177,13 +164,6 @@ const ObjCheckText = styled.span`
   margin-left: 45px;
 `;
 
-const ObjCheckText2 = styled.span`
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
-  margin-right: 65px;
-`;
-
 const Background = styled.div`
   display: flex;
   flex-direction: column;
@@ -205,19 +185,35 @@ const Floor = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  z-index: 1;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    height: 35%;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    height: 33%;
+  }
 `;
 
 const Circular = styled.img`
-  width: 120px;
-  height: 40px;
   border-radius: 50%;
   background-color: ${(props) => props.theme.color.greenColor};
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  bottom: 75px;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 120px;
+    height: 45px;
+    bottom: 80px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 110px;
+    height: 40px;
+    bottom: 60px;
+  }
 `;
 
 const FloorInterior = styled.div`
@@ -228,26 +224,28 @@ const FloorInterior = styled.div`
   z-index: 3;
 `;
 
-const RightFloorObj = styled.img`
-  width: 30px;
-  height: 150px;
-  position: relative;
-  margin-left: 150px;
-`;
-
 const Character = styled.img`
-  width: 70px;
-  height: 80px;
   position: absolute;
-  bottom: 115px;
+  z-index: 1;
+
+  @media (max-width: 430px) and (max-height: 932px) {
+    width: 70px;
+    height: 80px;
+    bottom: 100px;
+  }
+
+  @media (max-width: 360px) and (max-height: 780px) {
+    width: 60px;
+    height: 70px;
+    bottom: 80px;
+  }
 `;
 
 const ObjItems = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 90%;
+  padding: 10px;
 `;
 
 const ObjItem = styled.div`
@@ -255,13 +253,7 @@ const ObjItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px;
-`;
-
-const ObjItemCheckImage = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-top: 100px;
+  text-align: center;
 `;
 
 const Shop = styled.div`
@@ -310,4 +302,14 @@ const ObjCheckImage = styled.img`
 
 const Text = styled.span`
   font-size: 12px;
+
+  @media (max-width: 360px) {
+    padding: 20px;
+  }
+`;
+
+const HeartImage = styled.img`
+  width: 24px;
+  height: 24px;
+  margin-top: 5px;
 `;

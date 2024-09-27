@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Menubar from "../components/common/Menubar";
 import AngryHoyaIcon from "../assets/icons/AngryHoya.svg";
 import HeartObjIcon from "../assets/icons/HeartObj.svg";
-import WhiteBackArrowIcon from "../assets/icons/WhiteBackArrow.svg";
+import Header from "../components/common/Header";
 import PinkHeartObjIcon from "../assets/icons/PinkHeartObj.svg";
 import BlackHeartObjIcon from "../assets/icons/BlackHeartObj.svg"; // 블랙 하트 오브제 아이콘 추가
 import { useNavigate } from "react-router-dom";
@@ -38,13 +37,13 @@ const Object = () => {
     navigate(route);
   };
 
+  const handleAlertClick = () => {
+    alert("추후 출시 될 예정입니다.");
+  };
+
   return (
     <>
-      <Menubar />
-      <Box>
-        <BackButton src={WhiteBackArrowIcon} onClick={() => navigate("/")} />
-        <MyText>오브제</MyText>
-      </Box>
+      <Header title="오브제" backLink="/" />
       <CenteredContainer>
         <Background>
           <Character src={AngryHoyaIcon} alt="AngryHoya Icon" />
@@ -65,7 +64,7 @@ const Object = () => {
         </Background>
         <Items>
           {items.map((item, index) => (
-            <Item key={index} onClick={() => handleItemClick(item.route)}>
+            <Item key={index} onClick={() => handleAlertClick()}>
               <ItemText>{item.label}</ItemText>
             </Item>
           ))}
@@ -80,11 +79,14 @@ export default Object;
 // 스타일 컴포넌트 정의
 const CenteredContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
   align-items: center;
-  height: 50vh;
   width: 100%;
-  position: relative;
+  max-width: 430px;
+  min-width: 360px;
+  height: calc(100vh - 7.5vh);
+  gap: 10px;
 `;
 
 const Background = styled.div`
@@ -92,8 +94,8 @@ const Background = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 80%;
-  padding-bottom: 80%;
+  width: 100%;
+  height: 50%;
   background-color: ${(props) => props.theme.color.pinkColor};
   position: relative;
 `;
@@ -107,90 +109,47 @@ const Floor = styled.div`
   background-color: ${(props) => props.theme.color.lightPinkColor};
   position: absolute;
   bottom: 0;
-  left: 0;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    height: 35%;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    height: 33%;
-  }
 `;
 
-const Circular = styled.img`
+const Circular = styled.div`
   border-radius: 50%;
   background-color: ${(props) => props.theme.color.greenColor};
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    width: 120px;
-    height: 45px;
-    bottom: 80px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    width: 110px;
-    height: 40px;
-    bottom: 60px;
-  }
+  z-index: 1;
+  width: 120px;
+  height: 60px;
 `;
 
 const FloorInterior = styled.div`
   display: flex;
   align-items: center;
-  position: absolute;
   bottom: 40px;
 `;
 
 const RightFloorObj = styled.img`
   width: 30px;
   height: 150px;
-  position: relative;
-  margin-left: 150px;
 `;
 
 const HeartObj = styled.img`
   width: 30px;
   height: 150px;
-  position: relative;
   margin-left: 150px;
 `;
 
 const PinkHeartObj = styled.img`
   width: 30px;
   height: 150px;
-  position: relative;
   margin-left: 150px;
-`;
-
-const Box = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-  background-color: ${(props) => props.theme.color.primaryColor};
-  position: relative;
 `;
 
 const Items = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 5px;
-  position: absolute;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    width: 80%;
-    bottom: -250px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    width: 80%;
-    bottom: -220px;
-  }
+  width: 100%;
 `;
 
 const Item = styled.button`
@@ -200,49 +159,16 @@ const Item = styled.button`
   justify-content: center;
   cursor: pointer;
   border-radius: 4px;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    width: 80px;
-    height: 80px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    width: 70px;
-    height: 70px;
-  }
-`;
-
-const BackButton = styled.img`
-  position: absolute;
-  left: 20px;
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
+  height: 100px;
 `;
 
 const ItemText = styled.span`
-  font-size: 10px;
+  font-size: 12px;
   color: #000000;
 `;
 
-const MyText = styled.span`
-  font-size: 18px;
-  color: #ffffff;
-`;
-
 const Character = styled.img`
-  position: absolute;
-  z-index: 1;
-
-  @media (max-width: 430px) and (max-height: 932px) {
-    width: 70px;
-    height: 80px;
-    bottom: 100px;
-  }
-
-  @media (max-width: 360px) and (max-height: 780px) {
-    width: 60px;
-    height: 70px;
-    bottom: 80px;
-  }
+  width: 120px;
+  height: 130px;
+  z-index: 2;
 `;

@@ -22,13 +22,16 @@ const Settings = () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       try {
         const accessToken = localStorage.getItem("accessToken");
-        const response = await instance.post("/api/v1/account/logout", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`
+        await instance.post(
+          "/api/v1/account/logout",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`
+            }
           }
-        });
-        console.log(response);
+        );
       } catch (error) {
         console.error("로그아웃 처리 중 오류 발생:", error);
       } finally {
