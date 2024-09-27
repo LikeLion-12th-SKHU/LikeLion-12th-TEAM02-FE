@@ -45,6 +45,12 @@ const useAuthStore = create(
           set({ isLoggedIn: true });
         }
       },
+      googleLogin: () => {
+        const accessToken = localStorage.getItem("accessToken");
+        if (accessToken) {
+          set({ isLoggedIn: true });
+        }
+      },
       logout: () => {
         set({ isLoggedIn: false });
         localStorage.clear();

@@ -18,7 +18,6 @@ const KakaoLogin = () => {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           kakaoLogin();
-          alert("로그인 되었습니다.");
           navigate("/"); // 메인 화면으로 전환
         })
         .catch((error) => {
