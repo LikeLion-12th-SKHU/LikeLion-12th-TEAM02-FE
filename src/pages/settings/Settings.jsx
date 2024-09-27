@@ -23,28 +23,26 @@ const Settings = () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
 
-        if (accessToken) {
-          await instance.post(
-            "/api/v1/account/logout",
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
+        console.log(accessToken);
+        const response = await instance.post(
+          "/api/v1/account/logout",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
             }
-          );
-        }
-        logout();
+          }
+        );
+        console.log(response);
       } catch (error) {
         console.error("로그아웃 처리 중 오류 발생:", error);
-        alert("로그아웃 처리에 실패했습니다. 다시 시도해 주세요.");
       } finally {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("email");
         localStorage.removeItem("name");
         localStorage.removeItem("loginType");
-
+        logout();
         navigate("/auth/login");
       }
     }
